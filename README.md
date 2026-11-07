@@ -5,6 +5,8 @@
 **Primary Hazard:** Floods (Krishna, Godavari, Brahmaputra, Ganga, Kosi, Mahanadi, Periyar, Tapi, Yamuna Basins)  
 **Academic Year:** 2026  
 
+[![Open in Streamlit](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://share.streamlit.io/deploy?repository=shaikfouziya24/Hazard-Based-Red-Zone-Identification-Clustering&branch=main&mainModule=dashboard/app.py)
+
 ---
 
 > ⚠️ **ACADEMIC & REGULATORY DISCLAIMER**  
