@@ -1,0 +1,9 @@
+Algorithm,Initialization,K (Clusters),Inertia (WCSS),Silhouette Score,Davies-Bouldin Index,Calinski-Harabasz Index
+K-Means,random,2,567.92,0.3572,1.1776,57.3
+K-Means,random,3,420.38,0.3634,1.12,55.34
+K-Means,random,4,351.02,0.3631,0.9998,50.05
+K-Means,random,5,292.4,0.3653,0.9872,49.35
+K-Means,k-means++,2,567.92,0.3572,1.1776,57.3
+K-Means,k-means++,3,420.44,0.3667,1.1202,55.32
+K-Means,k-means++,4,351.79,0.3715,1.0069,49.87
+K-Means,k-means++,5,291.16,0.3599,1.0272,49.66

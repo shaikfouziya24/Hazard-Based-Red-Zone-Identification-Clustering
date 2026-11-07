@@ -1,0 +1,101 @@
+habitation_id,habitation_name,place_category,mandal,district,latitude,longitude,elevation_m,slope_deg,distance_to_river_km,annual_rainfall_mm,monsoon_rainfall_mm,rainy_days_gt_2_5mm,extreme_daily_rainfall_mm,rainfall_variability_cv,population,area_sqkm,population_density_per_sqkm,drainage_congestion_index,historical_flood_inundation_frequency,imd_grid_lat,imd_grid_lon,grid_distance_km,raw_cluster_k3,cluster_k3,relative_hazard_level,hierarchical_ward_cluster,dbscan_cluster,dbscan_is_noise
+HAB_001,Ajit Singh Nagar,Urban Locality,Vijayawada North,NTR,16.5385,80.6382,21.0,1.19,0.06,1181.3,799.4,60.2,289.2,0.244,78500,4.8,16354.2,5,5,16.5,80.75,12.66,0,1,High Relative Hazard / Vulnerability,1,-1,True
+HAB_002,Payakapuram,Urban Locality,Vijayawada North,NTR,16.5492,80.6428,18.0,1.02,1.35,1181.3,799.4,60.2,289.2,0.244,52400,3.6,14555.6,5,5,16.5,80.75,12.67,0,1,High Relative Hazard / Vulnerability,1,-1,True
+HAB_003,Bhavanipuram,Urban Locality,Vijayawada West,NTR,16.525,80.595,24.0,1.54,2.27,1038.9,702.8,59.6,175.1,0.235,64000,4.2,15238.1,4,4,16.5,80.5,10.5,1,2,Moderate Relative Hazard / Vulnerability,2,-1,True
+HAB_004,Vidyadharapuram,Urban Locality,Vijayawada West,NTR,16.528,80.605,30.0,2.03,2.34,1038.9,702.8,59.6,175.1,0.235,48000,3.1,15483.9,4,4,16.5,80.5,11.62,1,2,Moderate Relative Hazard / Vulnerability,2,-1,True
+HAB_005,Governorpet,Urban Locality,Vijayawada Central,NTR,16.512,80.627,27.0,1.79,2.41,1181.3,799.4,60.2,289.2,0.244,42000,2.2,19090.9,3,2,16.5,80.75,13.18,0,1,High Relative Hazard / Vulnerability,1,0,False
+HAB_006,Labbipet,Urban Locality,Vijayawada Central,NTR,16.504,80.642,20.0,1.24,2.68,1181.3,799.4,60.2,289.2,0.244,36500,2.5,14600.0,2,2,16.5,80.75,11.52,0,1,High Relative Hazard / Vulnerability,1,0,False
+HAB_007,Moghalrajpuram,Urban Locality,Vijayawada Central,NTR,16.505,80.655,23.0,1.46,2.17,1181.3,799.4,60.2,289.2,0.244,31000,2.8,11071.4,2,1,16.5,80.75,10.14,0,1,High Relative Hazard / Vulnerability,1,0,False
+HAB_008,Gunadala,Urban Locality,Vijayawada East,NTR,16.522,80.665,20.0,1.11,0.0,1181.3,799.4,60.2,289.2,0.244,45000,3.9,11538.5,3,3,16.5,80.75,9.39,0,1,High Relative Hazard / Vulnerability,1,0,False
+HAB_009,Patamata,Urban Locality,Vijayawada East,NTR,16.495,80.66,23.0,1.49,2.71,1181.3,799.4,60.2,289.2,0.244,68000,5.1,13333.3,3,2,16.5,80.75,9.61,0,1,High Relative Hazard / Vulnerability,1,0,False
+HAB_010,Ambapuram,Village,Vijayawada Rural,NTR,16.562,80.615,18.0,0.95,0.0,1038.9,702.8,59.6,175.1,0.235,12400,4.5,2755.6,5,5,16.5,80.5,14.06,1,2,Moderate Relative Hazard / Vulnerability,2,1,False
+HAB_011,Jakkampudi,Village / Township,Vijayawada Rural,NTR,16.558,80.582,19.0,1.13,2.02,1038.9,702.8,59.6,175.1,0.235,28500,5.2,5480.8,5,5,16.5,80.5,10.86,1,2,Moderate Relative Hazard / Vulnerability,2,1,False
+HAB_012,Kandrika,Village,Vijayawada Rural,NTR,16.551,80.655,20.0,1.23,2.32,1181.3,799.4,60.2,289.2,0.244,14200,3.8,3736.8,4,4,16.5,80.75,11.61,0,1,High Relative Hazard / Vulnerability,1,0,False
+HAB_013,Nunna,Village,Vijayawada Rural,NTR,16.578,80.672,27.0,1.96,5.74,1181.3,799.4,60.2,289.2,0.244,18500,6.8,2720.6,3,3,16.5,80.75,12.01,0,1,High Relative Hazard / Vulnerability,1,0,False
+HAB_014,Rayanapadu,Village,Vijayawada Rural,NTR,16.555,80.562,21.0,1.22,0.64,1038.9,702.8,59.6,175.1,0.235,9200,4.1,2243.9,4,4,16.5,80.5,9.0,1,2,Moderate Relative Hazard / Vulnerability,2,1,False
+HAB_015,Gollapudi,Urban Outgrowth,Vijayawada Rural,NTR,16.541,80.575,21.0,1.26,1.46,1038.9,702.8,59.6,175.1,0.235,34000,5.0,6800.0,4,4,16.5,80.5,9.2,1,2,Moderate Relative Hazard / Vulnerability,2,1,False
+HAB_016,Ibrahimpatnam,Town,Ibrahimpatnam,NTR,16.588,80.522,26.0,1.6,0.22,1038.9,702.8,59.6,175.1,0.235,29400,8.5,3458.8,3,4,16.5,80.5,10.06,1,2,Moderate Relative Hazard / Vulnerability,2,1,False
+HAB_017,Kondapalli,Town,Ibrahimpatnam,NTR,16.618,80.538,42.0,2.94,1.35,1038.9,702.8,59.6,175.1,0.235,33200,11.2,2964.3,2,3,16.5,80.5,13.73,1,2,Moderate Relative Hazard / Vulnerability,0,1,False
+HAB_018,Zeedimogu,Village,Ibrahimpatnam,NTR,16.602,80.495,24.0,1.59,3.17,1038.9,702.8,59.6,175.1,0.235,4100,3.2,1281.2,3,3,16.5,80.5,11.35,1,2,Moderate Relative Hazard / Vulnerability,2,1,False
+HAB_019,Mylavaram,Town,Mylavaram,NTR,16.762,80.638,55.0,4.81,18.01,1181.3,799.4,60.2,289.2,0.244,22000,9.4,2340.4,1,1,16.5,80.75,31.48,2,3,Relatively Lower Hazard / Vulnerability,0,-1,True
+HAB_020,G.Konduru,Village,G.Konduru,NTR,16.685,80.562,41.0,3.12,6.55,1038.9,702.8,59.6,175.1,0.235,11800,6.5,1815.4,2,2,16.5,80.5,21.61,1,2,Moderate Relative Hazard / Vulnerability,0,1,False
+HAB_021,Kanchikacherla,Town,Kanchikacherla,NTR,16.638,80.395,30.0,2.28,7.45,1038.9,702.8,59.6,175.1,0.235,24500,8.1,3024.7,2,2,16.5,80.5,18.99,1,2,Moderate Relative Hazard / Vulnerability,0,1,False
+HAB_022,Paritala,Village,Kanchikacherla,NTR,16.645,80.442,149.0,8.5,5.95,1038.9,702.8,59.6,175.1,0.235,8600,5.4,1592.6,2,2,16.5,80.5,17.27,2,3,Relatively Lower Hazard / Vulnerability,0,-1,True
+HAB_023,Veerullapadu,Village,Veerullapadu,NTR,16.715,80.352,51.0,4.34,15.04,992.3,683.3,63.9,207.9,0.202,7200,5.8,1241.4,1,1,16.5,80.25,26.26,2,3,Relatively Lower Hazard / Vulnerability,0,1,False
+HAB_024,Nandigama,Town,Nandigama,NTR,16.768,80.295,41.0,3.89,22.02,992.3,683.3,63.9,207.9,0.202,44300,12.0,3691.7,2,2,16.5,80.25,30.18,2,3,Relatively Lower Hazard / Vulnerability,0,1,False
+HAB_025,Chandarlapadu,Village,Chandarlapadu,NTR,16.695,80.205,49.0,4.47,20.89,992.3,683.3,63.9,207.9,0.202,9800,7.2,1361.1,2,2,16.5,80.25,22.21,2,3,Relatively Lower Hazard / Vulnerability,0,1,False
+HAB_026,Jaggayyapeta,Town,Jaggayyapeta,NTR,16.892,80.095,54.0,6.07,44.72,992.3,683.3,63.9,207.9,0.202,53500,14.5,3689.7,1,1,16.5,80.25,46.61,2,3,Relatively Lower Hazard / Vulnerability,0,-1,True
+HAB_027,Kanuru,Urban Outgrowth,Penamaluru,Krishna,16.495,80.695,16.0,1.01,4.39,1181.3,799.4,60.2,289.2,0.244,49000,6.2,7903.2,4,3,16.5,80.75,5.89,0,1,High Relative Hazard / Vulnerability,1,0,False
+HAB_028,Poranki,Urban Outgrowth,Penamaluru,Krishna,16.475,80.712,22.0,1.47,3.98,1181.3,799.4,60.2,289.2,0.244,32000,4.8,6666.7,3,3,16.5,80.75,4.91,0,1,High Relative Hazard / Vulnerability,1,0,False
+HAB_029,Penamaluru,Town,Penamaluru,Krishna,16.462,80.725,17.0,1.0,2.5,1181.3,799.4,60.2,289.2,0.244,26500,5.9,4491.5,3,3,16.5,80.75,5.0,0,1,High Relative Hazard / Vulnerability,1,0,False
+HAB_030,Tadigadapa,Urban Locality,Penamaluru,Krishna,16.482,80.685,18.0,1.19,4.8,1181.3,799.4,60.2,289.2,0.244,37500,4.5,8333.3,4,3,16.5,80.75,7.21,0,1,High Relative Hazard / Vulnerability,1,0,False
+HAB_031,Yanamalakuduru,Urban Locality,Penamaluru,Krishna,16.488,80.662,18.0,1.08,2.51,1181.3,799.4,60.2,289.2,0.244,34100,3.8,8973.7,4,4,16.5,80.75,9.48,0,1,High Relative Hazard / Vulnerability,1,0,False
+HAB_032,Gosala,Village,Penamaluru,Krishna,16.445,80.745,16.0,0.93,2.72,1181.3,799.4,60.2,289.2,0.244,6800,4.2,1619.0,3,3,16.5,80.75,6.14,0,1,High Relative Hazard / Vulnerability,1,0,False
+HAB_033,Kankipadu,Town,Kankipadu,Krishna,16.425,80.775,15.0,1.02,6.1,1181.3,799.4,60.2,289.2,0.244,21000,7.4,2837.8,3,3,16.5,80.75,8.76,0,1,High Relative Hazard / Vulnerability,1,0,False
+HAB_034,Godavarru,Village,Kankipadu,Krishna,16.415,80.755,13.0,0.78,4.65,1181.3,799.4,60.2,289.2,0.244,5400,3.6,1500.0,3,3,16.5,80.75,9.47,0,1,High Relative Hazard / Vulnerability,1,0,False
+HAB_035,Punadipadu,Village,Kankipadu,Krishna,16.438,80.748,17.0,1.02,2.99,1181.3,799.4,60.2,289.2,0.244,7200,4.1,1756.1,3,3,16.5,80.75,6.9,0,1,High Relative Hazard / Vulnerability,1,0,False
+HAB_036,Vuyyuru,Town,Vuyyuru,Krishna,16.368,80.842,11.0,0.67,5.64,1181.1,752.9,66.2,280.5,0.268,46500,11.5,4043.5,3,3,16.25,80.75,16.39,0,1,High Relative Hazard / Vulnerability,1,0,False
+HAB_037,Katuru,Village,Vuyyuru,Krishna,16.345,80.865,9.0,0.48,5.09,1181.1,752.9,66.2,280.5,0.268,8900,5.2,1711.5,3,3,16.25,80.75,16.19,0,1,High Relative Hazard / Vulnerability,1,0,False
+HAB_038,Thotlavalluru,Village,Thotlavalluru,Krishna,16.322,80.825,15.0,0.72,0.22,1181.1,752.9,66.2,280.5,0.268,12600,6.8,1852.9,4,4,16.25,80.75,11.32,0,1,High Relative Hazard / Vulnerability,1,0,False
+HAB_039,Devarapalle,Village,Thotlavalluru,Krishna,16.295,80.845,10.0,0.48,3.5,1181.1,752.9,66.2,280.5,0.268,6100,4.5,1355.6,4,4,16.25,80.75,11.31,0,1,High Relative Hazard / Vulnerability,1,0,False
+HAB_040,Pamidimukkala,Village,Pamidimukkala,Krishna,16.282,80.895,8.0,0.58,8.58,1160.2,716.6,64.0,318.6,0.268,7800,5.3,1471.7,3,3,16.25,81.0,11.76,0,1,High Relative Hazard / Vulnerability,1,0,False
+HAB_041,Meduru,Village,Pamidimukkala,Krishna,16.265,80.875,9.0,0.64,8.12,1160.2,716.6,64.0,318.6,0.268,5200,3.9,1333.3,3,3,16.25,81.0,13.45,0,1,High Relative Hazard / Vulnerability,1,0,False
+HAB_042,Gudivada,Town,Gudivada,Krishna,16.435,80.992,11.0,1.49,21.93,1142.7,770.2,62.8,207.8,0.269,118000,21.0,5619.0,4,3,16.5,81.0,7.28,0,1,High Relative Hazard / Vulnerability,1,0,False
+HAB_043,Pamarru,Town,Pamarru,Krishna,16.328,80.965,12.0,1.22,14.97,1160.2,716.6,64.0,318.6,0.268,23400,8.7,2689.7,3,3,16.25,81.0,9.44,0,1,High Relative Hazard / Vulnerability,1,0,False
+HAB_044,Movva,Village,Movva,Krishna,16.218,80.912,6.0,0.53,10.89,1160.2,716.6,64.0,318.6,0.268,10500,6.4,1640.6,3,3,16.25,81.0,10.05,0,1,High Relative Hazard / Vulnerability,1,0,False
+HAB_045,Kuchipudi,Village,Movva,Krishna,16.195,80.925,5.0,0.32,8.15,1160.2,716.6,64.0,318.6,0.268,6800,4.7,1446.8,3,3,16.25,81.0,10.08,0,1,High Relative Hazard / Vulnerability,1,0,False
+HAB_046,Ghantasala,Village,Ghantasala,Krishna,16.155,80.945,3.0,0.2,3.92,1160.2,716.6,64.0,318.6,0.268,11200,7.1,1577.5,3,3,16.25,81.0,12.09,0,1,High Relative Hazard / Vulnerability,1,0,False
+HAB_047,Challapalli,Town,Challapalli,Krishna,16.122,80.932,6.0,0.2,0.0,1172.5,713.0,66.5,303.2,0.282,21500,9.2,2337.0,4,4,16.0,81.0,15.39,0,1,High Relative Hazard / Vulnerability,1,0,False
+HAB_048,Avanigadda,Town,Avanigadda,Krishna,16.022,80.918,8.0,0.2,0.0,1172.5,713.0,66.5,303.2,0.282,28400,12.5,2272.0,4,4,16.0,81.0,9.1,0,1,High Relative Hazard / Vulnerability,1,0,False
+HAB_049,Nagayalanka,Village,Nagayalanka,Krishna,15.945,80.915,8.0,0.2,0.0,1172.5,713.0,66.5,303.2,0.282,14200,10.8,1314.8,4,4,16.0,81.0,10.95,0,1,High Relative Hazard / Vulnerability,1,0,False
+HAB_050,Koduru,Village,Koduru,Krishna,15.922,80.995,2.0,0.2,8.93,1172.5,713.0,66.5,303.2,0.282,16800,13.2,1272.7,4,4,16.0,81.0,8.69,0,1,High Relative Hazard / Vulnerability,1,0,False
+HAB_051,Machilipatnam,City,Machilipatnam,Krishna,16.182,81.135,9.0,1.36,22.68,1160.2,716.6,64.0,318.6,0.268,170000,28.5,5964.9,4,3,16.25,81.0,16.28,0,1,High Relative Hazard / Vulnerability,1,0,False
+HAB_052,Pedana,Town,Pedana,Krishna,16.262,81.145,2.0,1.05,27.56,1160.2,716.6,64.0,318.6,0.268,31000,10.1,3069.3,3,3,16.25,81.0,15.54,0,1,High Relative Hazard / Vulnerability,1,0,False
+HAB_053,Tadepalle,Town / Municipality,Tadepalle,Guntur,16.482,80.605,22.0,1.41,2.78,1038.9,702.8,59.6,175.1,0.235,64500,7.8,8269.2,4,5,16.5,80.5,11.37,1,2,Moderate Relative Hazard / Vulnerability,2,1,False
+HAB_054,Undavalli,Village,Tadepalle,Guntur,16.495,80.582,96.0,7.33,2.79,1038.9,702.8,59.6,175.1,0.235,13200,5.1,2588.2,5,5,16.5,80.5,8.76,1,2,Moderate Relative Hazard / Vulnerability,0,-1,True
+HAB_055,Penumaka,Village,Tadepalle,Guntur,16.492,80.555,20.0,1.39,5.59,1038.9,702.8,59.6,175.1,0.235,11500,4.9,2346.9,4,4,16.5,80.5,5.93,1,2,Moderate Relative Hazard / Vulnerability,2,1,False
+HAB_056,Seethanagaram,Urban Locality,Tadepalle,Guntur,16.498,80.615,9.0,0.3,1.46,1038.9,702.8,59.6,175.1,0.235,18200,2.9,6275.9,4,5,16.5,80.5,12.26,1,2,Moderate Relative Hazard / Vulnerability,2,1,False
+HAB_057,Kunchanapalli,Village,Tadepalle,Guntur,16.465,80.608,18.0,1.14,3.8,1038.9,702.8,59.6,175.1,0.235,9500,3.8,2500.0,3,3,16.5,80.5,12.16,1,2,Moderate Relative Hazard / Vulnerability,2,1,False
+HAB_058,Kolanukonda,Village,Tadepalle,Guntur,16.452,80.595,16.0,1.08,5.72,1038.9,702.8,59.6,175.1,0.235,7800,4.1,1902.4,2,2,16.5,80.5,11.45,1,2,Moderate Relative Hazard / Vulnerability,0,1,False
+HAB_059,Mangalagiri,Town / Municipality,Mangalagiri,Guntur,16.432,80.562,29.0,2.31,9.52,1038.9,702.8,59.6,175.1,0.235,73500,12.8,5742.2,3,3,16.5,80.5,10.04,1,2,Moderate Relative Hazard / Vulnerability,2,1,False
+HAB_060,Atmakur,Village,Mangalagiri,Guntur,16.425,80.585,19.0,1.45,8.47,1038.9,702.8,59.6,175.1,0.235,8200,4.6,1782.6,3,3,16.5,80.5,12.32,1,2,Moderate Relative Hazard / Vulnerability,2,1,False
+HAB_061,Chinakakani,Village,Mangalagiri,Guntur,16.398,80.552,23.0,2.0,13.09,1038.9,702.8,59.6,175.1,0.235,14500,5.4,2685.2,2,2,16.5,80.5,12.63,1,2,Moderate Relative Hazard / Vulnerability,0,1,False
+HAB_062,Pedakakani,Town,Pedakakani,Guntur,16.355,80.495,35.0,3.34,20.57,999.7,666.8,58.1,182.9,0.258,25800,8.6,3000.0,2,2,16.25,80.5,11.69,2,3,Relatively Lower Hazard / Vulnerability,0,1,False
+HAB_063,Namburu,Village,Pedakakani,Guntur,16.375,80.525,26.0,2.44,16.93,1038.9,702.8,59.6,175.1,0.235,19200,7.2,2666.7,2,2,16.5,80.5,14.15,2,3,Relatively Lower Hazard / Vulnerability,0,1,False
+HAB_064,Thullur,Town / Capital Node,Thullur,Guntur,16.535,80.485,22.0,1.63,7.28,1038.9,702.8,59.6,175.1,0.235,16500,8.9,1853.9,3,3,16.5,80.5,4.21,1,2,Moderate Relative Hazard / Vulnerability,2,1,False
+HAB_065,Mandadam,Village,Thullur,Guntur,16.515,80.535,21.0,1.44,5.04,1038.9,702.8,59.6,175.1,0.235,9400,5.3,1773.6,4,4,16.5,80.5,4.09,1,2,Moderate Relative Hazard / Vulnerability,2,1,False
+HAB_066,Velagapudi,Secretariat / Village,Thullur,Guntur,16.522,80.515,22.0,1.58,6.17,1038.9,702.8,59.6,175.1,0.235,14200,6.1,2327.9,3,3,16.5,80.5,2.92,1,2,Moderate Relative Hazard / Vulnerability,2,1,False
+HAB_067,Rayapudi,Village,Thullur,Guntur,16.538,80.505,22.0,1.57,6.06,1038.9,702.8,59.6,175.1,0.235,7600,4.8,1583.3,4,4,16.5,80.5,4.26,1,2,Moderate Relative Hazard / Vulnerability,2,1,False
+HAB_068,Ainavolu,Village,Thullur,Guntur,16.495,80.505,20.0,1.55,8.85,1038.9,702.8,59.6,175.1,0.235,6100,4.2,1452.4,3,3,16.5,80.5,0.77,1,2,Moderate Relative Hazard / Vulnerability,2,1,False
+HAB_069,Sakhamuru,Village,Thullur,Guntur,16.482,80.485,20.0,1.68,11.4,1038.9,702.8,59.6,175.1,0.235,5300,3.9,1359.0,2,2,16.5,80.5,2.56,1,2,Moderate Relative Hazard / Vulnerability,0,1,False
+HAB_070,Nelapadu,Village,Thullur,Guntur,16.508,80.478,25.0,2.0,9.81,1038.9,702.8,59.6,175.1,0.235,4800,3.5,1371.4,2,2,16.5,80.5,2.51,1,2,Moderate Relative Hazard / Vulnerability,0,1,False
+HAB_071,Amaravati,Heritage Town,Amaravati,Guntur,16.578,80.362,28.0,1.77,0.31,992.3,683.3,63.9,207.9,0.202,14800,7.5,1973.3,3,4,16.5,80.25,14.76,1,2,Moderate Relative Hazard / Vulnerability,2,1,False
+HAB_072,Dharanikota,Village,Amaravati,Guntur,16.572,80.345,35.0,2.4,1.83,992.3,683.3,63.9,207.9,0.202,8100,5.1,1588.2,3,4,16.5,80.25,12.91,1,2,Moderate Relative Hazard / Vulnerability,2,1,False
+HAB_073,Guntur Central (Brodipet),Urban Locality,Guntur East,Guntur,16.308,80.442,37.0,3.88,28.14,999.7,666.8,58.1,182.9,0.258,85000,5.5,15454.5,2,1,16.25,80.5,8.94,2,3,Relatively Lower Hazard / Vulnerability,0,-1,True
+HAB_074,Arundelpet,Urban Locality,Guntur East,Guntur,16.302,80.435,38.0,4.01,29.13,999.7,666.8,58.1,182.9,0.258,72000,4.8,15000.0,2,1,16.25,80.5,9.03,2,3,Relatively Lower Hazard / Vulnerability,0,-1,True
+HAB_075,Pattabhipuram,Urban Locality,Guntur West,Guntur,16.295,80.422,30.0,3.44,30.61,999.7,666.8,58.1,182.9,0.258,68000,5.2,13076.9,2,1,16.25,80.5,9.71,2,3,Relatively Lower Hazard / Vulnerability,0,-1,True
+HAB_076,Gorantla,Urban Outgrowth,Guntur Rural,Guntur,16.335,80.415,40.0,4.1,27.87,999.7,666.8,58.1,182.9,0.258,31000,6.8,4558.8,2,1,16.25,80.5,13.1,2,3,Relatively Lower Hazard / Vulnerability,0,1,False
+HAB_077,Nallapadu,Town Outgrowth,Guntur Rural,Guntur,16.275,80.395,29.0,3.54,34.12,999.7,666.8,58.1,182.9,0.258,24000,7.9,3038.0,1,1,16.25,80.5,11.55,2,3,Relatively Lower Hazard / Vulnerability,0,1,False
+HAB_078,Perecherla,Village / Junction,Medikonduru,Guntur,16.315,80.332,82.0,7.55,29.62,981.3,671.3,54.9,219.2,0.254,16500,8.1,2037.0,1,1,16.25,80.25,11.35,2,3,Relatively Lower Hazard / Vulnerability,0,-1,True
+HAB_079,Chebrolu,Town,Chebrolu,Guntur,16.198,80.532,8.0,1.56,28.12,999.7,666.8,58.1,182.9,0.258,24800,9.5,2610.5,2,2,16.25,80.5,6.72,2,3,Relatively Lower Hazard / Vulnerability,0,1,False
+HAB_080,Tenali,City / Municipality,Tenali,Guntur,16.242,80.645,18.0,1.81,17.22,1181.1,752.9,66.2,280.5,0.268,165000,24.0,6875.0,4,3,16.25,80.75,11.24,0,1,High Relative Hazard / Vulnerability,1,0,False
+HAB_081,Angalakuduru,Village,Tenali,Guntur,16.225,80.625,10.0,1.24,18.69,999.7,666.8,58.1,182.9,0.258,11200,5.4,2074.1,3,3,16.25,80.5,13.63,1,2,Moderate Relative Hazard / Vulnerability,0,1,False
+HAB_082,Burripalem,Village,Tenali,Guntur,16.272,80.612,11.0,1.41,20.42,999.7,666.8,58.1,182.9,0.258,8600,4.9,1755.1,3,3,16.25,80.5,12.2,1,2,Moderate Relative Hazard / Vulnerability,0,1,False
+HAB_083,Duggirala,Town,Duggirala,Guntur,16.325,80.628,14.0,1.44,16.12,1181.1,752.9,66.2,280.5,0.268,19500,7.8,2500.0,4,4,16.25,80.75,15.46,0,1,High Relative Hazard / Vulnerability,1,0,False
+HAB_084,Emani,Village,Duggirala,Guntur,16.345,80.648,13.0,1.2,13.06,1181.1,752.9,66.2,280.5,0.268,7400,4.3,1720.9,4,4,16.25,80.75,15.17,0,1,High Relative Hazard / Vulnerability,1,0,False
+HAB_085,Pedapalem,Village,Duggirala,Guntur,16.358,80.665,13.0,1.09,10.84,1181.1,752.9,66.2,280.5,0.268,6200,3.7,1675.7,4,4,16.25,80.75,15.05,0,1,High Relative Hazard / Vulnerability,1,0,False
+HAB_086,Kollipara,Town,Kollipara,Guntur,16.288,80.725,10.0,0.81,9.93,1181.1,752.9,66.2,280.5,0.268,18200,8.3,2192.8,4,4,16.25,80.75,5.0,0,1,High Relative Hazard / Vulnerability,1,0,False
+HAB_087,Munnangi,Village,Kollipara,Guntur,16.312,80.748,14.0,0.95,6.34,1181.1,752.9,66.2,280.5,0.268,8900,5.1,1745.1,4,4,16.25,80.75,6.9,0,1,High Relative Hazard / Vulnerability,1,0,False
+HAB_088,Chintalapudi,Village,Kollipara,Guntur,16.265,80.715,9.0,0.85,12.33,1181.1,752.9,66.2,280.5,0.268,5800,4.0,1450.0,4,4,16.25,80.75,4.09,0,1,High Relative Hazard / Vulnerability,1,0,False
+HAB_089,Kollur,Town,Kollur,Guntur / Bapatla,16.185,80.795,11.0,0.39,0.0,1181.1,752.9,66.2,280.5,0.268,21800,9.1,2395.6,4,4,16.25,80.75,8.68,0,1,High Relative Hazard / Vulnerability,1,0,False
+HAB_090,Ananthavaram (Kollur),Village,Kollur,Guntur / Bapatla,16.165,80.812,8.0,0.29,2.87,1181.1,752.9,66.2,280.5,0.268,6400,4.5,1422.2,4,4,16.25,80.75,11.54,0,1,High Relative Hazard / Vulnerability,1,0,False
+HAB_091,Bhattiprolu,Town,Bhattiprolu,Guntur / Bapatla,16.102,80.785,9.0,0.69,9.29,1236.2,744.0,61.8,285.0,0.32,23500,10.2,2303.9,3,4,16.0,80.75,11.94,0,1,High Relative Hazard / Vulnerability,1,0,False
+HAB_092,Vellaturu,Village,Bhattiprolu,Guntur / Bapatla,16.125,80.815,8.0,0.5,7.01,1181.1,752.9,66.2,280.5,0.268,7900,5.0,1580.0,4,4,16.25,80.75,15.54,0,1,High Relative Hazard / Vulnerability,1,0,False
+HAB_093,Repalle,Town / Municipality,Repalle,Guntur / Bapatla,16.022,80.845,4.0,0.22,7.8,1236.2,744.0,61.8,285.0,0.32,52000,15.6,3333.3,4,4,16.0,80.75,10.44,0,1,High Relative Hazard / Vulnerability,1,0,False
+HAB_094,Ponnur,Town / Municipality,Ponnur,Guntur,16.068,80.555,16.0,2.23,28.75,1099.4,684.8,64.1,206.8,0.299,60000,16.2,3703.7,2,2,16.0,80.5,9.58,2,3,Relatively Lower Hazard / Vulnerability,0,1,False
+HAB_095,Nidubrolu,Urban Locality,Ponnur,Guntur,16.078,80.542,6.0,1.47,29.53,1099.4,684.8,64.1,206.8,0.299,22000,6.1,3606.6,2,2,16.0,80.5,9.77,2,3,Relatively Lower Hazard / Vulnerability,0,1,False
+HAB_096,Tsundur,Village,Tsundur,Guntur / Bapatla,16.155,80.612,7.0,1.06,19.83,999.7,666.8,58.1,182.9,0.258,12800,7.3,1753.4,3,3,16.25,80.5,15.96,1,2,Moderate Relative Hazard / Vulnerability,0,1,False
+HAB_097,Prathipadu,Town,Prathipadu,Guntur,16.182,80.355,18.0,3.16,44.26,981.3,671.3,54.9,219.2,0.254,18900,8.5,2223.5,1,1,16.25,80.25,13.52,2,3,Relatively Lower Hazard / Vulnerability,0,1,False
+HAB_098,Vatticherukuru,Village,Vatticherukuru,Guntur,16.215,80.415,16.0,2.69,38.01,999.7,666.8,58.1,182.9,0.258,11400,6.7,1701.5,2,1,16.25,80.5,9.87,2,3,Relatively Lower Hazard / Vulnerability,0,1,False
+HAB_099,Kakumanu,Village,Kakumanu,Guntur,16.035,80.418,7.0,2.25,43.59,1099.4,684.8,64.1,206.8,0.299,9600,7.0,1371.4,2,2,16.0,80.5,9.59,2,3,Relatively Lower Hazard / Vulnerability,0,1,False
+HAB_100,Pedanandipadu,Town,Pedanandipadu,Guntur,15.985,80.295,10.0,3.2,57.87,1003.1,614.8,52.6,244.0,0.308,15200,8.0,1900.0,1,1,16.0,80.25,5.09,2,3,Relatively Lower Hazard / Vulnerability,0,1,False

@@ -1,0 +1,4 @@
+Algorithm,Clusters,Noise Points,Silhouette Score,Davies-Bouldin Index,Key Advantages
+K-Means (K-Means++),3,0,0.3667,1.1202,"Fast, global variance minimization, balanced cluster assignment matching 3 hazard tiers."
+Hierarchical (Ward),3,0,0.3283,1.0843,"Deterministic, builds clear taxonomic dendrogram of settlements based on variance."
+"DBSCAN (eps=1.85, min_pts=4)",2,12,0.4236,1.0243,Detects arbitrary density shapes and effectively isolates isolated topographic anomalies.

@@ -1,0 +1,5 @@
+Algorithm,Linkage Criterion,Clusters (K),Distance Metric,Silhouette Score,Davies-Bouldin Index,Calinski-Harabasz Index,Cluster Distribution
+Agglomerative Clustering,Ward,3,Euclidean,0.3283,1.0843,50.93,"{0: np.int64(32), 1: np.int64(47), 2: np.int64(21)}"
+Agglomerative Clustering,Complete,3,Euclidean,0.3569,0.9779,37.91,"{0: np.int64(30), 1: np.int64(68), 2: np.int64(2)}"
+Agglomerative Clustering,Average,3,Euclidean,0.3691,0.9233,28.35,"{0: np.int64(2), 1: np.int64(15), 2: np.int64(83)}"
+Agglomerative Clustering,Single,3,Euclidean,0.4291,0.4027,6.25,"{0: np.int64(98), 1: np.int64(1), 2: np.int64(1)}"

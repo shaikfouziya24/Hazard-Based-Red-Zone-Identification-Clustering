@@ -1,0 +1,10 @@
+Principal Component,Eigenvalue,Explained Variance Ratio (%),Cumulative Variance Ratio (%)
+PC1,4.414,48.56,48.56
+PC2,1.576,17.33,65.89
+PC3,1.422,15.64,81.53
+PC4,0.916,10.07,91.6
+PC5,0.464,5.1,96.7
+PC6,0.18,1.98,98.68
+PC7,0.058,0.64,99.32
+PC8,0.051,0.56,99.88
+PC9,0.011,0.12,100.0

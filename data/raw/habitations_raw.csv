@@ -1,0 +1,101 @@
+id,name,category,mandal,district,lat,lon,pop,area_sqkm,flood_hist,congestion
+HAB_001,Ajit Singh Nagar,Urban Locality,Vijayawada North,NTR,16.5385,80.6382,78500,4.8,5,5
+HAB_002,Payakapuram,Urban Locality,Vijayawada North,NTR,16.5492,80.6428,52400,3.6,5,5
+HAB_003,Bhavanipuram,Urban Locality,Vijayawada West,NTR,16.525,80.595,64000,4.2,4,4
+HAB_004,Vidyadharapuram,Urban Locality,Vijayawada West,NTR,16.528,80.605,48000,3.1,4,4
+HAB_005,Governorpet,Urban Locality,Vijayawada Central,NTR,16.512,80.627,42000,2.2,2,3
+HAB_006,Labbipet,Urban Locality,Vijayawada Central,NTR,16.504,80.642,36500,2.5,2,2
+HAB_007,Moghalrajpuram,Urban Locality,Vijayawada Central,NTR,16.505,80.655,31000,2.8,1,2
+HAB_008,Gunadala,Urban Locality,Vijayawada East,NTR,16.522,80.665,45000,3.9,3,3
+HAB_009,Patamata,Urban Locality,Vijayawada East,NTR,16.495,80.66,68000,5.1,2,3
+HAB_010,Ambapuram,Village,Vijayawada Rural,NTR,16.562,80.615,12400,4.5,5,5
+HAB_011,Jakkampudi,Village / Township,Vijayawada Rural,NTR,16.558,80.582,28500,5.2,5,5
+HAB_012,Kandrika,Village,Vijayawada Rural,NTR,16.551,80.655,14200,3.8,4,4
+HAB_013,Nunna,Village,Vijayawada Rural,NTR,16.578,80.672,18500,6.8,3,3
+HAB_014,Rayanapadu,Village,Vijayawada Rural,NTR,16.555,80.562,9200,4.1,4,4
+HAB_015,Gollapudi,Urban Outgrowth,Vijayawada Rural,NTR,16.541,80.575,34000,5.0,4,4
+HAB_016,Ibrahimpatnam,Town,Ibrahimpatnam,NTR,16.588,80.522,29400,8.5,4,3
+HAB_017,Kondapalli,Town,Ibrahimpatnam,NTR,16.618,80.538,33200,11.2,3,2
+HAB_018,Zeedimogu,Village,Ibrahimpatnam,NTR,16.602,80.495,4100,3.2,3,3
+HAB_019,Mylavaram,Town,Mylavaram,NTR,16.762,80.638,22000,9.4,1,1
+HAB_020,G.Konduru,Village,G.Konduru,NTR,16.685,80.562,11800,6.5,2,2
+HAB_021,Kanchikacherla,Town,Kanchikacherla,NTR,16.638,80.395,24500,8.1,2,2
+HAB_022,Paritala,Village,Kanchikacherla,NTR,16.645,80.442,8600,5.4,2,2
+HAB_023,Veerullapadu,Village,Veerullapadu,NTR,16.715,80.352,7200,5.8,1,1
+HAB_024,Nandigama,Town,Nandigama,NTR,16.768,80.295,44300,12.0,2,2
+HAB_025,Chandarlapadu,Village,Chandarlapadu,NTR,16.695,80.205,9800,7.2,2,2
+HAB_026,Jaggayyapeta,Town,Jaggayyapeta,NTR,16.892,80.095,53500,14.5,1,1
+HAB_027,Kanuru,Urban Outgrowth,Penamaluru,Krishna,16.495,80.695,49000,6.2,3,4
+HAB_028,Poranki,Urban Outgrowth,Penamaluru,Krishna,16.475,80.712,32000,4.8,3,3
+HAB_029,Penamaluru,Town,Penamaluru,Krishna,16.462,80.725,26500,5.9,3,3
+HAB_030,Tadigadapa,Urban Locality,Penamaluru,Krishna,16.482,80.685,37500,4.5,3,4
+HAB_031,Yanamalakuduru,Urban Locality,Penamaluru,Krishna,16.488,80.662,34100,3.8,4,4
+HAB_032,Gosala,Village,Penamaluru,Krishna,16.445,80.745,6800,4.2,3,3
+HAB_033,Kankipadu,Town,Kankipadu,Krishna,16.425,80.775,21000,7.4,3,3
+HAB_034,Godavarru,Village,Kankipadu,Krishna,16.415,80.755,5400,3.6,3,3
+HAB_035,Punadipadu,Village,Kankipadu,Krishna,16.438,80.748,7200,4.1,3,3
+HAB_036,Vuyyuru,Town,Vuyyuru,Krishna,16.368,80.842,46500,11.5,3,3
+HAB_037,Katuru,Village,Vuyyuru,Krishna,16.345,80.865,8900,5.2,3,3
+HAB_038,Thotlavalluru,Village,Thotlavalluru,Krishna,16.322,80.825,12600,6.8,4,4
+HAB_039,Devarapalle,Village,Thotlavalluru,Krishna,16.295,80.845,6100,4.5,4,4
+HAB_040,Pamidimukkala,Village,Pamidimukkala,Krishna,16.282,80.895,7800,5.3,3,3
+HAB_041,Meduru,Village,Pamidimukkala,Krishna,16.265,80.875,5200,3.9,3,3
+HAB_042,Gudivada,Town,Gudivada,Krishna,16.435,80.992,118000,21.0,3,4
+HAB_043,Pamarru,Town,Pamarru,Krishna,16.328,80.965,23400,8.7,3,3
+HAB_044,Movva,Village,Movva,Krishna,16.218,80.912,10500,6.4,3,3
+HAB_045,Kuchipudi,Village,Movva,Krishna,16.195,80.925,6800,4.7,3,3
+HAB_046,Ghantasala,Village,Ghantasala,Krishna,16.155,80.945,11200,7.1,3,3
+HAB_047,Challapalli,Town,Challapalli,Krishna,16.122,80.932,21500,9.2,4,4
+HAB_048,Avanigadda,Town,Avanigadda,Krishna,16.022,80.918,28400,12.5,4,4
+HAB_049,Nagayalanka,Village,Nagayalanka,Krishna,15.945,80.915,14200,10.8,4,4
+HAB_050,Koduru,Village,Koduru,Krishna,15.922,80.995,16800,13.2,4,4
+HAB_051,Machilipatnam,City,Machilipatnam,Krishna,16.182,81.135,170000,28.5,3,4
+HAB_052,Pedana,Town,Pedana,Krishna,16.262,81.145,31000,10.1,3,3
+HAB_053,Tadepalle,Town / Municipality,Tadepalle,Guntur,16.482,80.605,64500,7.8,5,4
+HAB_054,Undavalli,Village,Tadepalle,Guntur,16.495,80.582,13200,5.1,5,5
+HAB_055,Penumaka,Village,Tadepalle,Guntur,16.492,80.555,11500,4.9,4,4
+HAB_056,Seethanagaram,Urban Locality,Tadepalle,Guntur,16.498,80.615,18200,2.9,5,4
+HAB_057,Kunchanapalli,Village,Tadepalle,Guntur,16.465,80.608,9500,3.8,3,3
+HAB_058,Kolanukonda,Village,Tadepalle,Guntur,16.452,80.595,7800,4.1,2,2
+HAB_059,Mangalagiri,Town / Municipality,Mangalagiri,Guntur,16.432,80.562,73500,12.8,3,3
+HAB_060,Atmakur,Village,Mangalagiri,Guntur,16.425,80.585,8200,4.6,3,3
+HAB_061,Chinakakani,Village,Mangalagiri,Guntur,16.398,80.552,14500,5.4,2,2
+HAB_062,Pedakakani,Town,Pedakakani,Guntur,16.355,80.495,25800,8.6,2,2
+HAB_063,Namburu,Village,Pedakakani,Guntur,16.375,80.525,19200,7.2,2,2
+HAB_064,Thullur,Town / Capital Node,Thullur,Guntur,16.535,80.485,16500,8.9,3,3
+HAB_065,Mandadam,Village,Thullur,Guntur,16.515,80.535,9400,5.3,4,4
+HAB_066,Velagapudi,Secretariat / Village,Thullur,Guntur,16.522,80.515,14200,6.1,3,3
+HAB_067,Rayapudi,Village,Thullur,Guntur,16.538,80.505,7600,4.8,4,4
+HAB_068,Ainavolu,Village,Thullur,Guntur,16.495,80.505,6100,4.2,3,3
+HAB_069,Sakhamuru,Village,Thullur,Guntur,16.482,80.485,5300,3.9,2,2
+HAB_070,Nelapadu,Village,Thullur,Guntur,16.508,80.478,4800,3.5,2,2
+HAB_071,Amaravati,Heritage Town,Amaravati,Guntur,16.578,80.362,14800,7.5,4,3
+HAB_072,Dharanikota,Village,Amaravati,Guntur,16.572,80.345,8100,5.1,4,3
+HAB_073,Guntur Central (Brodipet),Urban Locality,Guntur East,Guntur,16.308,80.442,85000,5.5,1,2
+HAB_074,Arundelpet,Urban Locality,Guntur East,Guntur,16.302,80.435,72000,4.8,1,2
+HAB_075,Pattabhipuram,Urban Locality,Guntur West,Guntur,16.295,80.422,68000,5.2,1,2
+HAB_076,Gorantla,Urban Outgrowth,Guntur Rural,Guntur,16.335,80.415,31000,6.8,1,2
+HAB_077,Nallapadu,Town Outgrowth,Guntur Rural,Guntur,16.275,80.395,24000,7.9,1,1
+HAB_078,Perecherla,Village / Junction,Medikonduru,Guntur,16.315,80.332,16500,8.1,1,1
+HAB_079,Chebrolu,Town,Chebrolu,Guntur,16.198,80.532,24800,9.5,2,2
+HAB_080,Tenali,City / Municipality,Tenali,Guntur,16.242,80.645,165000,24.0,3,4
+HAB_081,Angalakuduru,Village,Tenali,Guntur,16.225,80.625,11200,5.4,3,3
+HAB_082,Burripalem,Village,Tenali,Guntur,16.272,80.612,8600,4.9,3,3
+HAB_083,Duggirala,Town,Duggirala,Guntur,16.325,80.628,19500,7.8,4,4
+HAB_084,Emani,Village,Duggirala,Guntur,16.345,80.648,7400,4.3,4,4
+HAB_085,Pedapalem,Village,Duggirala,Guntur,16.358,80.665,6200,3.7,4,4
+HAB_086,Kollipara,Town,Kollipara,Guntur,16.288,80.725,18200,8.3,4,4
+HAB_087,Munnangi,Village,Kollipara,Guntur,16.312,80.748,8900,5.1,4,4
+HAB_088,Chintalapudi,Village,Kollipara,Guntur,16.265,80.715,5800,4.0,4,4
+HAB_089,Kollur,Town,Kollur,Guntur / Bapatla,16.185,80.795,21800,9.1,4,4
+HAB_090,Ananthavaram (Kollur),Village,Kollur,Guntur / Bapatla,16.165,80.812,6400,4.5,4,4
+HAB_091,Bhattiprolu,Town,Bhattiprolu,Guntur / Bapatla,16.102,80.785,23500,10.2,4,3
+HAB_092,Vellaturu,Village,Bhattiprolu,Guntur / Bapatla,16.125,80.815,7900,5.0,4,4
+HAB_093,Repalle,Town / Municipality,Repalle,Guntur / Bapatla,16.022,80.845,52000,15.6,4,4
+HAB_094,Ponnur,Town / Municipality,Ponnur,Guntur,16.068,80.555,60000,16.2,2,2
+HAB_095,Nidubrolu,Urban Locality,Ponnur,Guntur,16.078,80.542,22000,6.1,2,2
+HAB_096,Tsundur,Village,Tsundur,Guntur / Bapatla,16.155,80.612,12800,7.3,3,3
+HAB_097,Prathipadu,Town,Prathipadu,Guntur,16.182,80.355,18900,8.5,1,1
+HAB_098,Vatticherukuru,Village,Vatticherukuru,Guntur,16.215,80.415,11400,6.7,1,2
+HAB_099,Kakumanu,Village,Kakumanu,Guntur,16.035,80.418,9600,7.0,2,2
+HAB_100,Pedanandipadu,Town,Pedanandipadu,Guntur,15.985,80.295,15200,8.0,1,1

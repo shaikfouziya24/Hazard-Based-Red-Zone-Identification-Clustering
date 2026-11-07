@@ -1,0 +1,4 @@
+Relative Hazard Tier,Habitations Count,elevation_m_mean,elevation_m_std,slope_deg_mean,slope_deg_std,distance_to_river_km_mean,distance_to_river_km_std,annual_rainfall_mm_mean,annual_rainfall_mm_std,monsoon_rainfall_mm_mean,monsoon_rainfall_mm_std,extreme_daily_rainfall_mm_mean,extreme_daily_rainfall_mm_std,population_density_per_sqkm_mean,population_density_per_sqkm_std,drainage_congestion_index_mean,drainage_congestion_index_std,historical_flood_inundation_frequency_mean,historical_flood_inundation_frequency_std
+High Relative Hazard / Vulnerability,47,13.11,6.37,0.91,0.47,6.75,6.39,1178.41,15.46,761.12,33.98,290.89,18.23,4707.44,4645.72,3.53,0.65,3.38,0.77
+Moderate Relative Hazard / Vulnerability,32,24.72,15.22,1.79,1.16,6.14,5.6,1032.31,15.62,698.21,11.32,177.88,8.2,3609.53,3543.27,3.25,0.92,3.44,0.98
+Relatively Lower Hazard / Vulnerability,21,37.95,31.97,3.85,1.77,29.23,11.87,1023.32,52.47,680.21,32.56,201.76,26.96,4279.33,4393.59,1.67,0.48,1.43,0.51
