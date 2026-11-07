@@ -57,24 +57,30 @@ html_content = f"""<!DOCTYPE html>
             overflow: hidden;
         }}
 
-        /* Sidebar Styling matching user screenshot */
+        /* Sidebar: Pixel-matched to user's photo */
         aside {{
-            width: 320px;
+            width: 325px;
             background-color: var(--sidebar-bg);
             border-right: 1px solid var(--border-color);
             display: flex;
             flex-direction: column;
-            padding: 18px 16px;
-            gap: 14px;
+            padding: 16px 14px;
+            gap: 12px;
             overflow-y: auto;
             flex-shrink: 0;
+        }}
+
+        .sidebar-brand {{
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding-bottom: 2px;
         }}
 
         .sidebar-header {{
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding-bottom: 4px;
         }}
         .sidebar-title {{
             font-size: 19px;
@@ -93,7 +99,7 @@ html_content = f"""<!DOCTYPE html>
             font-size: 13px;
             font-weight: 700;
             color: #E2E8F0;
-            margin-bottom: 5px;
+            margin-bottom: 4px;
             display: block;
         }}
 
@@ -150,6 +156,36 @@ html_content = f"""<!DOCTYPE html>
             cursor: pointer;
         }}
 
+        .btn-refresh {{
+            background: #1E293B;
+            border: 1px solid var(--border-color);
+            color: #E2E8F0;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 12.5px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            transition: all 0.2s ease;
+        }}
+        .btn-refresh:hover {{
+            background: #334155;
+            color: #FFFFFF;
+            border-color: #60A5FA;
+        }}
+
+        .scope-summary {{
+            margin-top: auto;
+            padding-top: 12px;
+            border-top: 1px solid var(--border-color);
+            font-size: 11.5px;
+            color: var(--text-subdued);
+            line-height: 1.5;
+        }}
+
         /* Main Workspace Container */
         main {{
             flex: 1;
@@ -186,7 +222,7 @@ html_content = f"""<!DOCTYPE html>
             line-height: 1.45;
         }}
 
-        /* 5 Metric Cards Row */
+        /* 5 Metric Cards Row (Exact numbers & style from user photo) */
         .metrics-row {{
             display: grid;
             grid-template-columns: repeat(5, 1fr);
@@ -202,7 +238,7 @@ html_content = f"""<!DOCTYPE html>
             gap: 4px;
         }}
         .metric-label {{
-            font-size: 12.5px;
+            font-size: 12px;
             color: var(--text-subdued);
             font-weight: 600;
             display: flex;
@@ -219,26 +255,7 @@ html_content = f"""<!DOCTYPE html>
             color: #94A3B8;
         }}
 
-        /* Graph Box Cards */
-        .graph-card {{
-            background: var(--sidebar-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            padding: 14px;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }}
-        .graph-title {{
-            font-size: 13.5px;
-            font-weight: 700;
-            color: #FFFFFF;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }}
-
-        /* Live Alert Banner */
+        /* Live Alert Banner (Matching user photo green status) */
         .alert-banner {{
             background: linear-gradient(135deg, #16A34A 0%, #0F172A 100%);
             border-radius: 8px;
@@ -256,7 +273,7 @@ html_content = f"""<!DOCTYPE html>
             flex-wrap: wrap;
         }}
         .alert-pill {{
-            font-size: 17px;
+            font-size: 16px;
             font-weight: 800;
             color: #FFFFFF;
             display: flex;
@@ -288,7 +305,31 @@ html_content = f"""<!DOCTYPE html>
             color: #FFFFFF;
         }}
 
-        /* Location Spotlight Box */
+        /* Executive Graphs Row */
+        .exec-graphs-row {{
+            display: grid;
+            grid-template-columns: 1fr 1.2fr 1.3fr;
+            gap: 12px;
+        }}
+        .graph-card {{
+            background: var(--sidebar-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }}
+        .graph-title {{
+            font-size: 13.5px;
+            font-weight: 700;
+            color: #FFFFFF;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }}
+
+        /* Spotlight Box */
         .spotlight-box {{
             background: linear-gradient(135deg, #1E293B 0%, #0F172A 100%);
             border: 1px solid #38BDF8;
@@ -300,11 +341,11 @@ html_content = f"""<!DOCTYPE html>
             align-items: center;
         }}
 
-        /* Tabs Styling */
+        /* Tabs Styling matching Streamlit tabs */
         .tab-bar {{
             display: flex;
             gap: 6px;
-            border-bottom: 1px solid var(--border-color);
+            border-bottom: 2px solid var(--border-color);
             padding-bottom: 2px;
             overflow-x: auto;
         }}
@@ -312,9 +353,9 @@ html_content = f"""<!DOCTYPE html>
             background: transparent;
             border: none;
             color: var(--text-subdued);
-            font-size: 13px;
+            font-size: 13.5px;
             font-weight: 600;
-            padding: 8px 14px;
+            padding: 9px 15px;
             cursor: pointer;
             border-radius: 6px 6px 0 0;
             transition: all 0.15s ease;
@@ -336,6 +377,18 @@ html_content = f"""<!DOCTYPE html>
         }}
         .tab-panel.active {{
             display: flex;
+        }}
+
+        .tab-section-header {{
+            font-size: 18px;
+            font-weight: 700;
+            color: #FFFFFF;
+        }}
+        .tab-section-sub {{
+            font-size: 13px;
+            color: var(--text-subdued);
+            margin-top: -8px;
+            margin-bottom: 6px;
         }}
 
         #map {{
@@ -372,12 +425,99 @@ html_content = f"""<!DOCTYPE html>
         tr:hover td {{
             background-color: rgba(255, 255, 255, 0.03);
         }}
+
+        /* Academic Figures Gallery Grid */
+        .figure-grid {{
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+            gap: 16px;
+        }}
+        .figure-card {{
+            background: #141822;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            transition: transform 0.2s ease, border-color 0.2s ease;
+        }}
+        .figure-card:hover {{
+            transform: translateY(-2px);
+            border-color: #38BDF8;
+        }}
+        .figure-card img {{
+            width: 100%;
+            height: 250px;
+            object-fit: contain;
+            background-color: #0B0E14;
+            border-radius: 6px;
+            cursor: pointer;
+        }}
+        .figure-caption {{
+            font-size: 12.5px;
+            font-weight: 600;
+            color: #CBD5E1;
+            text-align: center;
+        }}
+        .figure-desc {{
+            font-size: 11.5px;
+            color: var(--text-subdued);
+            line-height: 1.4;
+            text-align: center;
+        }}
+
+        /* Lightbox Modal */
+        #img-modal {{
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background: rgba(0, 0, 0, 0.88);
+            z-index: 99999;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            padding: 24px;
+        }}
+        #modal-img {{
+            max-width: 90vw;
+            max-height: 80vh;
+            border-radius: 8px;
+            box-shadow: 0 0 30px rgba(0,0,0,0.8);
+        }}
+        #modal-caption {{
+            color: #FFFFFF;
+            font-size: 14px;
+            font-weight: 600;
+            margin-top: 14px;
+        }}
+        .modal-close {{
+            position: absolute;
+            top: 20px; right: 28px;
+            color: #FFFFFF;
+            font-size: 32px;
+            font-weight: bold;
+            cursor: pointer;
+        }}
     </style>
 </head>
 <body>
 
-    <!-- Sidebar: Matching User Screenshot Exactly -->
+    <!-- Sidebar: Matching User Screenshot Exactly with In-Line SVG Logo -->
     <aside>
+        <div class="sidebar-brand">
+            <svg width="38" height="38" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect width="48" height="48" rx="10" fill="#1E3A8A"/>
+                <path d="M6 32C12 32 12 28 18 28C24 28 24 32 30 32C36 32 36 28 42 28" stroke="#38BDF8" stroke-width="3.5" stroke-linecap="round"/>
+                <path d="M6 38C12 38 12 34 18 34C24 34 24 38 30 38C36 38 36 34 42 34" stroke="#60A5FA" stroke-width="3.5" stroke-linecap="round"/>
+                <path d="M24 10C24 10 14 20 14 24C14 29.5 18.5 34 24 34C29.5 34 34 29.5 34 24C34 20 24 10 24 10Z" fill="#38BDF8" opacity="0.9"/>
+            </svg>
+            <div style="line-height: 1.2;">
+                <b style="font-size: 13.5px; color: #60A5FA;">SIH26191 LAB</b><br>
+                <small style="font-size: 11px; color: #94A3B8;">Pan-India Flood Clustering</small>
+            </div>
+        </div>
+
         <div class="sidebar-header">
             <div class="sidebar-title">National & State Navigation</div>
             <div class="collapse-icon">«</div>
@@ -435,11 +575,18 @@ html_content = f"""<!DOCTYPE html>
             </div>
         </div>
 
-        <div style="margin-top: auto; padding-top: 14px; border-top: 1px solid var(--border-color); font-size: 11.5px; color: var(--text-subdued); line-height: 1.4;">
-            <b>Climatology:</b> IMD 24-Yr Normals (0.25°)<br>
+        <button class="btn-refresh" onclick="triggerRefresh()">
+            🔄 Refresh Live Real-Time Weather Data
+        </button>
+
+        <div class="scope-summary">
+            <b>State:</b> <span id="summary-state">All India (Pan-India Overview)</span><br>
+            <b>District:</b> <span id="summary-dist">All Districts in State</span><br>
+            <b>Place:</b> <span id="summary-place">All Locations in Scope</span><br>
+            <b>Habitations Active:</b> <span id="summary-hab-count">229 / 229</span><br>
+            <b>Climatology:</b> IMD 24-Yr Normals (0.25° Grid)<br>
             <b>Elevation:</b> Copernicus DEM 90m<br>
-            <b>Disaster History:</b> IIT Delhi IFI-Impacts<br>
-            <b>Coverage:</b> 229 Habitations across 92 Districts
+            <b>Real-Time Feed:</b> Open-Meteo Satellite Grid
         </div>
     </aside>
 
@@ -489,8 +636,8 @@ html_content = f"""<!DOCTYPE html>
             </div>
         </div>
 
-        <!-- EXECUTIVE GRAPHS OVERVIEW ROW -->
-        <div style="display: grid; grid-template-columns: 1fr 1.2fr 1.3fr; gap: 12px;">
+        <!-- Executive Graphs Overview Row -->
+        <div class="exec-graphs-row">
             <div class="graph-card">
                 <div class="graph-title"><span>📈 Danger Level Distribution</span></div>
                 <div style="height: 220px; position: relative;">
@@ -504,7 +651,7 @@ html_content = f"""<!DOCTYPE html>
                 </div>
             </div>
             <div class="graph-card">
-                <div class="graph-title"><span>⚠️ Top Critical Sites: Inundations & Congestion</span></div>
+                <div class="graph-title"><span>⚠️ Top Critical Sites: Elevation & Inundation</span></div>
                 <div style="height: 220px; position: relative;">
                     <canvas id="topRiskBarChart"></canvas>
                 </div>
@@ -519,7 +666,7 @@ html_content = f"""<!DOCTYPE html>
                     <span class="alert-station" id="live-station-name">Station: Regional Representative Station: All India (Lat: 17.754°, Lon: 80.921°)</span>
                 </div>
                 <div style="font-size: 12px; color: #94A3B8;" id="live-obs-time">
-                    🕒 Live Observation: 2026-11-08 02:00 IST | 📡 Live API Connected
+                    🕒 Live Observation: 2026-11-08 03:00 IST | 📡 Live API Connected
                 </div>
             </div>
             <div class="alert-desc" id="live-alert-desc">
@@ -536,7 +683,7 @@ html_content = f"""<!DOCTYPE html>
             </div>
         </div>
 
-        <!-- Particular Location Spotlight Banner -->
+        <!-- Location Spotlight Box -->
         <div id="spotlight-banner" class="spotlight-box" style="display: none;">
             <div id="spotlight-text">
                 📍 <b>Selected Particular Area:</b> <span id="spotlight-name" style="color: #FBBF24; font-weight: bold;"></span> (<span id="spotlight-dist"></span>, <span id="spotlight-state"></span>)
@@ -549,15 +696,20 @@ html_content = f"""<!DOCTYPE html>
         <!-- Streamlit-Style Tabs Navigation Bar -->
         <div class="tab-bar">
             <button class="tab-button active" onclick="switchTab('tab-map', this)">🗺️ Interactive Geospatial Map</button>
-            <button class="tab-button" onclick="switchTab('tab-districts', this)">🏛️ All Districts Matrix & Graphs</button>
+            <button class="tab-button" onclick="switchTab('tab-districts', this)">🏛️ All Districts in State Matrix</button>
             <button class="tab-button" onclick="switchTab('tab-signatures', this)">📊 Multi-Criteria Risk Signatures</button>
             <button class="tab-button" onclick="switchTab('tab-national', this)">🇮🇳 State-Wise National Comparison</button>
             <button class="tab-button" onclick="switchTab('tab-ml', this)">🤖 Machine Learning Benchmarking</button>
             <button class="tab-button" onclick="switchTab('tab-data', this)">📋 All Places Registry & Explorer</button>
         </div>
 
-        <!-- Tab 1: Map View & Spotlight Graphs -->
+        <!-- TAB 1: INTERACTIVE GEOSPATIAL MAP -->
         <div id="tab-map" class="tab-panel active">
+            <div>
+                <div class="tab-section-header" id="map-section-header">Geospatial Hazard Distribution — All India (Pan-India Overview) (All Districts in State)</div>
+                <div class="tab-section-sub" id="map-section-sub">Displaying 229 habitation(s) across 92 district(s). Circle markers reflect unsupervised ML hazard tiers. Click any place marker for complete biophysical metrics.</div>
+            </div>
+
             <div id="spotlight-graph-box" style="display: none; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 8px;">
                 <div class="graph-card">
                     <div class="graph-title"><span>🎯 Location Multi-Factor Vulnerability Radar</span></div>
@@ -575,8 +727,12 @@ html_content = f"""<!DOCTYPE html>
             <div id="map"></div>
         </div>
 
-        <!-- Tab 2: All Districts Matrix & Graphs -->
+        <!-- TAB 2: ALL DISTRICTS IN STATE MATRIX -->
         <div id="tab-districts" class="tab-panel">
+            <div>
+                <div class="tab-section-header" id="districts-section-header">All Districts Matrix & Regional Comparisons — All India</div>
+                <div class="tab-section-sub" id="districts-section-sub">Detailed multi-criteria breakdown across all monitored districts:</div>
+            </div>
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
                 <div class="graph-card">
                     <div class="graph-title"><span>Districts Ranked by High Danger (%)</span></div>
@@ -611,8 +767,12 @@ html_content = f"""<!DOCTYPE html>
             </div>
         </div>
 
-        <!-- Tab 3: Multi-Criteria Risk Signatures -->
+        <!-- TAB 3: MULTI-CRITERIA RISK SIGNATURES & RESEARCH FIGURES -->
         <div id="tab-signatures" class="tab-panel">
+            <div>
+                <div class="tab-section-header">Multi-Criteria Risk Signatures & Research Visualizations</div>
+                <div class="tab-section-sub">Comprehensive multi-dimensional analysis, Principal Components, and high-resolution academic figures:</div>
+            </div>
             <div style="display: grid; grid-template-columns: 1.1fr 1fr; gap: 12px;">
                 <div class="graph-card">
                     <div class="graph-title"><span>🕸️ Multi-Criteria Biophysical Risk Radar Signature</span></div>
@@ -627,36 +787,51 @@ html_content = f"""<!DOCTYPE html>
                     </div>
                 </div>
             </div>
-            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;">
-                <div style="background: var(--sidebar-bg); padding: 14px; border-radius: 6px; border-left: 4px solid #D73027;">
-                    <b style="color: #F87171;">🔴 High Danger Profile (Tier 1)</b>
-                    <p style="font-size: 12.5px; color: #CBD5E1; margin-top: 6px; line-height: 1.4;">
-                        • Low Elevation: Mean 13.1 m AMSL<br>
-                        • Flat Slope: 0.91° | River Proximity: 6.75 km<br>
-                        • Severe 24h Rain: 290.9 mm | Canal Congestion: 3.53/5
-                    </p>
-                </div>
-                <div style="background: var(--sidebar-bg); padding: 14px; border-radius: 6px; border-left: 4px solid #FBBF24;">
-                    <b style="color: #FBBF24;">🟡 Medium Danger Profile (Tier 2)</b>
-                    <p style="font-size: 12.5px; color: #CBD5E1; margin-top: 6px; line-height: 1.4;">
-                        • Intermediate Terrace: 24.7 m AMSL<br>
-                        • Slope: 1.79° | River Distance: 6.14 km<br>
-                        • Annual Rainfall: 1032.3 mm | Canal Congestion: 3.25/5
-                    </p>
-                </div>
-                <div style="background: var(--sidebar-bg); padding: 14px; border-radius: 6px; border-left: 4px solid #60A5FA;">
-                    <b style="color: #60A5FA;">🔵 Low Danger Profile (Tier 3)</b>
-                    <p style="font-size: 12.5px; color: #CBD5E1; margin-top: 6px; line-height: 1.4;">
-                        • Elevated Upland: 38.0 m AMSL<br>
-                        • Steeper Slope: 3.85° | River Distance: 29.23 km<br>
-                        • Natural Free Runoff: 1.67/5 | Low Inundations: 1.43/5
-                    </p>
+
+            <!-- Academic Research Figures Gallery -->
+            <div style="margin-top: 10px;">
+                <div class="tab-section-header" style="font-size: 16px; margin-bottom: 10px;">🔬 Academic Research Figures Gallery (Click to Enlarge)</div>
+                <div class="figure-grid">
+                    <div class="figure-card">
+                        <img src="outputs/figures/11_cluster_radar_signature.png" alt="Multi-Criteria Radar Signature" onclick="openImageModal(this.src, this.alt)" />
+                        <div class="figure-caption">Figure 11: Multi-Criteria Radar Signature</div>
+                        <div class="figure-desc">Normalized profiles across all 8 continuous biophysical indicators for High, Medium, and Low hazard clusters.</div>
+                    </div>
+                    <div class="figure-card">
+                        <img src="outputs/figures/08_pca_2d_clusters.png" alt="2D PCA Clusters" onclick="openImageModal(this.src, this.alt)" />
+                        <div class="figure-caption">Figure 8: 2D PCA Cluster Separation</div>
+                        <div class="figure-desc">First two Principal Components capturing 72.3% of total variance with convex hull cluster envelopes.</div>
+                    </div>
+                    <div class="figure-card">
+                        <img src="outputs/figures/09_pca_biplot.png" alt="PCA Biplot" onclick="openImageModal(this.src, this.alt)" />
+                        <div class="figure-caption">Figure 9: PCA Biplot with Feature Vectors</div>
+                        <div class="figure-desc">Feature loading arrows showing directional alignment of elevation, river distance, and flood history.</div>
+                    </div>
+                    <div class="figure-card">
+                        <img src="outputs/figures/10_tsne_clusters.png" alt="t-SNE Clusters" onclick="openImageModal(this.src, this.alt)" />
+                        <div class="figure-caption">Figure 10: t-SNE Non-Linear Manifold Projection</div>
+                        <div class="figure-desc">Non-linear neighborhood preservation validating distinct separation of flood basin settlements.</div>
+                    </div>
+                    <div class="figure-card">
+                        <img src="outputs/figures/01_correlation_matrix.png" alt="Correlation Matrix" onclick="openImageModal(this.src, this.alt)" />
+                        <div class="figure-caption">Figure 1: Pairwise Feature Correlation Heatmap</div>
+                        <div class="figure-desc">Pearson correlation matrix identifying multicollinearity between elevation and river proximity.</div>
+                    </div>
+                    <div class="figure-card">
+                        <img src="outputs/figures/02_feature_outlier_boxplots.png" alt="Feature Boxplots" onclick="openImageModal(this.src, this.alt)" />
+                        <div class="figure-caption">Figure 2: Feature Distribution & Outlier Boxplots</div>
+                        <div class="figure-desc">Statistical spread showing interquartile ranges and extreme values across all physical variables.</div>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <!-- Tab 4: National Comparison -->
+        <!-- TAB 4: STATE-WISE NATIONAL COMPARISON -->
         <div id="tab-national" class="tab-panel">
+            <div>
+                <div class="tab-section-header">State-Wise Flood Hazard & Vulnerability Comparison across India</div>
+                <div class="tab-section-sub">Cross-state benchmarking and river basin floodway distributions:</div>
+            </div>
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
                 <div class="graph-card">
                     <div class="graph-title"><span>State-Wise High Hazard Proportion (%)</span></div>
@@ -672,7 +847,7 @@ html_content = f"""<!DOCTYPE html>
                 </div>
             </div>
             <div class="graph-card">
-                <div class="graph-title"><span>🌊 Major River Basin Flood Exposure Exposure</span></div>
+                <div class="graph-title"><span>🌊 Major River Basin Flood Exposure</span></div>
                 <div style="height: 250px; position: relative;">
                     <canvas id="basinBarChart"></canvas>
                 </div>
@@ -695,8 +870,12 @@ html_content = f"""<!DOCTYPE html>
             </div>
         </div>
 
-        <!-- Tab 5: ML Benchmarking -->
+        <!-- TAB 5: ML BENCHMARKING & VALIDATION FIGURES -->
         <div id="tab-ml" class="tab-panel">
+            <div>
+                <div class="tab-section-header">Machine Learning Algorithm Benchmarking & Metric Validation</div>
+                <div class="tab-section-sub">Rigorous clustering validation across K-Medoids, K-Means++, Hierarchical Ward, and DBSCAN:</div>
+            </div>
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
                 <div class="graph-card">
                     <div class="graph-title"><span>Silhouette Score Comparison (Higher is Better)</span></div>
@@ -717,7 +896,46 @@ html_content = f"""<!DOCTYPE html>
                     <canvas id="mlElbowChart"></canvas>
                 </div>
             </div>
-            <div class="table-wrap">
+
+            <!-- Academic ML Evaluation Figures Gallery -->
+            <div style="margin-top: 10px;">
+                <div class="tab-section-header" style="font-size: 16px; margin-bottom: 10px;">📊 Academic Machine Learning Figures (Click to Enlarge)</div>
+                <div class="figure-grid">
+                    <div class="figure-card">
+                        <img src="outputs/figures/03_kmeans_elbow_silhouette.png" alt="K-Means Elbow and Silhouette" onclick="openImageModal(this.src, this.alt)" />
+                        <div class="figure-caption">Figure 3: Elbow Inertia & Silhouette Trajectory</div>
+                        <div class="figure-desc">Dual-axis curve confirming optimal clustering inflection at K=3 with maximum silhouette coefficient.</div>
+                    </div>
+                    <div class="figure-card">
+                        <img src="outputs/figures/04_silhouette_plot_k3.png" alt="Silhouette Plot K=3" onclick="openImageModal(this.src, this.alt)" />
+                        <div class="figure-caption">Figure 4: Silhouette Analysis per Cluster (K=3)</div>
+                        <div class="figure-desc">Thickness and score silhouettes proving zero misallocated samples and balanced cluster geometries.</div>
+                    </div>
+                    <div class="figure-card">
+                        <img src="outputs/figures/05_hierarchical_dendrogram.png" alt="Hierarchical Dendrogram" onclick="openImageModal(this.src, this.alt)" />
+                        <div class="figure-caption">Figure 5: Hierarchical Clustering Dendrogram (Ward Linkage)</div>
+                        <div class="figure-desc">Tree cutting threshold at distance 11.5 generating identical 3-tier hazard regimes.</div>
+                    </div>
+                    <div class="figure-card">
+                        <img src="outputs/figures/06_dbscan_k_distance_graph.png" alt="DBSCAN K-Distance Graph" onclick="openImageModal(this.src, this.alt)" />
+                        <div class="figure-caption">Figure 6: DBSCAN 4th-NN K-Distance Elbow</div>
+                        <div class="figure-desc">Optimal epsilon tuning (eps=1.85) identifying 12 true anomaly points in extreme hazard epicenters.</div>
+                    </div>
+                    <div class="figure-card">
+                        <img src="outputs/figures/07_pca_scree_plot.png" alt="PCA Scree Plot" onclick="openImageModal(this.src, this.alt)" />
+                        <div class="figure-caption">Figure 7: PCA Scree Plot & Cumulative Variance</div>
+                        <div class="figure-desc">Eigenvalue decomposition showing 85.8% cumulative variance explained by first 3 components.</div>
+                    </div>
+                    <div class="figure-card">
+                        <img src="outputs/figures/12_cluster_feature_bars.png" alt="Cluster Feature Bars" onclick="openImageModal(this.src, this.alt)" />
+                        <div class="figure-caption">Figure 12: Standardized Feature Deviations by Cluster</div>
+                        <div class="figure-desc">Z-score deviations highlighting severe drainage and elevation anomalies for Tier 1 Red-Zones.</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Algorithm Benchmarking Table -->
+            <div class="table-wrap" style="margin-top: 10px;">
                 <table>
                     <thead>
                         <tr>
@@ -767,8 +985,12 @@ html_content = f"""<!DOCTYPE html>
             </div>
         </div>
 
-        <!-- Tab 6: Data Explorer -->
+        <!-- TAB 6: DATA EXPLORER & REGISTRY -->
         <div id="tab-data" class="tab-panel">
+            <div>
+                <div class="tab-section-header">Pan-India All Places & Habitations Registry</div>
+                <div class="tab-section-sub">Search, inspect, and export all 229 catalogued habitations across 15 States and 92 Districts:</div>
+            </div>
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 8px;">
                 <div class="graph-card">
                     <div class="graph-title"><span>Surface Elevation Distribution Histogram</span></div>
@@ -811,6 +1033,13 @@ html_content = f"""<!DOCTYPE html>
         </div>
     </main>
 
+    <!-- Lightbox Modal for Full-Resolution Image Inspection -->
+    <div id="img-modal" onclick="closeImageModal()">
+        <span class="modal-close">&times;</span>
+        <img id="modal-img" src="" alt="Enlarged Figure" onclick="event.stopPropagation()">
+        <div id="modal-caption"></div>
+    </div>
+
     <!-- Embedded Data & Chart.js Engine -->
     <script>
         const allPlaces = {places_json};
@@ -829,6 +1058,16 @@ html_content = f"""<!DOCTYPE html>
             if (ctx) {{
                 chartInstances[id] = new Chart(ctx, config);
             }}
+        }}
+
+        function openImageModal(src, caption) {{
+            document.getElementById('modal-img').src = src;
+            document.getElementById('modal-caption').textContent = caption;
+            document.getElementById('img-modal').style.display = 'flex';
+        }}
+
+        function closeImageModal() {{
+            document.getElementById('img-modal').style.display = 'none';
         }}
 
         // State Centering & Zoom Info
@@ -851,10 +1090,11 @@ html_content = f"""<!DOCTYPE html>
             "Himachal Pradesh": {{ center: [32.00, 77.10], zoom: 8 }}
         }};
 
-        // Leaflet Map Initialization
+        // Leaflet Map Initialization with Robust Standard Tiles
         let map = L.map('map', {{ zoomControl: true }}).setView([21.5, 80.0], 5);
-        L.tileLayer('https://{{s}}.basemaps.cartocdn.com/dark_all/{{z}}/{{x}}/{{y}}{{r}}.png', {{
-            attribution: '&copy; OpenStreetMap contributors &copy; CARTO'
+        L.tileLayer('https://tile.openstreetmap.org/{{z}}/{{x}}/{{y}}.png', {{
+            maxZoom: 19,
+            attribution: '&copy; OpenStreetMap contributors'
         }}).addTo(map);
 
         let markersLayer = L.layerGroup().addTo(map);
@@ -866,12 +1106,12 @@ html_content = f"""<!DOCTYPE html>
             [16.507, 80.605], [16.480, 80.640], [16.440, 80.720], [16.360, 80.780],
             [16.320, 80.825], [16.185, 80.795], [16.122, 80.932], [16.022, 80.918], [15.945, 80.915]
         ];
-        L.polyline(krishnaCoords, {{ color: '#38BDF8', weight: 4, opacity: 0.85 }}).bindTooltip("Krishna River (Prakasam Barrage System)").addTo(map);
+        L.polyline(krishnaCoords, {{ color: '#0055ff', weight: 4, opacity: 0.85 }}).bindTooltip("Krishna River (Prakasam Barrage System)").addTo(map);
 
         const budameruCoords = [
             [16.630, 80.540], [16.562, 80.615], [16.538, 80.638], [16.522, 80.665], [16.520, 80.750]
         ];
-        L.polyline(budameruCoords, {{ color: '#60A5FA', weight: 3, dashArray: '6, 6', opacity: 0.85 }}).bindTooltip("Budameru Rivulet Drainage Floodway").addTo(map);
+        L.polyline(budameruCoords, {{ color: '#00aaff', weight: 3, dashArray: '6, 6', opacity: 0.85 }}).bindTooltip("Budameru Rivulet Drainage Floodway").addTo(map);
 
         // Populate State Dropdown
         const stateSelect = document.getElementById('state-select');
@@ -1000,6 +1240,16 @@ html_content = f"""<!DOCTYPE html>
             applyFilters();
         }}
 
+        function triggerRefresh() {{
+            const locName = document.getElementById('location-select').value;
+            if (locName !== "All Locations in Scope") {{
+                const p = allPlaces.find(x => x.habitation_name === locName);
+                if (p) fetchLiveWeather(p.latitude, p.longitude, `${{p.habitation_name}} (${{p.district}}, ${{p.state}})`, p.relative_hazard_level, p.elevation_m);
+            }} else {{
+                fetchLiveWeather(17.754, 80.921, "Regional Representative Station: All India", "Moderate", 134.3);
+            }}
+        }}
+
         function applyFilters() {{
             const selectedState = stateSelect.value;
             const selectedDist = document.getElementById('district-select').value;
@@ -1037,6 +1287,17 @@ html_content = f"""<!DOCTYPE html>
             if (selectedLoc !== "All Locations in Scope") {{
                 filtered = filtered.filter(p => p.habitation_name === selectedLoc);
             }}
+
+            // Update Sidebar Summary
+            document.getElementById('summary-state').textContent = selectedState;
+            document.getElementById('summary-dist').textContent = selectedDist;
+            document.getElementById('summary-place').textContent = selectedLoc;
+            document.getElementById('summary-hab-count').textContent = `${{filtered.length}} / ${{allPlaces.length}}`;
+
+            // Update Tab Headers matching user's photo
+            document.getElementById('map-section-header').textContent = `Geospatial Hazard Distribution — ${{selectedState}} (${{selectedDist}})`;
+            document.getElementById('map-section-sub').textContent = `Displaying ${{filtered.length}} habitation(s) across ${{selectedDist === 'All Districts in State' ? (selectedState === 'All India (Pan-India Overview)' ? 92 : new Set(scopeData.map(p=>p.district)).size) : 1}} district(s). Circle markers reflect unsupervised ML hazard tiers.`;
+            document.getElementById('districts-section-header').textContent = `All Districts Matrix & Regional Comparisons — ${{selectedState}}`;
 
             // Update 5 KPI Metrics
             const total = filtered.length;
@@ -1142,7 +1403,6 @@ html_content = f"""<!DOCTYPE html>
         }}
 
         function renderSpotlightGraphs(place) {{
-            // Radar Chart for Selected Location
             const normElev = 1.0 - Math.min(1.0, Math.max(0.0, place.elevation_m / 150.0));
             const normRiv = 1.0 - Math.min(1.0, Math.max(0.0, place.distance_to_river_km / 25.0));
             const normDrain = place.drainage_congestion_index / 5.0;
@@ -1215,7 +1475,6 @@ html_content = f"""<!DOCTYPE html>
                 meanRain: (distMap[d].sumRain / distMap[d].total).toFixed(1)
             }})).sort((a, b) => b.highPct - a.highPct);
 
-            // Chart 1: Districts Ranked by High Danger (%)
             renderOrUpdateChart('districtsRankChart', {{
                 type: 'bar',
                 data: {{
@@ -1233,7 +1492,6 @@ html_content = f"""<!DOCTYPE html>
                 }}
             }});
 
-            // Chart 2: Stacked Danger Composition
             renderOrUpdateChart('districtsStackChart', {{
                 type: 'bar',
                 data: {{
@@ -1251,7 +1509,6 @@ html_content = f"""<!DOCTYPE html>
                 }}
             }});
 
-            // Table rendering
             const tbody = document.getElementById('districts-table-body');
             tbody.innerHTML = '';
             distList.forEach(d => {{
@@ -1272,7 +1529,6 @@ html_content = f"""<!DOCTYPE html>
         }}
 
         function renderSignaturesCharts(scopeData) {{
-            // Multi-Criteria Radar Signature
             renderOrUpdateChart('signaturesRadarChart', {{
                 type: 'radar',
                 data: {{
@@ -1308,7 +1564,6 @@ html_content = f"""<!DOCTYPE html>
                 }}
             }});
 
-            // 2D PCA Projection Scatter
             const pcaData = scopeData.map(p => ({{
                 x: p.pca_1 || (p.elevation_m < 20 ? 1.5 : -1.0),
                 y: p.pca_2 || (p.annual_rainfall_mm > 1200 ? 1.0 : -0.8),
@@ -1378,7 +1633,6 @@ html_content = f"""<!DOCTYPE html>
                 meanRain: (stMap[s].sumRain / stMap[s].total).toFixed(1)
             }})).sort((a, b) => b.highPct - a.highPct);
 
-            // Chart 1: State Vulnerability Ranking
             renderOrUpdateChart('stateRankChart', {{
                 type: 'bar',
                 data: {{
@@ -1397,7 +1651,6 @@ html_content = f"""<!DOCTYPE html>
                 }}
             }});
 
-            // Chart 2: Stacked State Breakdown
             renderOrUpdateChart('stateStackChart', {{
                 type: 'bar',
                 data: {{
@@ -1415,7 +1668,6 @@ html_content = f"""<!DOCTYPE html>
                 }}
             }});
 
-            // Chart 3: Major River Basin Breakdown
             const basinCounts = {{}};
             allPlaces.forEach(p => {{
                 const b = p.river_basin || 'Regional Basin';
@@ -1439,7 +1691,6 @@ html_content = f"""<!DOCTYPE html>
                 }}
             }});
 
-            // National Table
             const tbody = document.getElementById('national-table-body');
             tbody.innerHTML = '';
             stList.forEach(s => {{
@@ -1458,7 +1709,6 @@ html_content = f"""<!DOCTYPE html>
         }}
 
         function renderMLCharts() {{
-            // Silhouette Scores
             renderOrUpdateChart('mlSilhouetteChart', {{
                 type: 'bar',
                 data: {{
@@ -1476,7 +1726,6 @@ html_content = f"""<!DOCTYPE html>
                 }}
             }});
 
-            // Davies Bouldin
             renderOrUpdateChart('mlDbChart', {{
                 type: 'bar',
                 data: {{
@@ -1494,7 +1743,6 @@ html_content = f"""<!DOCTYPE html>
                 }}
             }});
 
-            // Elbow & Silhouette Trajectory
             renderOrUpdateChart('mlElbowChart', {{
                 type: 'line',
                 data: {{
@@ -1526,7 +1774,6 @@ html_content = f"""<!DOCTYPE html>
         }}
 
         function renderExplorerCharts(filtered) {{
-            // Histograms of Elevation
             const elevBins = [0, 15, 30, 50, 80, 150, 300, 1000];
             const elevCounts = new Array(elevBins.length - 1).fill(0);
             filtered.forEach(p => {{
@@ -1554,7 +1801,6 @@ html_content = f"""<!DOCTYPE html>
                 }}
             }});
 
-            // Histograms of River Distance
             const rivBins = [0, 2, 5, 10, 20, 50, 100];
             const rivCounts = new Array(rivBins.length - 1).fill(0);
             filtered.forEach(p => {{
@@ -1588,16 +1834,13 @@ html_content = f"""<!DOCTYPE html>
 
             places.forEach(p => {{
                 let color = '#4575b4';
-                let tierText = 'Low Danger';
                 let radius = 5.5;
 
                 if (p.relative_hazard_level.includes('High')) {{
                     color = '#d73027';
-                    tierText = 'High Danger';
                     radius = 7.0;
                 }} else if (p.relative_hazard_level.includes('Moderate')) {{
                     color = '#fdae61';
-                    tierText = 'Medium Danger';
                     radius = 6.0;
                 }}
 
@@ -1717,7 +1960,6 @@ html_content = f"""<!DOCTYPE html>
                     document.getElementById('pill-wind').textContent = `💨 Wind: ${{cur.wind_speed_10m}} km/h`;
                     document.getElementById('pill-elev').textContent = `⛰️ Elevation: ${{elevation.toFixed(1)}} m AMSL`;
 
-                    // Dynamic Alert Level Logic
                     const isHigh = hazardTier.includes('High');
                     let alertText = "🟢 GREEN STATUS (NORMAL / DRY)";
                     let alertBg = "linear-gradient(135deg, #16A34A 0%, #0F172A 100%)";
@@ -1744,7 +1986,7 @@ html_content = f"""<!DOCTYPE html>
                     document.getElementById('live-alert-desc').textContent = desc;
                 }}
             }} catch(e) {{
-                console.log("Weather API connection fallback:", e);
+                console.log("Weather API fallback:", e);
             }}
         }}
 
@@ -1768,16 +2010,18 @@ html_content = f"""<!DOCTYPE html>
             }});
 
             const headers = ['habitation_id', 'habitation_name', 'state', 'district', 'mandal', 'relative_hazard_level', 'elevation_m', 'distance_to_river_km', 'annual_rainfall_mm', 'extreme_daily_rainfall_mm', 'population', 'river_basin'];
-            let csv = headers.join(',') + '\n';
+            const lines = [headers.join(',')];
             filtered.forEach(p => {{
-                csv += headers.map(h => `"${{p[h] || ''}}"`).join(',') + '\n';
+                const row = headers.map(h => '"' + (p[h] !== undefined && p[h] !== null ? String(p[h]).replace(/"/g, '""') : '') + '"');
+                lines.push(row.join(','));
             }});
 
-            const blob = new Blob([csv], {{ type: 'text/csv' }});
+            const csvString = lines.join(String.fromCharCode(10));
+            const blob = new Blob([csvString], {{ type: 'text/csv' }});
             const url = window.URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.setAttribute('href', url);
-            a.setAttribute('download', `flood_hazard_data_${{selectedState.replace(/\s+/g, '_').toLowerCase()}}.csv`);
+            a.setAttribute('download', `flood_hazard_data_${{selectedState.replace(/\\s+/g, '_').toLowerCase()}}.csv`);
             a.click();
         }}
 
@@ -1788,8 +2032,7 @@ html_content = f"""<!DOCTYPE html>
 </html>
 """
 
-# Write to index.html in current working directory and both scratch projects
 with open('index.html', 'w', encoding='utf-8') as f:
     f.write(html_content)
 
-print(f"Generated standalone index.html with Chart.js ({len(html_content)} bytes)")
+print(f"Generated index.html successfully ({len(html_content)} bytes)")

@@ -972,6 +972,25 @@ with tab_profiles:
         fig_corr.update_layout(height=380, **dark_layout_defaults)
         st.plotly_chart(fig_corr, use_container_width=True)
 
+    st.markdown('---')
+    st.markdown('#### 🔬 Academic Research Figures Gallery')
+    c_img1, c_img2 = st.columns(2)
+    with c_img1:
+        if os.path.exists('outputs/figures/11_cluster_radar_signature.png'):
+            st.image('outputs/figures/11_cluster_radar_signature.png', caption='Figure 11: Multi-Criteria Radar Signature (Normalized Biophysical Risk)', use_container_width=True)
+        if os.path.exists('outputs/figures/08_pca_2d_clusters.png'):
+            st.image('outputs/figures/08_pca_2d_clusters.png', caption='Figure 8: 2D PCA Cluster Separation', use_container_width=True)
+        if os.path.exists('outputs/figures/01_correlation_matrix.png'):
+            st.image('outputs/figures/01_correlation_matrix.png', caption='Figure 1: Pairwise Feature Correlation Heatmap', use_container_width=True)
+    with c_img2:
+        if os.path.exists('outputs/figures/09_pca_biplot.png'):
+            st.image('outputs/figures/09_pca_biplot.png', caption='Figure 9: PCA Biplot with Feature Vectors', use_container_width=True)
+        if os.path.exists('outputs/figures/10_tsne_clusters.png'):
+            st.image('outputs/figures/10_tsne_clusters.png', caption='Figure 10: t-SNE Non-Linear Manifold Projection', use_container_width=True)
+        if os.path.exists('outputs/figures/02_feature_outlier_boxplots.png'):
+            st.image('outputs/figures/02_feature_outlier_boxplots.png', caption='Figure 2: Feature Distribution & Outlier Boxplots', use_container_width=True)
+
+
 # ==============================================================================
 # TAB 4: STATE-WISE NATIONAL COMPARISON GRAPHS
 # ==============================================================================
@@ -1122,6 +1141,25 @@ with tab_ml_eval:
         fig_scree.add_trace(go.Scatter(x=pca_scree['Principal Component'], y=pca_scree['Cumulative (%)'], name='Cumulative Variance', line=dict(color='#FBBF24', width=3)))
         fig_scree.update_layout(title="PCA Scree Plot: 85.8% Variance Captured by Top 3 Components", height=350, **dark_layout_defaults)
         st.plotly_chart(fig_scree, use_container_width=True)
+
+    st.markdown('---')
+    st.markdown('#### 📊 Academic Machine Learning Figures')
+    c_ml_img1, c_ml_img2 = st.columns(2)
+    with c_ml_img1:
+        if os.path.exists('outputs/figures/03_kmeans_elbow_silhouette.png'):
+            st.image('outputs/figures/03_kmeans_elbow_silhouette.png', caption='Figure 3: Elbow Inertia & Silhouette Trajectory', use_container_width=True)
+        if os.path.exists('outputs/figures/05_hierarchical_dendrogram.png'):
+            st.image('outputs/figures/05_hierarchical_dendrogram.png', caption='Figure 5: Hierarchical Clustering Dendrogram (Ward Linkage)', use_container_width=True)
+        if os.path.exists('outputs/figures/07_pca_scree_plot.png'):
+            st.image('outputs/figures/07_pca_scree_plot.png', caption='Figure 7: PCA Scree Plot & Cumulative Variance', use_container_width=True)
+    with c_ml_img2:
+        if os.path.exists('outputs/figures/04_silhouette_plot_k3.png'):
+            st.image('outputs/figures/04_silhouette_plot_k3.png', caption='Figure 4: Silhouette Analysis per Cluster (K=3)', use_container_width=True)
+        if os.path.exists('outputs/figures/06_dbscan_k_distance_graph.png'):
+            st.image('outputs/figures/06_dbscan_k_distance_graph.png', caption='Figure 6: DBSCAN 4th-NN K-Distance Elbow', use_container_width=True)
+        if os.path.exists('outputs/figures/12_cluster_feature_bars.png'):
+            st.image('outputs/figures/12_cluster_feature_bars.png', caption='Figure 12: Standardized Feature Deviations by Cluster', use_container_width=True)
+
 
 # ==============================================================================
 # TAB 6: DATA EXPLORER & DISTRIBUTIONS
