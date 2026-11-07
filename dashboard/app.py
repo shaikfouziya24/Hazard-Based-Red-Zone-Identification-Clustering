@@ -267,25 +267,34 @@ if selected_district != "All Districts in State":
 else:
     df_dist = df_state.copy()
 
-# 3. Specific Place / Habitation Selector
-place_options = ["All Places in Selection"] + sorted(df_dist['habitation_name'].dropna().unique().tolist())
-selected_place = st.sidebar.selectbox("🏘️ 3. Select Specific Place / Habitation:", place_options)
+# 3. Separate Danger Levels (High, Medium, Low)
+st.sidebar.markdown("---")
+st.sidebar.subheader("⚠️ 3. Separate Danger Levels")
+c_high_scope = (df_dist['relative_hazard_level'] == 'High Relative Hazard / Vulnerability').sum()
+c_med_scope = (df_dist['relative_hazard_level'] == 'Moderate Relative Hazard / Vulnerability').sum()
+c_low_scope = (df_dist['relative_hazard_level'] == 'Relatively Lower Hazard / Vulnerability').sum()
 
-# 4. Hazard Tier Selector
-hazard_tier_options = [
-    "All Hazard Tiers",
-    "High Relative Hazard / Vulnerability",
-    "Moderate Relative Hazard / Vulnerability",
-    "Relatively Lower Hazard / Vulnerability"
-]
-selected_tier = st.sidebar.selectbox("⚠️ 4. Filter by Hazard Tier:", hazard_tier_options)
+show_high = st.sidebar.checkbox(f"🔴 High Danger ({c_high_scope})", value=True)
+show_med = st.sidebar.checkbox(f"🟡 Medium Danger ({c_med_scope})", value=True)
+show_low = st.sidebar.checkbox(f"🔵 Low Danger ({c_low_scope})", value=True)
 
-# Apply Filters
-df_filtered = df_dist.copy()
-if selected_place != "All Places in Selection":
+active_tiers = []
+if show_high: active_tiers.append('High Relative Hazard / Vulnerability')
+if show_med: active_tiers.append('Moderate Relative Hazard / Vulnerability')
+if show_low: active_tiers.append('Relatively Lower Hazard / Vulnerability')
+
+df_tier_filtered = df_dist[df_dist['relative_hazard_level'].isin(active_tiers)].copy()
+
+# 4. Particular Location Selector
+st.sidebar.markdown("---")
+st.sidebar.subheader("📍 4. Select Particular Location")
+place_options = ["All Locations in Scope"] + sorted(df_tier_filtered['habitation_name'].dropna().unique().tolist())
+selected_place = st.sidebar.selectbox("Choose a particular place on map:", place_options)
+
+# Apply Location Filter
+df_filtered = df_tier_filtered.copy()
+if selected_place != "All Locations in Scope":
     df_filtered = df_filtered[df_filtered['habitation_name'] == selected_place]
-if selected_tier != "All Hazard Tiers":
-    df_filtered = df_filtered[df_filtered['relative_hazard_level'] == selected_tier]
 
 # Sidebar Live Refresh Button
 st.sidebar.markdown("---")
@@ -329,7 +338,7 @@ with c5:
 st.markdown("### ⚡ Live Real-Time Weather & Dynamic Flood Alert Engine")
 
 # Determine Target Location for Real-Time Query
-if selected_place != "All Places in Selection" and len(df_filtered) == 1:
+if selected_place != "All Locations in Scope" and len(df_filtered) == 1:
     target_row = df_filtered.iloc[0]
     target_name = f"{target_row['habitation_name']} ({target_row['district']}, {target_row['state']})"
     target_lat = target_row['latitude']
@@ -430,9 +439,11 @@ with tab_map:
     st.write(f"Displaying **{len(df_filtered)} habitation(s)** across **{df_filtered['district'].nunique()} district(s)**. Circle markers reflect unsupervised ML hazard tiers. Click any place marker for complete biophysical metrics.")
     
     geo_info = state_geo.get(selected_state, {"center": [22.0, 79.5], "zoom": 5})
-    if selected_place != "All Places in Selection" and len(df_filtered) == 1:
+    if selected_place != "All Locations in Scope" and len(df_filtered) == 1:
         map_center = [df_filtered['latitude'].iloc[0], df_filtered['longitude'].iloc[0]]
-        map_zoom = 12
+        map_zoom = 13
+        pl = df_filtered.iloc[0]
+        st.info(f"📍 **Selected Location Spotlight:** **{pl['habitation_name']}** ({pl['district']}, {pl['state']}) | **Hazard Tier:** {pl['relative_hazard_level']} | **Elevation:** {pl['elevation_m']:.1f} m AMSL | **River Distance:** {pl['distance_to_river_km']:.2f} km")
     elif selected_district != "All Districts in State" and len(df_filtered) > 0:
         map_center = [df_filtered['latitude'].mean(), df_filtered['longitude'].mean()]
         map_zoom = 10
