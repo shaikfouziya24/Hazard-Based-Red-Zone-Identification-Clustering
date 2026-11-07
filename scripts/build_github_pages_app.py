@@ -636,28 +636,6 @@ html_content = f"""<!DOCTYPE html>
             </div>
         </div>
 
-        <!-- Executive Graphs Overview Row -->
-        <div class="exec-graphs-row">
-            <div class="graph-card">
-                <div class="graph-title"><span>📈 Danger Level Distribution</span></div>
-                <div style="height: 220px; position: relative;">
-                    <canvas id="dangerDonutChart"></canvas>
-                </div>
-            </div>
-            <div class="graph-card">
-                <div class="graph-title"><span>🏘️ Category vs Hazard Tier</span></div>
-                <div style="height: 220px; position: relative;">
-                    <canvas id="categoryBarChart"></canvas>
-                </div>
-            </div>
-            <div class="graph-card">
-                <div class="graph-title"><span>⚠️ Top Critical Sites: Elevation & Inundation</span></div>
-                <div style="height: 220px; position: relative;">
-                    <canvas id="topRiskBarChart"></canvas>
-                </div>
-            </div>
-        </div>
-
         <!-- Live Real-Time Weather Section -->
         <div class="alert-banner" id="alert-banner-box">
             <div class="alert-top">
@@ -710,6 +688,8 @@ html_content = f"""<!DOCTYPE html>
                 <div class="tab-section-sub" id="map-section-sub">Displaying 229 habitation(s) across 92 district(s). Circle markers reflect unsupervised ML hazard tiers. Click any place marker for complete biophysical metrics.</div>
             </div>
 
+            <div id="map"></div>
+
             <div id="spotlight-graph-box" style="display: none; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 8px;">
                 <div class="graph-card">
                     <div class="graph-title"><span>🎯 Location Multi-Factor Vulnerability Radar</span></div>
@@ -724,7 +704,6 @@ html_content = f"""<!DOCTYPE html>
                     </div>
                 </div>
             </div>
-            <div id="map"></div>
         </div>
 
         <!-- TAB 2: ALL DISTRICTS IN STATE MATRIX -->
@@ -733,6 +712,589 @@ html_content = f"""<!DOCTYPE html>
                 <div class="tab-section-header" id="districts-section-header">All Districts Matrix & Regional Comparisons — All India</div>
                 <div class="tab-section-sub" id="districts-section-sub">Detailed multi-criteria breakdown across all monitored districts:</div>
             </div>
+
+            
+
+
+            
+
+
+            
+
+
+            <!-- Live Real-Time Weather Section -->
+        <div class="alert-banner" id="alert-banner-box">
+            <div class="alert-top">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <span class="alert-pill" id="live-alert-pill">🟢 GREEN STATUS (NORMAL / DRY)</span>
+                    <span class="alert-station" id="live-station-name">Station: Regional Representative Station: All India (Lat: 17.754°, Lon: 80.921°)</span>
+                </div>
+                <div style="font-size: 12px; color: #94A3B8;" id="live-obs-time">
+                    🕒 Live Observation: 2026-11-08 03:00 IST | 📡 Live API Connected
+                </div>
+            </div>
+            <div class="alert-desc" id="live-alert-desc">
+                High baseline morphological vulnerability, but current weather is dry/clear. No immediate precipitation trigger active.
+            </div>
+            <div class="alert-pills-row">
+                <span class="pill-item" id="pill-temp">🌡️ Temp: 23.7°C (Feels 28.8°C)</span>
+                <span class="pill-item" id="pill-humidity">💧 Humidity: 94%</span>
+                <span class="pill-item" id="pill-rain">🌧️ Live Rain: 0.0 mm/h</span>
+                <span class="pill-item" id="pill-past24">🌊 Past 24h Rain: 0.0 mm</span>
+                <span class="pill-item" id="pill-cond">🌤️ Condition: Clear Sky</span>
+                <span class="pill-item" id="pill-wind">💨 Wind: 1.5 km/h</span>
+                <span class="pill-item" id="pill-elev">⛰️ Elevation: 134.3 m AMSL</span>
+            </div>
+        </div>
+
+        <!-- Location Spotlight Box -->
+        <div id="spotlight-banner" class="spotlight-box" style="display: none;">
+            <div id="spotlight-text">
+                📍 <b>Selected Particular Area:</b> <span id="spotlight-name" style="color: #FBBF24; font-weight: bold;"></span> (<span id="spotlight-dist"></span>, <span id="spotlight-state"></span>)
+            </div>
+            <button onclick="resetLocationSelection()" style="background: transparent; border: 1px solid #FDE047; color: #FDE047; padding: 4px 10px; border-radius: 4px; font-size: 11.5px; cursor: pointer; font-weight: 600;">
+                Reset Selection
+            </button>
+        </div>
+
+        <!-- Streamlit-Style Tabs Navigation Bar -->
+        <div class="tab-bar">
+            <button class="tab-button active" onclick="switchTab('tab-map', this)">🗺️ Interactive Geospatial Map</button>
+            <button class="tab-button" onclick="switchTab('tab-districts', this)">🏛️ All Districts in State Matrix</button>
+            <button class="tab-button" onclick="switchTab('tab-signatures', this)">📊 Multi-Criteria Risk Signatures</button>
+            <button class="tab-button" onclick="switchTab('tab-national', this)">🇮🇳 State-Wise National Comparison</button>
+            <button class="tab-button" onclick="switchTab('tab-ml', this)">🤖 Machine Learning Benchmarking</button>
+            <button class="tab-button" onclick="switchTab('tab-data', this)">📋 All Places Registry & Explorer</button>
+        </div>
+
+        <!-- TAB 1: INTERACTIVE GEOSPATIAL MAP -->
+        <div id="tab-map" class="tab-panel active">
+            <div>
+                <div class="tab-section-header" id="map-section-header">Geospatial Hazard Distribution — All India (Pan-India Overview) (All Districts in State)</div>
+                <div class="tab-section-sub" id="map-section-sub">Displaying 229 habitation(s) across 92 district(s). Circle markers reflect unsupervised ML hazard tiers. Click any place marker for complete biophysical metrics.</div>
+            </div>
+
+            <div id="map"></div>
+
+            <div id="spotlight-graph-box" style="display: none; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 8px;">
+                <div class="graph-card">
+                    <div class="graph-title"><span>🎯 Location Multi-Factor Vulnerability Radar</span></div>
+                    <div style="height: 260px; position: relative;">
+                        <canvas id="spotlightRadarChart"></canvas>
+                    </div>
+                </div>
+                <div class="graph-card">
+                    <div class="graph-title"><span>📐 Morphometric Profile vs Baseline</span></div>
+                    <div style="height: 260px; position: relative;">
+                        <canvas id="spotlightBarChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 2: ALL DISTRICTS IN STATE MATRIX -->
+        <div id="tab-districts" class="tab-panel">
+            <div>
+                <div class="tab-section-header" id="districts-section-header">All Districts Matrix & Regional Comparisons — All India</div>
+                <div class="tab-section-sub" id="districts-section-sub">Detailed multi-criteria breakdown across all monitored districts:</div>
+            </div>
+
+            <!-- Live Real-Time Weather Section -->
+        <div class="alert-banner" id="alert-banner-box">
+            <div class="alert-top">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <span class="alert-pill" id="live-alert-pill">🟢 GREEN STATUS (NORMAL / DRY)</span>
+                    <span class="alert-station" id="live-station-name">Station: Regional Representative Station: All India (Lat: 17.754°, Lon: 80.921°)</span>
+                </div>
+                <div style="font-size: 12px; color: #94A3B8;" id="live-obs-time">
+                    🕒 Live Observation: 2026-11-08 03:00 IST | 📡 Live API Connected
+                </div>
+            </div>
+            <div class="alert-desc" id="live-alert-desc">
+                High baseline morphological vulnerability, but current weather is dry/clear. No immediate precipitation trigger active.
+            </div>
+            <div class="alert-pills-row">
+                <span class="pill-item" id="pill-temp">🌡️ Temp: 23.7°C (Feels 28.8°C)</span>
+                <span class="pill-item" id="pill-humidity">💧 Humidity: 94%</span>
+                <span class="pill-item" id="pill-rain">🌧️ Live Rain: 0.0 mm/h</span>
+                <span class="pill-item" id="pill-past24">🌊 Past 24h Rain: 0.0 mm</span>
+                <span class="pill-item" id="pill-cond">🌤️ Condition: Clear Sky</span>
+                <span class="pill-item" id="pill-wind">💨 Wind: 1.5 km/h</span>
+                <span class="pill-item" id="pill-elev">⛰️ Elevation: 134.3 m AMSL</span>
+            </div>
+        </div>
+
+        <!-- Location Spotlight Box -->
+        <div id="spotlight-banner" class="spotlight-box" style="display: none;">
+            <div id="spotlight-text">
+                📍 <b>Selected Particular Area:</b> <span id="spotlight-name" style="color: #FBBF24; font-weight: bold;"></span> (<span id="spotlight-dist"></span>, <span id="spotlight-state"></span>)
+            </div>
+            <button onclick="resetLocationSelection()" style="background: transparent; border: 1px solid #FDE047; color: #FDE047; padding: 4px 10px; border-radius: 4px; font-size: 11.5px; cursor: pointer; font-weight: 600;">
+                Reset Selection
+            </button>
+        </div>
+
+        <!-- Streamlit-Style Tabs Navigation Bar -->
+        <div class="tab-bar">
+            <button class="tab-button active" onclick="switchTab('tab-map', this)">🗺️ Interactive Geospatial Map</button>
+            <button class="tab-button" onclick="switchTab('tab-districts', this)">🏛️ All Districts in State Matrix</button>
+            <button class="tab-button" onclick="switchTab('tab-signatures', this)">📊 Multi-Criteria Risk Signatures</button>
+            <button class="tab-button" onclick="switchTab('tab-national', this)">🇮🇳 State-Wise National Comparison</button>
+            <button class="tab-button" onclick="switchTab('tab-ml', this)">🤖 Machine Learning Benchmarking</button>
+            <button class="tab-button" onclick="switchTab('tab-data', this)">📋 All Places Registry & Explorer</button>
+        </div>
+
+        <!-- TAB 1: INTERACTIVE GEOSPATIAL MAP -->
+        <div id="tab-map" class="tab-panel active">
+            <div>
+                <div class="tab-section-header" id="map-section-header">Geospatial Hazard Distribution — All India (Pan-India Overview) (All Districts in State)</div>
+                <div class="tab-section-sub" id="map-section-sub">Displaying 229 habitation(s) across 92 district(s). Circle markers reflect unsupervised ML hazard tiers. Click any place marker for complete biophysical metrics.</div>
+            </div>
+
+            <div id="map"></div>
+
+            <div id="spotlight-graph-box" style="display: none; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 8px;">
+                <div class="graph-card">
+                    <div class="graph-title"><span>🎯 Location Multi-Factor Vulnerability Radar</span></div>
+                    <div style="height: 260px; position: relative;">
+                        <canvas id="spotlightRadarChart"></canvas>
+                    </div>
+                </div>
+                <div class="graph-card">
+                    <div class="graph-title"><span>📐 Morphometric Profile vs Baseline</span></div>
+                    <div style="height: 260px; position: relative;">
+                        <canvas id="spotlightBarChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 2: ALL DISTRICTS IN STATE MATRIX -->
+        <div id="tab-districts" class="tab-panel">
+            <div>
+                <div class="tab-section-header" id="districts-section-header">All Districts Matrix & Regional Comparisons — All India</div>
+                <div class="tab-section-sub" id="districts-section-sub">Detailed multi-criteria breakdown across all monitored districts:</div>
+            </div>
+
+            
+
+
+            <!-- Live Real-Time Weather Section -->
+        <div class="alert-banner" id="alert-banner-box">
+            <div class="alert-top">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <span class="alert-pill" id="live-alert-pill">🟢 GREEN STATUS (NORMAL / DRY)</span>
+                    <span class="alert-station" id="live-station-name">Station: Regional Representative Station: All India (Lat: 17.754°, Lon: 80.921°)</span>
+                </div>
+                <div style="font-size: 12px; color: #94A3B8;" id="live-obs-time">
+                    🕒 Live Observation: 2026-11-08 03:00 IST | 📡 Live API Connected
+                </div>
+            </div>
+            <div class="alert-desc" id="live-alert-desc">
+                High baseline morphological vulnerability, but current weather is dry/clear. No immediate precipitation trigger active.
+            </div>
+            <div class="alert-pills-row">
+                <span class="pill-item" id="pill-temp">🌡️ Temp: 23.7°C (Feels 28.8°C)</span>
+                <span class="pill-item" id="pill-humidity">💧 Humidity: 94%</span>
+                <span class="pill-item" id="pill-rain">🌧️ Live Rain: 0.0 mm/h</span>
+                <span class="pill-item" id="pill-past24">🌊 Past 24h Rain: 0.0 mm</span>
+                <span class="pill-item" id="pill-cond">🌤️ Condition: Clear Sky</span>
+                <span class="pill-item" id="pill-wind">💨 Wind: 1.5 km/h</span>
+                <span class="pill-item" id="pill-elev">⛰️ Elevation: 134.3 m AMSL</span>
+            </div>
+        </div>
+
+        <!-- Location Spotlight Box -->
+        <div id="spotlight-banner" class="spotlight-box" style="display: none;">
+            <div id="spotlight-text">
+                📍 <b>Selected Particular Area:</b> <span id="spotlight-name" style="color: #FBBF24; font-weight: bold;"></span> (<span id="spotlight-dist"></span>, <span id="spotlight-state"></span>)
+            </div>
+            <button onclick="resetLocationSelection()" style="background: transparent; border: 1px solid #FDE047; color: #FDE047; padding: 4px 10px; border-radius: 4px; font-size: 11.5px; cursor: pointer; font-weight: 600;">
+                Reset Selection
+            </button>
+        </div>
+
+        <!-- Streamlit-Style Tabs Navigation Bar -->
+        <div class="tab-bar">
+            <button class="tab-button active" onclick="switchTab('tab-map', this)">🗺️ Interactive Geospatial Map</button>
+            <button class="tab-button" onclick="switchTab('tab-districts', this)">🏛️ All Districts in State Matrix</button>
+            <button class="tab-button" onclick="switchTab('tab-signatures', this)">📊 Multi-Criteria Risk Signatures</button>
+            <button class="tab-button" onclick="switchTab('tab-national', this)">🇮🇳 State-Wise National Comparison</button>
+            <button class="tab-button" onclick="switchTab('tab-ml', this)">🤖 Machine Learning Benchmarking</button>
+            <button class="tab-button" onclick="switchTab('tab-data', this)">📋 All Places Registry & Explorer</button>
+        </div>
+
+        <!-- TAB 1: INTERACTIVE GEOSPATIAL MAP -->
+        <div id="tab-map" class="tab-panel active">
+            <div>
+                <div class="tab-section-header" id="map-section-header">Geospatial Hazard Distribution — All India (Pan-India Overview) (All Districts in State)</div>
+                <div class="tab-section-sub" id="map-section-sub">Displaying 229 habitation(s) across 92 district(s). Circle markers reflect unsupervised ML hazard tiers. Click any place marker for complete biophysical metrics.</div>
+            </div>
+
+            <div id="map"></div>
+
+            <div id="spotlight-graph-box" style="display: none; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 8px;">
+                <div class="graph-card">
+                    <div class="graph-title"><span>🎯 Location Multi-Factor Vulnerability Radar</span></div>
+                    <div style="height: 260px; position: relative;">
+                        <canvas id="spotlightRadarChart"></canvas>
+                    </div>
+                </div>
+                <div class="graph-card">
+                    <div class="graph-title"><span>📐 Morphometric Profile vs Baseline</span></div>
+                    <div style="height: 260px; position: relative;">
+                        <canvas id="spotlightBarChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 2: ALL DISTRICTS IN STATE MATRIX -->
+        <div id="tab-districts" class="tab-panel">
+            <div>
+                <div class="tab-section-header" id="districts-section-header">All Districts Matrix & Regional Comparisons — All India</div>
+                <div class="tab-section-sub" id="districts-section-sub">Detailed multi-criteria breakdown across all monitored districts:</div>
+            </div>
+
+            <!-- Live Real-Time Weather Section -->
+        <div class="alert-banner" id="alert-banner-box">
+            <div class="alert-top">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <span class="alert-pill" id="live-alert-pill">🟢 GREEN STATUS (NORMAL / DRY)</span>
+                    <span class="alert-station" id="live-station-name">Station: Regional Representative Station: All India (Lat: 17.754°, Lon: 80.921°)</span>
+                </div>
+                <div style="font-size: 12px; color: #94A3B8;" id="live-obs-time">
+                    🕒 Live Observation: 2026-11-08 03:00 IST | 📡 Live API Connected
+                </div>
+            </div>
+            <div class="alert-desc" id="live-alert-desc">
+                High baseline morphological vulnerability, but current weather is dry/clear. No immediate precipitation trigger active.
+            </div>
+            <div class="alert-pills-row">
+                <span class="pill-item" id="pill-temp">🌡️ Temp: 23.7°C (Feels 28.8°C)</span>
+                <span class="pill-item" id="pill-humidity">💧 Humidity: 94%</span>
+                <span class="pill-item" id="pill-rain">🌧️ Live Rain: 0.0 mm/h</span>
+                <span class="pill-item" id="pill-past24">🌊 Past 24h Rain: 0.0 mm</span>
+                <span class="pill-item" id="pill-cond">🌤️ Condition: Clear Sky</span>
+                <span class="pill-item" id="pill-wind">💨 Wind: 1.5 km/h</span>
+                <span class="pill-item" id="pill-elev">⛰️ Elevation: 134.3 m AMSL</span>
+            </div>
+        </div>
+
+        <!-- Location Spotlight Box -->
+        <div id="spotlight-banner" class="spotlight-box" style="display: none;">
+            <div id="spotlight-text">
+                📍 <b>Selected Particular Area:</b> <span id="spotlight-name" style="color: #FBBF24; font-weight: bold;"></span> (<span id="spotlight-dist"></span>, <span id="spotlight-state"></span>)
+            </div>
+            <button onclick="resetLocationSelection()" style="background: transparent; border: 1px solid #FDE047; color: #FDE047; padding: 4px 10px; border-radius: 4px; font-size: 11.5px; cursor: pointer; font-weight: 600;">
+                Reset Selection
+            </button>
+        </div>
+
+        <!-- Streamlit-Style Tabs Navigation Bar -->
+        <div class="tab-bar">
+            <button class="tab-button active" onclick="switchTab('tab-map', this)">🗺️ Interactive Geospatial Map</button>
+            <button class="tab-button" onclick="switchTab('tab-districts', this)">🏛️ All Districts in State Matrix</button>
+            <button class="tab-button" onclick="switchTab('tab-signatures', this)">📊 Multi-Criteria Risk Signatures</button>
+            <button class="tab-button" onclick="switchTab('tab-national', this)">🇮🇳 State-Wise National Comparison</button>
+            <button class="tab-button" onclick="switchTab('tab-ml', this)">🤖 Machine Learning Benchmarking</button>
+            <button class="tab-button" onclick="switchTab('tab-data', this)">📋 All Places Registry & Explorer</button>
+        </div>
+
+        <!-- TAB 1: INTERACTIVE GEOSPATIAL MAP -->
+        <div id="tab-map" class="tab-panel active">
+            <div>
+                <div class="tab-section-header" id="map-section-header">Geospatial Hazard Distribution — All India (Pan-India Overview) (All Districts in State)</div>
+                <div class="tab-section-sub" id="map-section-sub">Displaying 229 habitation(s) across 92 district(s). Circle markers reflect unsupervised ML hazard tiers. Click any place marker for complete biophysical metrics.</div>
+            </div>
+
+            <div id="map"></div>
+
+            <div id="spotlight-graph-box" style="display: none; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 8px;">
+                <div class="graph-card">
+                    <div class="graph-title"><span>🎯 Location Multi-Factor Vulnerability Radar</span></div>
+                    <div style="height: 260px; position: relative;">
+                        <canvas id="spotlightRadarChart"></canvas>
+                    </div>
+                </div>
+                <div class="graph-card">
+                    <div class="graph-title"><span>📐 Morphometric Profile vs Baseline</span></div>
+                    <div style="height: 260px; position: relative;">
+                        <canvas id="spotlightBarChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 2: ALL DISTRICTS IN STATE MATRIX -->
+        <div id="tab-districts" class="tab-panel">
+            <div>
+                <div class="tab-section-header" id="districts-section-header">All Districts Matrix & Regional Comparisons — All India</div>
+                <div class="tab-section-sub" id="districts-section-sub">Detailed multi-criteria breakdown across all monitored districts:</div>
+            </div>
+
+            
+
+
+            
+
+
+            <!-- Live Real-Time Weather Section -->
+        <div class="alert-banner" id="alert-banner-box">
+            <div class="alert-top">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <span class="alert-pill" id="live-alert-pill">🟢 GREEN STATUS (NORMAL / DRY)</span>
+                    <span class="alert-station" id="live-station-name">Station: Regional Representative Station: All India (Lat: 17.754°, Lon: 80.921°)</span>
+                </div>
+                <div style="font-size: 12px; color: #94A3B8;" id="live-obs-time">
+                    🕒 Live Observation: 2026-11-08 03:00 IST | 📡 Live API Connected
+                </div>
+            </div>
+            <div class="alert-desc" id="live-alert-desc">
+                High baseline morphological vulnerability, but current weather is dry/clear. No immediate precipitation trigger active.
+            </div>
+            <div class="alert-pills-row">
+                <span class="pill-item" id="pill-temp">🌡️ Temp: 23.7°C (Feels 28.8°C)</span>
+                <span class="pill-item" id="pill-humidity">💧 Humidity: 94%</span>
+                <span class="pill-item" id="pill-rain">🌧️ Live Rain: 0.0 mm/h</span>
+                <span class="pill-item" id="pill-past24">🌊 Past 24h Rain: 0.0 mm</span>
+                <span class="pill-item" id="pill-cond">🌤️ Condition: Clear Sky</span>
+                <span class="pill-item" id="pill-wind">💨 Wind: 1.5 km/h</span>
+                <span class="pill-item" id="pill-elev">⛰️ Elevation: 134.3 m AMSL</span>
+            </div>
+        </div>
+
+        <!-- Location Spotlight Box -->
+        <div id="spotlight-banner" class="spotlight-box" style="display: none;">
+            <div id="spotlight-text">
+                📍 <b>Selected Particular Area:</b> <span id="spotlight-name" style="color: #FBBF24; font-weight: bold;"></span> (<span id="spotlight-dist"></span>, <span id="spotlight-state"></span>)
+            </div>
+            <button onclick="resetLocationSelection()" style="background: transparent; border: 1px solid #FDE047; color: #FDE047; padding: 4px 10px; border-radius: 4px; font-size: 11.5px; cursor: pointer; font-weight: 600;">
+                Reset Selection
+            </button>
+        </div>
+
+        <!-- Streamlit-Style Tabs Navigation Bar -->
+        <div class="tab-bar">
+            <button class="tab-button active" onclick="switchTab('tab-map', this)">🗺️ Interactive Geospatial Map</button>
+            <button class="tab-button" onclick="switchTab('tab-districts', this)">🏛️ All Districts in State Matrix</button>
+            <button class="tab-button" onclick="switchTab('tab-signatures', this)">📊 Multi-Criteria Risk Signatures</button>
+            <button class="tab-button" onclick="switchTab('tab-national', this)">🇮🇳 State-Wise National Comparison</button>
+            <button class="tab-button" onclick="switchTab('tab-ml', this)">🤖 Machine Learning Benchmarking</button>
+            <button class="tab-button" onclick="switchTab('tab-data', this)">📋 All Places Registry & Explorer</button>
+        </div>
+
+        <!-- TAB 1: INTERACTIVE GEOSPATIAL MAP -->
+        <div id="tab-map" class="tab-panel active">
+            <div>
+                <div class="tab-section-header" id="map-section-header">Geospatial Hazard Distribution — All India (Pan-India Overview) (All Districts in State)</div>
+                <div class="tab-section-sub" id="map-section-sub">Displaying 229 habitation(s) across 92 district(s). Circle markers reflect unsupervised ML hazard tiers. Click any place marker for complete biophysical metrics.</div>
+            </div>
+
+            <div id="map"></div>
+
+            <div id="spotlight-graph-box" style="display: none; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 8px;">
+                <div class="graph-card">
+                    <div class="graph-title"><span>🎯 Location Multi-Factor Vulnerability Radar</span></div>
+                    <div style="height: 260px; position: relative;">
+                        <canvas id="spotlightRadarChart"></canvas>
+                    </div>
+                </div>
+                <div class="graph-card">
+                    <div class="graph-title"><span>📐 Morphometric Profile vs Baseline</span></div>
+                    <div style="height: 260px; position: relative;">
+                        <canvas id="spotlightBarChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 2: ALL DISTRICTS IN STATE MATRIX -->
+        <div id="tab-districts" class="tab-panel">
+            <div>
+                <div class="tab-section-header" id="districts-section-header">All Districts Matrix & Regional Comparisons — All India</div>
+                <div class="tab-section-sub" id="districts-section-sub">Detailed multi-criteria breakdown across all monitored districts:</div>
+            </div>
+
+            <!-- Live Real-Time Weather Section -->
+        <div class="alert-banner" id="alert-banner-box">
+            <div class="alert-top">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <span class="alert-pill" id="live-alert-pill">🟢 GREEN STATUS (NORMAL / DRY)</span>
+                    <span class="alert-station" id="live-station-name">Station: Regional Representative Station: All India (Lat: 17.754°, Lon: 80.921°)</span>
+                </div>
+                <div style="font-size: 12px; color: #94A3B8;" id="live-obs-time">
+                    🕒 Live Observation: 2026-11-08 03:00 IST | 📡 Live API Connected
+                </div>
+            </div>
+            <div class="alert-desc" id="live-alert-desc">
+                High baseline morphological vulnerability, but current weather is dry/clear. No immediate precipitation trigger active.
+            </div>
+            <div class="alert-pills-row">
+                <span class="pill-item" id="pill-temp">🌡️ Temp: 23.7°C (Feels 28.8°C)</span>
+                <span class="pill-item" id="pill-humidity">💧 Humidity: 94%</span>
+                <span class="pill-item" id="pill-rain">🌧️ Live Rain: 0.0 mm/h</span>
+                <span class="pill-item" id="pill-past24">🌊 Past 24h Rain: 0.0 mm</span>
+                <span class="pill-item" id="pill-cond">🌤️ Condition: Clear Sky</span>
+                <span class="pill-item" id="pill-wind">💨 Wind: 1.5 km/h</span>
+                <span class="pill-item" id="pill-elev">⛰️ Elevation: 134.3 m AMSL</span>
+            </div>
+        </div>
+
+        <!-- Location Spotlight Box -->
+        <div id="spotlight-banner" class="spotlight-box" style="display: none;">
+            <div id="spotlight-text">
+                📍 <b>Selected Particular Area:</b> <span id="spotlight-name" style="color: #FBBF24; font-weight: bold;"></span> (<span id="spotlight-dist"></span>, <span id="spotlight-state"></span>)
+            </div>
+            <button onclick="resetLocationSelection()" style="background: transparent; border: 1px solid #FDE047; color: #FDE047; padding: 4px 10px; border-radius: 4px; font-size: 11.5px; cursor: pointer; font-weight: 600;">
+                Reset Selection
+            </button>
+        </div>
+
+        <!-- Streamlit-Style Tabs Navigation Bar -->
+        <div class="tab-bar">
+            <button class="tab-button active" onclick="switchTab('tab-map', this)">🗺️ Interactive Geospatial Map</button>
+            <button class="tab-button" onclick="switchTab('tab-districts', this)">🏛️ All Districts in State Matrix</button>
+            <button class="tab-button" onclick="switchTab('tab-signatures', this)">📊 Multi-Criteria Risk Signatures</button>
+            <button class="tab-button" onclick="switchTab('tab-national', this)">🇮🇳 State-Wise National Comparison</button>
+            <button class="tab-button" onclick="switchTab('tab-ml', this)">🤖 Machine Learning Benchmarking</button>
+            <button class="tab-button" onclick="switchTab('tab-data', this)">📋 All Places Registry & Explorer</button>
+        </div>
+
+        <!-- TAB 1: INTERACTIVE GEOSPATIAL MAP -->
+        <div id="tab-map" class="tab-panel active">
+            <div>
+                <div class="tab-section-header" id="map-section-header">Geospatial Hazard Distribution — All India (Pan-India Overview) (All Districts in State)</div>
+                <div class="tab-section-sub" id="map-section-sub">Displaying 229 habitation(s) across 92 district(s). Circle markers reflect unsupervised ML hazard tiers. Click any place marker for complete biophysical metrics.</div>
+            </div>
+
+            <div id="map"></div>
+
+            <div id="spotlight-graph-box" style="display: none; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 8px;">
+                <div class="graph-card">
+                    <div class="graph-title"><span>🎯 Location Multi-Factor Vulnerability Radar</span></div>
+                    <div style="height: 260px; position: relative;">
+                        <canvas id="spotlightRadarChart"></canvas>
+                    </div>
+                </div>
+                <div class="graph-card">
+                    <div class="graph-title"><span>📐 Morphometric Profile vs Baseline</span></div>
+                    <div style="height: 260px; position: relative;">
+                        <canvas id="spotlightBarChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 2: ALL DISTRICTS IN STATE MATRIX -->
+        <div id="tab-districts" class="tab-panel">
+            <div>
+                <div class="tab-section-header" id="districts-section-header">All Districts Matrix & Regional Comparisons — All India</div>
+                <div class="tab-section-sub" id="districts-section-sub">Detailed multi-criteria breakdown across all monitored districts:</div>
+            </div>
+
+            
+
+
+            <!-- Live Real-Time Weather Section -->
+        <div class="alert-banner" id="alert-banner-box">
+            <div class="alert-top">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <span class="alert-pill" id="live-alert-pill">🟢 GREEN STATUS (NORMAL / DRY)</span>
+                    <span class="alert-station" id="live-station-name">Station: Regional Representative Station: All India (Lat: 17.754°, Lon: 80.921°)</span>
+                </div>
+                <div style="font-size: 12px; color: #94A3B8;" id="live-obs-time">
+                    🕒 Live Observation: 2026-11-08 03:00 IST | 📡 Live API Connected
+                </div>
+            </div>
+            <div class="alert-desc" id="live-alert-desc">
+                High baseline morphological vulnerability, but current weather is dry/clear. No immediate precipitation trigger active.
+            </div>
+            <div class="alert-pills-row">
+                <span class="pill-item" id="pill-temp">🌡️ Temp: 23.7°C (Feels 28.8°C)</span>
+                <span class="pill-item" id="pill-humidity">💧 Humidity: 94%</span>
+                <span class="pill-item" id="pill-rain">🌧️ Live Rain: 0.0 mm/h</span>
+                <span class="pill-item" id="pill-past24">🌊 Past 24h Rain: 0.0 mm</span>
+                <span class="pill-item" id="pill-cond">🌤️ Condition: Clear Sky</span>
+                <span class="pill-item" id="pill-wind">💨 Wind: 1.5 km/h</span>
+                <span class="pill-item" id="pill-elev">⛰️ Elevation: 134.3 m AMSL</span>
+            </div>
+        </div>
+
+        <!-- Location Spotlight Box -->
+        <div id="spotlight-banner" class="spotlight-box" style="display: none;">
+            <div id="spotlight-text">
+                📍 <b>Selected Particular Area:</b> <span id="spotlight-name" style="color: #FBBF24; font-weight: bold;"></span> (<span id="spotlight-dist"></span>, <span id="spotlight-state"></span>)
+            </div>
+            <button onclick="resetLocationSelection()" style="background: transparent; border: 1px solid #FDE047; color: #FDE047; padding: 4px 10px; border-radius: 4px; font-size: 11.5px; cursor: pointer; font-weight: 600;">
+                Reset Selection
+            </button>
+        </div>
+
+        <!-- Streamlit-Style Tabs Navigation Bar -->
+        <div class="tab-bar">
+            <button class="tab-button active" onclick="switchTab('tab-map', this)">🗺️ Interactive Geospatial Map</button>
+            <button class="tab-button" onclick="switchTab('tab-districts', this)">🏛️ All Districts in State Matrix</button>
+            <button class="tab-button" onclick="switchTab('tab-signatures', this)">📊 Multi-Criteria Risk Signatures</button>
+            <button class="tab-button" onclick="switchTab('tab-national', this)">🇮🇳 State-Wise National Comparison</button>
+            <button class="tab-button" onclick="switchTab('tab-ml', this)">🤖 Machine Learning Benchmarking</button>
+            <button class="tab-button" onclick="switchTab('tab-data', this)">📋 All Places Registry & Explorer</button>
+        </div>
+
+        <!-- TAB 1: INTERACTIVE GEOSPATIAL MAP -->
+        <div id="tab-map" class="tab-panel active">
+            <div>
+                <div class="tab-section-header" id="map-section-header">Geospatial Hazard Distribution — All India (Pan-India Overview) (All Districts in State)</div>
+                <div class="tab-section-sub" id="map-section-sub">Displaying 229 habitation(s) across 92 district(s). Circle markers reflect unsupervised ML hazard tiers. Click any place marker for complete biophysical metrics.</div>
+            </div>
+
+            <div id="map"></div>
+
+            <div id="spotlight-graph-box" style="display: none; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 8px;">
+                <div class="graph-card">
+                    <div class="graph-title"><span>🎯 Location Multi-Factor Vulnerability Radar</span></div>
+                    <div style="height: 260px; position: relative;">
+                        <canvas id="spotlightRadarChart"></canvas>
+                    </div>
+                </div>
+                <div class="graph-card">
+                    <div class="graph-title"><span>📐 Morphometric Profile vs Baseline</span></div>
+                    <div style="height: 260px; position: relative;">
+                        <canvas id="spotlightBarChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 2: ALL DISTRICTS IN STATE MATRIX -->
+        <div id="tab-districts" class="tab-panel">
+            <div>
+                <div class="tab-section-header" id="districts-section-header">All Districts Matrix & Regional Comparisons — All India</div>
+                <div class="tab-section-sub" id="districts-section-sub">Detailed multi-criteria breakdown across all monitored districts:</div>
+            </div>
+
+            <!-- Executive Graphs Overview Row -->
+        <div class="exec-graphs-row">
+            <div class="graph-card">
+                <div class="graph-title"><span>📈 Danger Level Distribution</span></div>
+                <div style="height: 220px; position: relative;">
+                    <canvas id="dangerDonutChart"></canvas>
+                </div>
+            </div>
+            <div class="graph-card">
+                <div class="graph-title"><span>🏘️ Category vs Hazard Tier</span></div>
+                <div style="height: 220px; position: relative;">
+                    <canvas id="categoryBarChart"></canvas>
+                </div>
+            </div>
+            <div class="graph-card">
+                <div class="graph-title"><span>⚠️ Top Critical Sites: Elevation & Inundation</span></div>
+                <div style="height: 220px; position: relative;">
+                    <canvas id="topRiskBarChart"></canvas>
+                </div>
+            </div>
+        </div>
+
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
                 <div class="graph-card">
                     <div class="graph-title"><span>Districts Ranked by High Danger (%)</span></div>

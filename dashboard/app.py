@@ -426,80 +426,12 @@ with c5:
     mean_elev = df_filtered['elevation_m'].mean() if len(df_filtered) > 0 else 0
     st.metric("⛰️ Mean Elevation", f"{mean_elev:.1f} m AMSL", delta=f"Min {df_filtered['elevation_m'].min():.0f} m" if len(df_filtered) > 0 else "0")
 
-# ==============================================================================
-# MAXIMUM DATA IN GRAPH FORM: EXECUTIVE VISUAL ANALYTICS ROW
-# ==============================================================================
-st.markdown("### 📈 Executive Visual Analytics (Active Scope)")
-col_g1, col_g2, col_g3 = st.columns([1, 1.2, 1.3])
-
+# Color palette definition for hazard tiers
 color_dict = {
     'High Relative Hazard / Vulnerability': '#d73027',     # Red
     'Moderate Relative Hazard / Vulnerability': '#fdae61', # Orange/Yellow
     'Relatively Lower Hazard / Vulnerability': '#4575b4'   # Blue
 }
-
-with col_g1:
-    # Graph 1: Danger Level Breakdown Donut Chart
-    tier_counts = df_filtered['relative_hazard_level'].value_counts().reset_index()
-    tier_counts.columns = ['tier', 'count']
-    fig_donut = go.Figure(data=[go.Pie(
-        labels=tier_counts['tier'].apply(lambda x: x.split(' ')[0] + " Danger"),
-        values=tier_counts['count'],
-        hole=0.55,
-        marker=dict(colors=[color_dict.get(t, '#888') for t in tier_counts['tier']]),
-        textinfo='label+percent',
-        hoverinfo='label+value+percent'
-    )])
-    fig_donut.update_layout(
-        title="Active Danger Distribution",
-        height=260,
-        showlegend=False,
-        annotations=[dict(text=f"<b>{len(df_filtered)}</b><br>Habitations", x=0.5, y=0.5, font_size=13, showarrow=False, font_color="#FFF")],
-        **dark_layout_defaults
-    )
-    st.plotly_chart(fig_donut, use_container_width=True)
-
-with col_g2:
-    # Graph 2: Settlement Category vs Danger Tier Grouped Bar
-    if 'place_category' in df_filtered.columns:
-        cat_df = df_filtered.groupby(['place_category', 'relative_hazard_level']).size().reset_index(name='count')
-        fig_cat = px.bar(
-            cat_df, x='place_category', y='count', color='relative_hazard_level',
-            color_discrete_map=color_dict,
-            barmode='stack',
-            title="Habitation Category vs Hazard",
-            labels={'place_category': 'Category', 'count': 'Places', 'relative_hazard_level': 'Tier'}
-        )
-        fig_cat.update_layout(
-            height=260,
-            showlegend=False,
-            xaxis_tickangle=-15,
-            **dark_layout_defaults
-        )
-        st.plotly_chart(fig_cat, use_container_width=True)
-
-with col_g3:
-    # Graph 3: Top 8 Most Vulnerable Settlements
-    top_crit = df_filtered.sort_values(
-        by=['historical_flood_inundation_frequency', 'drainage_congestion_index', 'elevation_m'],
-        ascending=[False, False, True]
-    ).head(8)
-    
-    fig_crit = px.bar(
-        top_crit, x='elevation_m', y='habitation_name',
-        orientation='h',
-        color='relative_hazard_level',
-        color_discrete_map=color_dict,
-        title="Top Vulnerable Sites: Elevation vs Flood Frequency",
-        labels={'elevation_m': 'Elevation (m AMSL)', 'habitation_name': 'Place'}
-    )
-    fig_crit.update_layout(
-        height=260,
-        yaxis=dict(autorange="reversed"),
-        showlegend=False,
-        **dark_layout_defaults
-    )
-    st.plotly_chart(fig_crit, use_container_width=True)
 
 # ⚡ LIVE REAL-TIME WEATHER & DYNAMIC FLOOD ALERT SECTION
 st.markdown("### ⚡ Live Real-Time Weather & Dynamic Flood Alert Engine")
@@ -595,8 +527,9 @@ tab_map, tab_districts, tab_profiles, tab_state_comp, tab_ml_eval, tab_data = st
 # ==============================================================================
 with tab_map:
     st.subheader(f"Geospatial Hazard Distribution — {selected_state} ({selected_district})")
+    st.write(f"Displaying **{len(df_filtered)} habitation(s)** across **{df_filtered['district'].nunique()} district(s)**. Circle markers reflect unsupervised ML hazard tiers. Click any place marker for complete biophysical metrics.")
     
-    # Check if a particular location spotlight graph should be shown
+    # Check if a particular location spotlight info box should be shown
     if selected_place != "All Locations in Scope" and len(df_filtered) == 1:
         pl = df_filtered.iloc[0]
         st.markdown(f"""
@@ -604,29 +537,96 @@ with tab_map:
             <h4 style="color: #38BDF8; margin: 0 0 6px 0;">📍 Particular Location Spotlight: <b>{pl['habitation_name']}</b></h4>
             <div style="font-size: 13.5px; color: #CBD5E1;">
                 <b>District:</b> {pl['district']} | <b>State:</b> {pl['state']} | <b>Mandal:</b> {pl.get('mandal', 'N/A')} | 
-                <b>River Basin:</b> {pl.get('river_basin', 'Regional')} | <b>Hazard Tier:</b> <span style="color: {color_dict.get(pl['relative_hazard_level'], '#FFF')}; font-weight: bold;">{pl['relative_hazard_level']}</span>
+                <b>River Basin:</b> {pl.get('river_basin', 'Regional')} | <b>Hazard Tier:</b> <span style="color: {color_dict.get(pl['relative_hazard_level'], '#FFF')}; font-weight: bold;">{pl['relative_hazard_level']}</span><br>
+                <b>Elevation:</b> {pl['elevation_m']:.1f} m AMSL | <b>River Distance:</b> {pl['distance_to_river_km']:.2f} km | <b>Historical Floods:</b> {pl['historical_flood_inundation_frequency']}/5 | <b>Drainage Congestion:</b> {pl['drainage_congestion_index']}/5
             </div>
         </div>
         """, unsafe_allow_html=True)
+
+    # Folium Interactive Map
+    geo_info = state_geo.get(selected_state, {"center": [22.0, 79.5], "zoom": 5})
+    if selected_place != "All Locations in Scope" and len(df_filtered) == 1:
+        map_center = [df_filtered['latitude'].iloc[0], df_filtered['longitude'].iloc[0]]
+        map_zoom = 13
+    elif selected_district != "All Districts in State" and len(df_filtered) > 0:
+        map_center = [df_filtered['latitude'].mean(), df_filtered['longitude'].mean()]
+        map_zoom = 10
+    elif len(df_filtered) > 0 and selected_state != "All India (Pan-India Overview)":
+        map_center = [df_filtered['latitude'].mean(), df_filtered['longitude'].mean()]
+        map_zoom = geo_info['zoom']
+    else:
+        map_center = geo_info['center']
+        map_zoom = geo_info['zoom']
         
-        # Location Specific Visual Graphs
+    m = folium.Map(location=map_center, zoom_start=map_zoom, tiles="OpenStreetMap")
+    
+    if selected_state in ["All India (Pan-India Overview)", "Andhra Pradesh"]:
+        krishna_coords = [
+            [16.580, 80.360], [16.592, 80.450], [16.590, 80.522], [16.550, 80.565],
+            [16.507, 80.605], [16.480, 80.640], [16.440, 80.720], [16.360, 80.780],
+            [16.320, 80.825], [16.185, 80.795], [16.122, 80.932], [16.022, 80.918], [15.945, 80.915]
+        ]
+        folium.PolyLine(krishna_coords, color="#0055ff", weight=4, opacity=0.85, tooltip="Krishna River (Prakasam Barrage System)").add_to(m)
+        
+        budameru_coords = [
+            [16.630, 80.540], [16.562, 80.615], [16.538, 80.638], [16.522, 80.665], [16.520, 80.750]
+        ]
+        folium.PolyLine(budameru_coords, color="#00aaff", weight=3, dash_array="6, 6", opacity=0.85, tooltip="Budameru Rivulet Drainage Floodway").add_to(m)
+
+    for _, row in df_filtered.iterrows():
+        tier = row['relative_hazard_level']
+        c_hex = color_dict.get(tier, '#888888')
+        is_selected = (selected_place == row['habitation_name'])
+        
+        popup_html = f"""
+        <div style="font-family: Arial; width: 260px; font-size: 12px; color: #000;">
+            <b style="color: {c_hex}; font-size: 14px;">{row['habitation_name']}</b><br>
+            <b>State:</b> {row['state']}<br>
+            <b>District:</b> {row['district']} | <b>Mandal:</b> {row.get('mandal', 'N/A')}<br>
+            <b>Basin:</b> {row.get('river_basin', 'Regional')}<br>
+            <b>ML Hazard Tier:</b> <span style="color: {c_hex}; font-weight: bold;">{tier}</span><br>
+            <hr style="margin: 4px 0;">
+            <b>Elevation:</b> {row['elevation_m']:.1f} m AMSL<br>
+            <b>Distance to River:</b> {row['distance_to_river_km']:.2f} km<br>
+            <b>Historical Floods:</b> {row['historical_flood_inundation_frequency']}/5<br>
+            <b>Drainage Congestion:</b> {row['drainage_congestion_index']}/5<br>
+            <b>Annual Rain:</b> {row['annual_rainfall_mm']:.1f} mm<br>
+            <b>Max 24h Rain:</b> {row['extreme_daily_rainfall_mm']:.1f} mm<br>
+            <b>Pop Density:</b> {row['population_density_per_sqkm']:,.0f} /km²
+        </div>
+        """
+        
+        folium.CircleMarker(
+            location=[row['latitude'], row['longitude']],
+            radius=9.0 if is_selected else (6.5 if 'High' in tier else 5.0),
+            color='#FFD700' if is_selected else 'black',
+            weight=3.0 if is_selected else 0.7,
+            fill=True,
+            fill_color=c_hex,
+            fill_opacity=0.9 if is_selected else 0.8,
+            popup=folium.Popup(popup_html, max_width=300),
+            tooltip=f"📍 {row['habitation_name']} ({row['district']} - {tier.split(' ')[0]})"
+        ).add_to(m)
+        
+    st_folium(m, width=1200, height=560)
+
+    # Detailed Visual Analytics below Map
+    if selected_place != "All Locations in Scope" and len(df_filtered) == 1:
+        pl = df_filtered.iloc[0]
+        st.markdown("---")
+        st.markdown(f"#### 🔍 Detailed Morphometric Diagnostic: {pl['habitation_name']}")
         col_loc_g1, col_loc_g2 = st.columns([1.1, 1])
         with col_loc_g1:
-            # Spotlight Radar Chart against State Benchmarks
             cats = ['Elevation (Inv)', 'River Proximity', 'Drainage Congestion', 'Flood Inundation', 'Annual Rain', 'Pop Density']
-            
-            # Normalization against full dataset
             val_elev = 1.0 - min(1.0, max(0.0, pl['elevation_m'] / 150.0))
             val_riv = 1.0 - min(1.0, max(0.0, pl['distance_to_river_km'] / 25.0))
             val_drain = pl['drainage_congestion_index'] / 5.0
             val_flood = pl['historical_flood_inundation_frequency'] / 5.0
             val_rain = min(1.0, pl['annual_rainfall_mm'] / 2500.0)
             val_pop = min(1.0, pl['population_density_per_sqkm'] / 20000.0)
-            
             pl_vals = [val_elev, val_riv, val_drain, val_flood, val_rain, val_pop]
             pl_vals.append(pl_vals[0])
             
-            # State average
             st_elev = 1.0 - min(1.0, max(0.0, df_state['elevation_m'].mean() / 150.0))
             st_riv = 1.0 - min(1.0, max(0.0, df_state['distance_to_river_km'].mean() / 25.0))
             st_drain = df_state['drainage_congestion_index'].mean() / 5.0
@@ -658,7 +658,6 @@ with tab_map:
             st.plotly_chart(fig_spot_radar, use_container_width=True)
             
         with col_loc_g2:
-            # Bar chart comparing raw physical metrics
             metrics_df = pd.DataFrame({
                 'Indicator': ['Elevation (m)', 'River Dist (km)', 'Drainage (1-5)', 'Flood History (0-5)', 'Max 24h Rain (x10 mm)'],
                 'Selected Place': [pl['elevation_m'], pl['distance_to_river_km'], pl['drainage_congestion_index'], pl['historical_flood_inundation_frequency'], pl['extreme_daily_rainfall_mm'] / 10.0],
@@ -674,9 +673,7 @@ with tab_map:
                 **dark_layout_defaults
             )
             st.plotly_chart(fig_bar_comp, use_container_width=True)
-
     else:
-        # Spatial Correlation Graph: Elevation vs Distance to River Corridor
         fig_corridor = px.scatter(
             df_filtered, x='distance_to_river_km', y='elevation_m',
             color='relative_hazard_level',
@@ -691,79 +688,77 @@ with tab_map:
         fig_corridor.update_layout(height=310, **dark_layout_defaults)
         st.plotly_chart(fig_corridor, use_container_width=True)
 
-    # Folium Map
-    geo_info = state_geo.get(selected_state, {"center": [22.0, 79.5], "zoom": 5})
-    if selected_place != "All Locations in Scope" and len(df_filtered) == 1:
-        map_center = [df_filtered['latitude'].iloc[0], df_filtered['longitude'].iloc[0]]
-        map_zoom = 13
-    elif selected_district != "All Districts in State" and len(df_filtered) > 0:
-        map_center = [df_filtered['latitude'].mean(), df_filtered['longitude'].mean()]
-        map_zoom = 10
-    elif len(df_filtered) > 0 and selected_state != "All India (Pan-India Overview)":
-        map_center = [df_filtered['latitude'].mean(), df_filtered['longitude'].mean()]
-        map_zoom = geo_info['zoom']
-    else:
-        map_center = geo_info['center']
-        map_zoom = geo_info['zoom']
-        
-    m = folium.Map(location=map_center, zoom_start=map_zoom, tiles="CartoDB dark_matter")
-    
-    if selected_state in ["All India (Pan-India Overview)", "Andhra Pradesh"]:
-        krishna_coords = [
-            [16.580, 80.360], [16.592, 80.450], [16.590, 80.522], [16.550, 80.565],
-            [16.507, 80.605], [16.480, 80.640], [16.440, 80.720], [16.360, 80.780],
-            [16.320, 80.825], [16.185, 80.795], [16.122, 80.932], [16.022, 80.918], [15.945, 80.915]
-        ]
-        folium.PolyLine(krishna_coords, color="#38BDF8", weight=4, opacity=0.85, tooltip="Krishna River (Prakasam Barrage System)").add_to(m)
-        
-        budameru_coords = [
-            [16.630, 80.540], [16.562, 80.615], [16.538, 80.638], [16.522, 80.665], [16.520, 80.750]
-        ]
-        folium.PolyLine(budameru_coords, color="#60A5FA", weight=3, dash_array="6, 6", opacity=0.85, tooltip="Budameru Rivulet Drainage Floodway").add_to(m)
-
-    for _, row in df_filtered.iterrows():
-        tier = row['relative_hazard_level']
-        c_hex = color_dict.get(tier, '#888888')
-        is_selected = (selected_place == row['habitation_name'])
-        
-        popup_html = f"""
-        <div style="font-family: Arial; width: 260px; font-size: 12px; color: #000;">
-            <b style="color: {c_hex}; font-size: 14px;">{row['habitation_name']}</b><br>
-            <b>State:</b> {row['state']}<br>
-            <b>District:</b> {row['district']} | <b>Mandal:</b> {row.get('mandal', 'N/A')}<br>
-            <b>Basin:</b> {row.get('river_basin', 'Regional')}<br>
-            <b>ML Hazard Tier:</b> <span style="color: {c_hex}; font-weight: bold;">{tier}</span><br>
-            <hr style="margin: 4px 0;">
-            <b>Elevation:</b> {row['elevation_m']:.1f} m AMSL<br>
-            <b>Distance to River:</b> {row['distance_to_river_km']:.2f} km<br>
-            <b>Historical Floods:</b> {row['historical_flood_inundation_frequency']}/5<br>
-            <b>Drainage Congestion:</b> {row['drainage_congestion_index']}/5<br>
-            <b>Annual Rain:</b> {row['annual_rainfall_mm']:.1f} mm<br>
-            <b>Max 24h Rain:</b> {row['extreme_daily_rainfall_mm']:.1f} mm<br>
-            <b>Pop Density:</b> {row['population_density_per_sqkm']:,.0f} /km²
-        </div>
-        """
-        
-        folium.CircleMarker(
-            location=[row['latitude'], row['longitude']],
-            radius=10.0 if is_selected else (6.5 if 'High' in tier else 5.0),
-            color='#FFD700' if is_selected else 'white',
-            weight=3.0 if is_selected else 0.8,
-            fill=True,
-            fill_color=c_hex,
-            fill_opacity=0.95 if is_selected else 0.8,
-            popup=folium.Popup(popup_html, max_width=300),
-            tooltip=f"📍 {row['habitation_name']} ({row['district']} - {tier.split(' ')[0]})"
-        ).add_to(m)
-        
-    st_folium(m, width=1200, height=530)
-
 # ==============================================================================
 # TAB 2: ALL DISTRICTS IN STATE MATRIX & COMPREHENSIVE GRAPHS
 # ==============================================================================
 with tab_districts:
     st.subheader(f"All Districts Matrix & Regional Comparisons — {selected_state}")
+    st.write(f"Detailed multi-criteria breakdown across **all {df_state['district'].nunique()} districts** in **{selected_state}**:")
     
+    # Executive Risk Analytics Row
+    st.markdown("#### 📈 Active Scope Danger Distribution & Category Breakdown")
+    col_g1, col_g2, col_g3 = st.columns([1, 1.2, 1.3])
+    
+    with col_g1:
+        tier_counts = df_filtered['relative_hazard_level'].value_counts().reset_index()
+        tier_counts.columns = ['tier', 'count']
+        fig_donut = go.Figure(data=[go.Pie(
+            labels=tier_counts['tier'].apply(lambda x: x.split(' ')[0] + " Danger"),
+            values=tier_counts['count'],
+            hole=0.55,
+            marker=dict(colors=[color_dict.get(t, '#888') for t in tier_counts['tier']]),
+            textinfo='label+percent',
+            hoverinfo='label+value+percent'
+        )])
+        fig_donut.update_layout(
+            title="Active Danger Distribution",
+            height=260,
+            showlegend=False,
+            annotations=[dict(text=f"<b>{len(df_filtered)}</b><br>Habitations", x=0.5, y=0.5, font_size=13, showarrow=False, font_color="#FFF")],
+            **dark_layout_defaults
+        )
+        st.plotly_chart(fig_donut, use_container_width=True)
+
+    with col_g2:
+        if 'place_category' in df_filtered.columns:
+            cat_df = df_filtered.groupby(['place_category', 'relative_hazard_level']).size().reset_index(name='count')
+            fig_cat = px.bar(
+                cat_df, x='place_category', y='count', color='relative_hazard_level',
+                color_discrete_map=color_dict,
+                barmode='stack',
+                title="Habitation Category vs Hazard",
+                labels={'place_category': 'Category', 'count': 'Places', 'relative_hazard_level': 'Tier'}
+            )
+            fig_cat.update_layout(
+                height=260,
+                showlegend=False,
+                xaxis_tickangle=-15,
+                **dark_layout_defaults
+            )
+            st.plotly_chart(fig_cat, use_container_width=True)
+
+    with col_g3:
+        top_crit = df_filtered.sort_values(
+            by=['historical_flood_inundation_frequency', 'drainage_congestion_index', 'elevation_m'],
+            ascending=[False, False, True]
+        ).head(8)
+        
+        fig_crit = px.bar(
+            top_crit, x='elevation_m', y='habitation_name',
+            orientation='h',
+            color='relative_hazard_level',
+            color_discrete_map=color_dict,
+            title="Top Vulnerable Sites: Elevation vs Flood Frequency",
+            labels={'elevation_m': 'Elevation (m AMSL)', 'habitation_name': 'Place'}
+        )
+        fig_crit.update_layout(
+            height=260,
+            yaxis=dict(autorange="reversed"),
+            showlegend=False,
+            **dark_layout_defaults
+        )
+        st.plotly_chart(fig_crit, use_container_width=True)
+
     dist_matrix = df_state.groupby('district').agg(
         habitations_monitored=('habitation_id', 'count'),
         high_hazard_count=('relative_hazard_level', lambda s: (s == 'High Relative Hazard / Vulnerability').sum()),
