@@ -250,10 +250,17 @@ def generate_pixel_perfect_streamlit_html():
             flex: 1;
             background-color: var(--bg-color);
             overflow-y: auto;
-            padding: 24px 32px;
+            padding: 1.5rem 2rem 4rem;
             display: flex;
             flex-direction: column;
-            gap: 16px;
+        }}
+        .block-container {{
+            max-width: 1250px;
+            margin: 0 auto;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
         }}
 
         .main-header {{
@@ -287,36 +294,39 @@ def generate_pixel_perfect_streamlit_html():
             gap: 14px;
         }}
         .metric-card {{
-            background: #1A1F2C;
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            padding: 14px 16px;
+            background: transparent;
+            border: none;
+            padding: 0;
             display: flex;
             flex-direction: column;
-            gap: 4px;
+            gap: 2px;
         }}
         .metric-label {{
-            font-size: 13px;
-            color: var(--text-subdued);
-            font-weight: 600;
+            font-size: 14px;
+            color: rgba(250, 250, 250, 0.6);
+            font-weight: 400;
             display: flex;
             align-items: center;
             gap: 6px;
         }}
         .metric-val {{
-            font-size: 26px;
-            font-weight: 800;
-            color: #FFFFFF;
+            font-size: 34px;
+            font-weight: 700;
+            color: #FAFAFA;
+            line-height: 1.15;
         }}
         .metric-delta {{
-            font-size: 12px;
-            color: var(--accent-green);
-            font-weight: 600;
+            font-size: 14px;
+            color: #21C354;
+            font-weight: 400;
+            display: flex;
+            align-items: center;
+            gap: 4px;
         }}
 
         /* Live Alert Banner */
         .live-alert-card {{
-            background: linear-gradient(135deg, #16A34A 0%, #0F172A 100%);
+            background: linear-gradient(135deg, #16A34A 0%, #15803D 100%);
             border-radius: 8px;
             padding: 16px 20px;
             color: #FFFFFF;
@@ -368,31 +378,33 @@ def generate_pixel_perfect_streamlit_html():
         /* Streamlit Tabs Navigation Bar */
         .tab-bar {{
             display: flex;
-            gap: 8px;
-            border-bottom: 2px solid var(--border-color);
-            padding-bottom: 2px;
+            gap: 24px;
+            border-bottom: 1px solid rgba(250, 250, 250, 0.2);
+            padding-bottom: 0px;
             overflow-x: auto;
+            margin: 6px 0 16px 0;
         }}
         .tab-button {{
             background: transparent;
             border: none;
-            color: #94A3B8;
+            color: rgba(250, 250, 250, 0.6);
             font-size: 14px;
-            font-weight: 600;
-            padding: 10px 18px;
+            font-weight: 400;
+            padding: 8px 4px 10px 4px;
             cursor: pointer;
-            border-radius: 6px 6px 0 0;
+            border-bottom: 2px solid transparent;
+            margin-bottom: -1px;
             transition: all 0.15s ease;
             white-space: nowrap;
         }}
         .tab-button:hover {{
-            color: #FFFFFF;
-            background: rgba(255, 255, 255, 0.04);
+            color: #FAFAFA;
         }}
         .tab-button.active {{
-            color: #FFFFFF;
-            border-bottom: 3px solid var(--st-red);
-            background: rgba(255, 75, 75, 0.08);
+            color: #FF4B4B;
+            font-weight: 600;
+            border-bottom: 2px solid #FF4B4B;
+            background: transparent;
         }}
         .tab-panel {{
             display: none;
@@ -607,6 +619,7 @@ def generate_pixel_perfect_streamlit_html():
 
     <!-- Main Content Area -->
     <main>
+        <div class="block-container">
         <!-- Streamlit Top Action Bar -->
         <div style="display: flex; justify-content: flex-end; align-items: center; gap: 14px; margin-bottom: -4px;">
             <button style="background: transparent; border: 1px solid #4B5563; color: #E2E8F0; padding: 4px 12px; border-radius: 6px; font-size: 13px; font-weight: 500; cursor: pointer;">Deploy</button>
@@ -655,6 +668,11 @@ def generate_pixel_perfect_streamlit_html():
                 <div class="metric-val" id="kpi-elev-val">134.3 m AMSL</div>
                 <div class="metric-delta" id="kpi-elev-delta">↑ Min 0 m</div>
             </div>
+        </div>
+
+        <!-- Section Heading: ⚡ Live Real-Time Weather & Dynamic Flood Alert Engine -->
+        <div style="font-size: 20px; font-weight: 700; color: #FAFAFA; margin: 14px 0 6px 0; display: flex; align-items: center; gap: 8px;">
+            ⚡ Live Real-Time Weather & Dynamic Flood Alert Engine
         </div>
 
         <!-- Live Real-Time Weather Section -->
@@ -982,6 +1000,7 @@ def generate_pixel_perfect_streamlit_html():
                 </div>
             </div>
         </div>
+        </div>
     </main>
 
     <!-- Client-Side JavaScript Application Logic -->
@@ -1013,9 +1032,9 @@ def generate_pixel_perfect_streamlit_html():
 
         const darkPlotlyLayout = {{
             template: 'plotly_dark',
-            paper_bgcolor: 'rgba(22, 25, 34, 0.7)',
-            plot_bgcolor: 'rgba(22, 25, 34, 0.7)',
-            font: {{ color: '#CBD5E1', family: 'Source Sans Pro, Inter, sans-serif' }},
+            paper_bgcolor: 'rgba(0, 0, 0, 0)',
+            plot_bgcolor: 'rgba(0, 0, 0, 0)',
+            font: {{ color: 'rgba(250, 250, 250, 0.7)', family: 'Source Sans Pro, -apple-system, sans-serif' }},
             margin: {{ l: 45, r: 25, t: 40, b: 40 }}
         }};
 
