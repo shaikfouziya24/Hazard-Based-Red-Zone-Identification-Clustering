@@ -270,25 +270,38 @@ if selected_district != "All Districts in State":
 else:
     df_dist = df_state.copy()
 
-# 3. Specific Place / Habitation Selector
-place_options = ["All Places in Selection"] + sorted(df_dist['habitation_name'].dropna().unique().tolist())
-selected_place = st.sidebar.selectbox("🏘️ 3. Select Specific Place / Habitation:", place_options)
+# 3. Separate Danger Levels
+st.sidebar.markdown("⚠️ **3. Separate Danger Levels**")
+high_count = len(df_dist[df_dist['relative_hazard_level'] == 'High Relative Hazard / Vulnerability'])
+med_count = len(df_dist[df_dist['relative_hazard_level'] == 'Moderate Relative Hazard / Vulnerability'])
+low_count = len(df_dist[df_dist['relative_hazard_level'] == 'Relatively Lower Hazard / Vulnerability'])
 
-# 4. Hazard Tier Selector
-hazard_tier_options = [
-    "All Hazard Tiers",
-    "High Relative Hazard / Vulnerability",
-    "Moderate Relative Hazard / Vulnerability",
-    "Relatively Lower Hazard / Vulnerability"
-]
-selected_tier = st.sidebar.selectbox("⚠️ 4. Filter by Hazard Tier:", hazard_tier_options)
+c_high = st.sidebar.checkbox(f"🔴 High Danger ({high_count})", value=True)
+c_med = st.sidebar.checkbox(f"🟡 Medium Danger ({med_count})", value=True)
+c_low = st.sidebar.checkbox(f"🔵 Low Danger ({low_count})", value=True)
+
+selected_tiers = []
+if c_high:
+    selected_tiers.append('High Relative Hazard / Vulnerability')
+if c_med:
+    selected_tiers.append('Moderate Relative Hazard / Vulnerability')
+if c_low:
+    selected_tiers.append('Relatively Lower Hazard / Vulnerability')
+
+df_dist_tier = df_dist[df_dist['relative_hazard_level'].isin(selected_tiers)]
+
+# 4. Select Particular Location / Area
+st.sidebar.markdown("📍 **4. Select Particular Location / Area**")
+place_options = ["All Locations in Scope"] + sorted(df_dist_tier['habitation_name'].dropna().unique().tolist())
+selected_place = st.sidebar.selectbox("Select Particular Location / Area:", place_options, label_visibility="collapsed")
+search_area = st.sidebar.text_input("Type to search area / village...", placeholder="🔍 Type to search area / village...", label_visibility="collapsed")
 
 # Apply Filters
-df_filtered = df_dist.copy()
-if selected_place != "All Places in Selection":
+df_filtered = df_dist_tier.copy()
+if selected_place != "All Locations in Scope":
     df_filtered = df_filtered[df_filtered['habitation_name'] == selected_place]
-if selected_tier != "All Hazard Tiers":
-    df_filtered = df_filtered[df_filtered['relative_hazard_level'] == selected_tier]
+if search_area.strip():
+    df_filtered = df_filtered[df_filtered['habitation_name'].str.contains(search_area.strip(), case=False, na=False)]
 
 # Sidebar Live Refresh Button
 st.sidebar.markdown("---")
@@ -300,7 +313,7 @@ st.sidebar.markdown("---")
 st.sidebar.subheader("Active Scope Summary")
 st.sidebar.write(f"**State:** {selected_state}")
 st.sidebar.write(f"**District:** {selected_district}")
-st.sidebar.write(f"**Place:** {selected_place}")
+st.sidebar.write(f"**Location / Area:** {selected_place}")
 st.sidebar.write(f"**Habitations Active:** {len(df_filtered)} / {len(df)}")
 st.sidebar.write(f"**Districts in State:** {df_state['district'].nunique()}")
 st.sidebar.write(f"**Elevation Model:** Copernicus DEM 90m")
@@ -332,7 +345,7 @@ with c5:
 st.markdown("### ⚡ Live Real-Time Weather & Dynamic Flood Alert Engine")
 
 # Determine Target Location for Real-Time Query
-if selected_place != "All Places in Selection" and len(df_filtered) == 1:
+if selected_place not in ["All Places in Selection", "All Locations in Scope"] and len(df_filtered) == 1:
     target_row = df_filtered.iloc[0]
     target_name = f"{target_row['habitation_name']} ({target_row['district']}, {target_row['state']})"
     target_lat = target_row['latitude']
@@ -433,7 +446,7 @@ with tab_map:
     st.write(f"Displaying **{len(df_filtered)} habitation(s)** across **{df_filtered['district'].nunique()} district(s)**. Circle markers reflect unsupervised ML hazard tiers. Click any place marker for complete biophysical metrics.")
     
     geo_info = state_geo.get(selected_state, {"center": [22.0, 79.5], "zoom": 5})
-    if selected_place != "All Places in Selection" and len(df_filtered) == 1:
+    if selected_place not in ["All Places in Selection", "All Locations in Scope"] and len(df_filtered) == 1:
         map_center = [df_filtered['latitude'].iloc[0], df_filtered['longitude'].iloc[0]]
         map_zoom = 12
     elif selected_district != "All Districts in State" and len(df_filtered) > 0:

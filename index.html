@@ -5,28 +5,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SIH26191: Pan-India Flood Hazard & Real-Time Alert System</title>
     
-    <!-- Leaflet & Chart.js -->
+    <!-- Leaflet & Plotly.js (Exact engine from Streamlit) -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.plot.ly/plotly-2.30.0.min.js"></script>
     
-    <!-- Google Fonts -->
+    <!-- Streamlit Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Source+Sans+Pro:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
     <style>
         :root {
             --bg-color: #0E1117;
-            --sidebar-bg: #161922;
+            --sidebar-bg: #262730;
             --card-bg: #1A1F2C;
             --border-color: #2B3245;
-            --text-main: #F1F5F9;
+            --text-main: #FAFAFA;
             --text-subdued: #94A3B8;
             --accent-red: #D73027;
             --accent-orange: #FDAE61;
             --accent-blue: #4575B4;
-            --accent-green: #10B981;
+            --accent-green: #22C55E;
+            --st-red: #FF4B4B;
         }
 
         * {
@@ -36,7 +37,7 @@
         }
 
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-family: 'Source Sans Pro', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
             background-color: var(--bg-color);
             color: var(--text-main);
             display: flex;
@@ -44,15 +45,15 @@
             overflow: hidden;
         }
 
-        /* Sidebar: Clean, Authentic 4-Dropdown Design matching reference video */
+        /* Streamlit Sidebar Style */
         aside {
-            width: 320px;
+            width: 330px;
             background-color: var(--sidebar-bg);
             border-right: 1px solid var(--border-color);
             display: flex;
             flex-direction: column;
-            padding: 16px 14px;
-            gap: 12px;
+            padding: 20px 16px;
+            gap: 14px;
             overflow-y: auto;
             flex-shrink: 0;
         }
@@ -60,67 +61,133 @@
         .sidebar-brand {
             display: flex;
             align-items: center;
-            gap: 10px;
-            padding-bottom: 2px;
-        }
-
-        .sidebar-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            gap: 12px;
+            padding-bottom: 4px;
         }
         .sidebar-title {
-            font-size: 19px;
+            font-size: 20px;
             font-weight: 800;
             color: #FFFFFF;
             letter-spacing: -0.3px;
         }
-        .collapse-icon {
-            font-size: 16px;
-            color: var(--text-subdued);
-            cursor: pointer;
-            font-weight: bold;
-        }
 
         .control-label {
-            font-size: 13px;
-            font-weight: 700;
+            font-size: 13.5px;
+            font-weight: 600;
             color: #E2E8F0;
-            margin-bottom: 4px;
+            margin-bottom: 5px;
             display: block;
         }
 
         select {
             width: 100%;
             background-color: #0E1117;
-            border: 1px solid var(--border-color);
+            border: 1px solid #464B5C;
             color: #FFFFFF;
             padding: 9px 12px;
-            border-radius: 6px;
+            border-radius: 8px;
+            font-size: 13.5px;
+            font-family: inherit;
+            outline: none;
+            transition: all 0.15s ease;
+            cursor: pointer;
+        }
+        select:focus {
+            border-color: #60A5FA;
+            box-shadow: 0 0 0 1px #60A5FA;
+        }
+
+        .danger-levels-card {
+            background-color: #1A1F2C;
+            border: 1px solid #2B3245;
+            border-radius: 8px;
+            padding: 12px 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .danger-checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            user-select: none;
+        }
+        .danger-checkbox-item input[type="checkbox"] {
+            appearance: none;
+            -webkit-appearance: none;
+            width: 18px;
+            height: 18px;
+            border: 2px solid #EF4444;
+            border-radius: 4px;
+            background-color: transparent;
+            display: grid;
+            place-content: center;
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+        .danger-checkbox-item input[type="checkbox"]:checked {
+            background-color: #EF4444;
+        }
+        .danger-checkbox-item input[type="checkbox"]:checked::before {
+            content: "";
+            width: 10px;
+            height: 6px;
+            border-left: 2px solid white;
+            border-bottom: 2px solid white;
+            transform: rotate(-45deg) translate(1px, -1px);
+        }
+        .danger-label-high {
+            color: #F87171;
+            font-weight: 700;
+        }
+        .danger-label-med {
+            color: #FBBF24;
+            font-weight: 700;
+        }
+        .danger-label-low {
+            color: #60A5FA;
+            font-weight: 700;
+        }
+        .search-box-wrap {
+            margin-top: 8px;
+        }
+        .search-box-wrap input {
+            width: 100%;
+            background-color: #0E1117;
+            border: 1px solid #464B5C;
+            color: #FFFFFF;
+            padding: 9px 12px;
+            border-radius: 8px;
             font-size: 13.5px;
             font-family: inherit;
             outline: none;
             transition: border-color 0.15s ease;
         }
-        select:focus {
+        .search-box-wrap input:focus {
             border-color: #60A5FA;
+        }
+        .search-box-wrap input::placeholder {
+            color: #64748B;
         }
 
         .btn-refresh {
             background: #1E293B;
-            border: 1px solid var(--border-color);
+            border: 1px solid #464B5C;
             color: #E2E8F0;
-            padding: 8px 12px;
-            border-radius: 6px;
-            font-size: 12.5px;
+            padding: 9px 14px;
+            border-radius: 8px;
+            font-size: 13px;
             font-weight: 600;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 6px;
+            gap: 8px;
             transition: all 0.2s ease;
-            margin-top: 4px;
+            width: 100%;
         }
         .btn-refresh:hover {
             background: #334155;
@@ -130,17 +197,23 @@
 
         .sidebar-divider {
             height: 1px;
-            background-color: var(--border-color);
+            background-color: #383E4F;
             margin: 6px 0;
         }
 
         .scope-summary {
             margin-top: auto;
-            padding-top: 10px;
-            border-top: 1px solid var(--border-color);
-            font-size: 11.5px;
+            padding-top: 12px;
+            border-top: 1px solid #383E4F;
+            font-size: 12px;
             color: var(--text-subdued);
-            line-height: 1.5;
+            line-height: 1.6;
+        }
+        .scope-summary h4 {
+            color: #FFFFFF;
+            font-size: 14px;
+            font-weight: 700;
+            margin-bottom: 6px;
         }
 
         /* Main Workspace Container */
@@ -148,31 +221,30 @@
             flex: 1;
             background-color: var(--bg-color);
             overflow-y: auto;
-            padding: 22px 28px;
+            padding: 24px 32px;
             display: flex;
             flex-direction: column;
             gap: 16px;
         }
 
-        .main-title {
-            font-size: 24px;
+        .main-header {
+            font-size: 26px;
             font-weight: 800;
             color: #60A5FA;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            letter-spacing: -0.4px;
+            margin-bottom: 2px;
+            letter-spacing: -0.3px;
         }
-        .main-subtitle {
-            font-size: 13px;
-            color: var(--text-subdued);
-            margin-top: 3px;
+        .sub-header {
+            font-size: 13.5px;
+            color: #94A3B8;
+            margin-bottom: 12px;
         }
 
+        /* Streamlit Academic Disclaimer Box */
         .disclaimer-box {
             background-color: #1E222D;
             border-left: 4px solid #F59E0B;
-            padding: 9px 14px;
+            padding: 10px 16px;
             border-radius: 6px;
             font-size: 12.5px;
             color: #FDE68A;
@@ -183,19 +255,19 @@
         .metrics-row {
             display: grid;
             grid-template-columns: repeat(5, 1fr);
-            gap: 12px;
+            gap: 14px;
         }
         .metric-card {
-            background: var(--card-bg);
+            background: #1A1F2C;
             border: 1px solid var(--border-color);
             border-radius: 8px;
-            padding: 12px 14px;
+            padding: 14px 16px;
             display: flex;
             flex-direction: column;
             gap: 4px;
         }
         .metric-label {
-            font-size: 12px;
+            font-size: 13px;
             color: var(--text-subdued);
             font-weight: 600;
             display: flex;
@@ -203,20 +275,22 @@
             gap: 6px;
         }
         .metric-val {
-            font-size: 22px;
+            font-size: 26px;
             font-weight: 800;
             color: #FFFFFF;
         }
         .metric-delta {
-            font-size: 11.5px;
-            color: #94A3B8;
+            font-size: 12px;
+            color: var(--accent-green);
+            font-weight: 600;
         }
 
         /* Live Alert Banner */
-        .alert-banner {
+        .live-alert-card {
             background: linear-gradient(135deg, #16A34A 0%, #0F172A 100%);
             border-radius: 8px;
-            padding: 14px 18px;
+            padding: 16px 20px;
+            color: #FFFFFF;
             display: flex;
             flex-direction: column;
             gap: 8px;
@@ -230,7 +304,7 @@
             flex-wrap: wrap;
         }
         .alert-pill {
-            font-size: 16px;
+            font-size: 18px;
             font-weight: 800;
             color: #FFFFFF;
             display: flex;
@@ -238,34 +312,34 @@
             gap: 8px;
         }
         .alert-station {
-            font-size: 13px;
+            font-size: 13.5px;
             color: #E2E8F0;
             opacity: 0.95;
         }
         .alert-desc {
-            font-size: 13.5px;
+            font-size: 14px;
             color: #F8FAFC;
-            line-height: 1.4;
+            line-height: 1.45;
         }
         .alert-pills-row {
             display: flex;
             flex-wrap: wrap;
-            gap: 6px;
-            margin-top: 2px;
+            gap: 8px;
+            margin-top: 4px;
         }
-        .pill-item {
-            background: rgba(255, 255, 255, 0.2);
+        .metric-pill {
+            background: rgba(255, 255, 255, 0.22);
             border-radius: 12px;
-            padding: 4px 10px;
+            padding: 5px 12px;
             font-size: 12px;
             font-weight: 600;
             color: #FFFFFF;
         }
 
-        /* Tabs Styling matching Streamlit tabs */
+        /* Streamlit Tabs Navigation Bar */
         .tab-bar {
             display: flex;
-            gap: 6px;
+            gap: 8px;
             border-bottom: 2px solid var(--border-color);
             padding-bottom: 2px;
             overflow-x: auto;
@@ -273,10 +347,10 @@
         .tab-button {
             background: transparent;
             border: none;
-            color: var(--text-subdued);
-            font-size: 13.5px;
+            color: #94A3B8;
+            font-size: 14px;
             font-weight: 600;
-            padding: 9px 15px;
+            padding: 10px 18px;
             cursor: pointer;
             border-radius: 6px 6px 0 0;
             transition: all 0.15s ease;
@@ -287,28 +361,28 @@
             background: rgba(255, 255, 255, 0.04);
         }
         .tab-button.active {
-            color: #60A5FA;
-            border-bottom: 3px solid #60A5FA;
-            background: rgba(96, 165, 250, 0.08);
+            color: #FFFFFF;
+            border-bottom: 3px solid var(--st-red);
+            background: rgba(255, 75, 75, 0.08);
         }
         .tab-panel {
             display: none;
             flex-direction: column;
-            gap: 14px;
+            gap: 16px;
         }
         .tab-panel.active {
             display: flex;
         }
 
         .tab-section-header {
-            font-size: 18px;
+            font-size: 19px;
             font-weight: 700;
             color: #FFFFFF;
         }
         .tab-section-sub {
-            font-size: 13px;
+            font-size: 13.5px;
             color: var(--text-subdued);
-            margin-top: -8px;
+            margin-top: -6px;
             margin-bottom: 6px;
         }
 
@@ -318,8 +392,8 @@
             border: 1px solid var(--border-color);
         }
 
-        .graph-card {
-            background: var(--sidebar-bg);
+        .chart-card {
+            background: #161922;
             border: 1px solid var(--border-color);
             border-radius: 8px;
             padding: 14px;
@@ -327,8 +401,8 @@
             flex-direction: column;
             gap: 8px;
         }
-        .graph-title {
-            font-size: 13.5px;
+        .chart-header {
+            font-size: 14.5px;
             font-weight: 700;
             color: #FFFFFF;
             display: flex;
@@ -341,12 +415,12 @@
             overflow-x: auto;
             border: 1px solid var(--border-color);
             border-radius: 8px;
-            background: var(--sidebar-bg);
+            background: #161922;
         }
         table {
             width: 100%;
             border-collapse: collapse;
-            font-size: 12.5px;
+            font-size: 13px;
             text-align: left;
         }
         th {
@@ -427,10 +501,10 @@
 </head>
 <body>
 
-    <!-- Sidebar: Clean, Authentic 4-Dropdown Navigation matching reference video -->
+    <!-- Streamlit-Style Sidebar: Clean 4 Cascading Dropdowns -->
     <aside>
         <div class="sidebar-brand">
-            <span style="font-size: 28px;">🌊</span>
+            <span style="font-size: 32px;">🌊</span>
             <div class="sidebar-title">National & State Navigation</div>
         </div>
 
@@ -450,23 +524,34 @@
             </select>
         </div>
 
-        <!-- 3. Specific Place / Habitation Selector -->
+        <!-- 3. Separate Danger Levels -->
         <div>
-            <label class="control-label" for="place-select">🏘️ 3. Select Specific Place / Habitation:</label>
-            <select id="place-select" onchange="onPlaceChange()">
-                <option value="All Places in Selection">All Places in Selection</option>
-            </select>
+            <label class="control-label">⚠️ 3. Separate Danger Levels</label>
+            <div class="danger-levels-card">
+                <label class="danger-checkbox-item">
+                    <input type="checkbox" id="check-high" checked onchange="onDangerFilterChange()">
+                    <span class="danger-label-high">🔴 High Danger (<span id="count-high">144</span>)</span>
+                </label>
+                <label class="danger-checkbox-item">
+                    <input type="checkbox" id="check-medium" checked onchange="onDangerFilterChange()">
+                    <span class="danger-label-med">🟡 Medium Danger (<span id="count-medium">18</span>)</span>
+                </label>
+                <label class="danger-checkbox-item">
+                    <input type="checkbox" id="check-low" checked onchange="onDangerFilterChange()">
+                    <span class="danger-label-low">🔵 Low Danger (<span id="count-low">67</span>)</span>
+                </label>
+            </div>
         </div>
 
-        <!-- 4. Hazard Tier Selector -->
+        <!-- 4. Select Particular Location / Area -->
         <div>
-            <label class="control-label" for="tier-select">⚠️ 4. Filter by Hazard Tier:</label>
-            <select id="tier-select" onchange="onTierChange()">
-                <option value="All Hazard Tiers">All Hazard Tiers</option>
-                <option value="High Relative Hazard / Vulnerability">High Relative Hazard / Vulnerability</option>
-                <option value="Moderate Relative Hazard / Vulnerability">Moderate Relative Hazard / Vulnerability</option>
-                <option value="Relatively Lower Hazard / Vulnerability">Relatively Lower Hazard / Vulnerability</option>
+            <label class="control-label" for="place-select">📍 4. Select Particular Location / Area</label>
+            <select id="place-select" onchange="onPlaceChange()">
+                <option value="All Locations in Scope">All Locations in Scope</option>
             </select>
+            <div class="search-box-wrap">
+                <input type="text" id="area-search" placeholder="🔍 Type to search area / village..." oninput="onAreaSearch(this.value)">
+            </div>
         </div>
 
         <div class="sidebar-divider"></div>
@@ -478,10 +563,10 @@
         <div class="sidebar-divider"></div>
 
         <div class="scope-summary">
-            <h4 style="color: #FFFFFF; font-size: 13px; margin-bottom: 6px;">Active Scope Summary</h4>
+            <h4>Active Scope Summary</h4>
             <b>State:</b> <span id="summary-state">All India (Pan-India Overview)</span><br>
             <b>District:</b> <span id="summary-dist">All Districts in State</span><br>
-            <b>Place:</b> <span id="summary-place">All Places in Selection</span><br>
+            <b>Location / Area:</b> <span id="summary-place">All Locations in Scope</span><br>
             <b>Habitations Active:</b> <span id="summary-hab-count">229 / 229</span><br>
             <b>Districts in State:</b> <span id="summary-dist-count">92</span><br>
             <b>Elevation Model:</b> Copernicus DEM 90m<br>
@@ -494,10 +579,10 @@
     <main>
         <!-- Header Section -->
         <div>
-            <div class="main-title">
+            <div class="main-header">
                 🌊 Hazard-Based Red-Zone Identification for Vulnerable Habitations Using Clustering
             </div>
-            <div class="main-subtitle">
+            <div class="sub-header">
                 <b>Project ID: SIH26191</b> | <b>Coverage: Pan-India Multi-State System</b> | <b>Real-Time Live Weather & Flood Alerts</b> | B.Tech ML Project
             </div>
         </div>
@@ -537,31 +622,31 @@
         </div>
 
         <!-- Live Real-Time Weather Section -->
-        <div class="alert-banner" id="alert-banner-box">
+        <div class="live-alert-card" id="alert-banner-box">
             <div class="alert-top">
-                <div style="display: flex; align-items: center; gap: 10px;">
+                <div style="display: flex; align-items: center; gap: 12px;">
                     <span class="alert-pill" id="live-alert-pill">🟢 GREEN STATUS (NORMAL / DRY)</span>
                     <span class="alert-station" id="live-station-name">Station: Regional Representative Station: All India (Pan-India Overview) (Lat: 17.754°, Lon: 80.921°)</span>
                 </div>
-                <div style="font-size: 12px; color: #E2E8F0;" id="live-obs-time">
-                    🕒 <b>Live Observation:</b> 2026-11-08 04:30 IST | <span style="background: rgba(255,255,255,0.2); padding: 2px 7px; border-radius: 4px;">📡 Live API Connected</span>
+                <div style="font-size: 13px; color: #E2E8F0;" id="live-obs-time">
+                    🕒 <b>Live Observation:</b> 2026-11-08 10:45 IST | <span style="background: rgba(255,255,255,0.2); padding: 3px 8px; border-radius: 4px;">📡 Live API Connected</span>
                 </div>
             </div>
             <div class="alert-desc" id="live-alert-desc">
                 High baseline morphological vulnerability, but current weather is dry/clear. No immediate precipitation trigger active.
             </div>
             <div class="alert-pills-row">
-                <span class="pill-item" id="pill-temp">🌡️ Temp: 24.5°C (Feels 25.8°C)</span>
-                <span class="pill-item" id="pill-humidity">💧 Humidity: 89%</span>
-                <span class="pill-item" id="pill-rain">🌧️ Live Rain: 0.0 mm/h</span>
-                <span class="pill-item" id="pill-past24">🌊 Past 24h Rain: 0.0 mm</span>
-                <span class="pill-item" id="pill-cond">🌤️ Condition: Clear Sky</span>
-                <span class="pill-item" id="pill-wind">💨 Wind: 5.7 km/h</span>
-                <span class="pill-item" id="pill-elev">⛰️ Elevation: 134.3 m AMSL</span>
+                <span class="metric-pill" id="pill-temp">🌡️ Temp: 24.5°C (Feels 25.8°C)</span>
+                <span class="metric-pill" id="pill-humidity">💧 Humidity: 89%</span>
+                <span class="metric-pill" id="pill-rain">🌧️ Live Rain: 0.0 mm/h</span>
+                <span class="metric-pill" id="pill-past24">🌊 Past 24h Rain: 0.0 mm</span>
+                <span class="metric-pill" id="pill-cond">🌤️ Condition: Clear Sky</span>
+                <span class="metric-pill" id="pill-wind">💨 Wind: 5.7 km/h</span>
+                <span class="metric-pill" id="pill-elev">⛰️ Elevation: 134.3 m AMSL</span>
             </div>
         </div>
 
-        <!-- Streamlit-Style Tabs Navigation Bar -->
+        <!-- Streamlit Tabs Navigation Bar -->
         <div class="tab-bar">
             <button class="tab-button active" onclick="switchTab('tab-map', this)">🗺️ Interactive Geospatial Map</button>
             <button class="tab-button" onclick="switchTab('tab-districts', this)">🏛️ All Districts in State Matrix</button>
@@ -571,7 +656,7 @@
             <button class="tab-button" onclick="switchTab('tab-data', this)">📋 Data Explorer & All Places Registry</button>
         </div>
 
-        <!-- TAB 1: INTERACTIVE GEOSPATIAL MAP (CLEAN, NO EXTRA HEAVY CHARTS) -->
+        <!-- TAB 1: INTERACTIVE GEOSPATIAL MAP (EXACT CLEAN FOLIUM VIEW) -->
         <div id="tab-map" class="tab-panel active">
             <div>
                 <div class="tab-section-header" id="map-section-header">Geospatial Hazard Distribution — All India (Pan-India Overview) (All Districts in State)</div>
@@ -587,25 +672,19 @@
                 <div class="tab-section-sub" id="districts-section-sub">Detailed multi-criteria breakdown across all monitored districts:</div>
             </div>
             
-            <!-- 2 Clean Charts Side-by-Side matching reference -->
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
-                <div class="graph-card">
-                    <div class="graph-title"><span>Districts Ranked by High Hazard Habitations (%)</span></div>
-                    <div style="height: 340px; position: relative;">
-                        <canvas id="districtsRankChart"></canvas>
-                    </div>
+            <!-- 2 Clean Plotly Charts Side-by-Side -->
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                <div class="chart-card">
+                    <div id="districtsRankChart" style="height: 420px;"></div>
                 </div>
-                <div class="graph-card">
-                    <div class="graph-title"><span>District Morphometry: Mean Elevation vs Annual Rain</span></div>
-                    <div style="height: 340px; position: relative;">
-                        <canvas id="districtScatterChart"></canvas>
-                    </div>
+                <div class="chart-card">
+                    <div id="districtScatterChart" style="height: 420px;"></div>
                 </div>
             </div>
 
             <!-- District Multi-Hazard Profile Summary Table -->
-            <div class="graph-card">
-                <div class="graph-title"><span>District Multi-Hazard Profile Summary Table</span></div>
+            <div class="chart-card">
+                <div class="chart-header"><span>District Multi-Hazard Profile Summary Table</span></div>
                 <div class="table-wrap">
                     <table id="district-summary-table">
                         <thead>
@@ -629,10 +708,10 @@
             </div>
 
             <!-- Live Multi-District Real-Time Meteorological Monitor -->
-            <div class="graph-card">
-                <div class="graph-title"><span>⚡ Live Multi-District Real-Time Meteorological Monitor</span></div>
-                <p style="font-size: 13px; color: var(--text-subdued);">Fetch live real-time weather readings simultaneously across all monitored districts:</p>
-                <button class="btn-refresh" style="width: auto; align-self: flex-start; padding: 7px 16px;" onclick="queryLiveDistrictsWeather()">
+            <div class="chart-card">
+                <div class="chart-header"><span>⚡ Live Multi-District Real-Time Meteorological Monitor</span></div>
+                <p style="font-size: 13.5px; color: var(--text-subdued);">Fetch live real-time weather readings simultaneously across all monitored districts:</p>
+                <button class="btn-refresh" style="width: auto; align-self: flex-start; padding: 8px 18px;" onclick="queryLiveDistrictsWeather()">
                     📡 Query Live Weather for All Monitored Districts
                 </button>
                 <div id="live-districts-result-box" style="display: none; margin-top: 10px;">
@@ -664,25 +743,19 @@
                 <div class="tab-section-sub">Unsupervised morphological, hydrometeorological, and biophysical profiles across hazard tiers:</div>
             </div>
 
-            <!-- 2 Clean Charts Side-by-Side matching reference -->
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
-                <div class="graph-card">
-                    <div class="graph-title"><span>Radar Profile Signature (Normalized Risk Factors)</span></div>
-                    <div style="height: 380px; position: relative;">
-                        <canvas id="signaturesRadarChart"></canvas>
-                    </div>
+            <!-- 2 Clean Plotly Charts Side-by-Side (Radar & 2D PCA) -->
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                <div class="chart-card">
+                    <div id="signaturesRadarChart" style="height: 450px;"></div>
                 </div>
-                <div class="graph-card">
-                    <div class="graph-title"><span>2D Principal Component Projection (PC1 vs PC2)</span></div>
-                    <div style="height: 380px; position: relative;">
-                        <canvas id="pcaScatterChart"></canvas>
-                    </div>
+                <div class="chart-card">
+                    <div id="pcaScatterChart" style="height: 450px;"></div>
                 </div>
             </div>
 
             <!-- Feature Distribution by Hazard Tier -->
-            <div class="graph-card">
-                <div class="graph-title">
+            <div class="chart-card">
+                <div class="chart-header">
                     <span>Feature Distribution by Hazard Tier</span>
                     <select id="box-feature-select" style="width: 280px;" onchange="updateBoxFeatureChart()">
                         <option value="elevation_m">Surface Elevation (m AMSL)</option>
@@ -694,9 +767,7 @@
                         <option value="drainage_congestion_index">Drainage Congestion Score (1-5)</option>
                     </select>
                 </div>
-                <div style="height: 300px; position: relative;">
-                    <canvas id="featureBoxChart"></canvas>
-                </div>
+                <div id="featureBoxChart" style="height: 380px;"></div>
             </div>
         </div>
 
@@ -707,25 +778,19 @@
                 <div class="tab-section-sub">Cross-state comparative risk benchmarking across monitored settlements:</div>
             </div>
 
-            <!-- 2 Clean Charts Side-by-Side matching reference -->
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
-                <div class="graph-card">
-                    <div class="graph-title"><span>Percentage of Monitored Settlements in High Hazard Tier (%)</span></div>
-                    <div style="height: 360px; position: relative;">
-                        <canvas id="stateBarChart"></canvas>
-                    </div>
+            <!-- 2 Clean Plotly Charts Side-by-Side -->
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                <div class="chart-card">
+                    <div id="stateBarChart" style="height: 430px;"></div>
                 </div>
-                <div class="graph-card">
-                    <div class="graph-title"><span>State Climatology vs Topography: Mean Rainfall vs Elevation</span></div>
-                    <div style="height: 360px; position: relative;">
-                        <canvas id="stateScatterChart"></canvas>
-                    </div>
+                <div class="chart-card">
+                    <div id="stateScatterChart" style="height: 430px;"></div>
                 </div>
             </div>
 
             <!-- State-Wise Multi-Hazard Comparison Table -->
-            <div class="graph-card">
-                <div class="graph-title"><span>State-Wise Comparative Multi-Hazard Table</span></div>
+            <div class="chart-card">
+                <div class="chart-header"><span>State-Wise Comparative Multi-Hazard Table</span></div>
                 <div class="table-wrap">
                     <table id="state-summary-table">
                         <thead>
@@ -747,23 +812,23 @@
             </div>
         </div>
 
-        <!-- TAB 5: MACHINE LEARNING BENCHMARKING (CLEAN 4 TABLES MATCHING REFERENCE) -->
+        <!-- TAB 5: MACHINE LEARNING BENCHMARKING (4 CLEAN BENCHMARK TABLES) -->
         <div id="tab-ml" class="tab-panel">
             <div>
                 <div class="tab-section-header">Machine Learning Algorithm Benchmarking & Metric Validation</div>
                 <div class="tab-section-sub">Empirical validation and objective evaluation metrics across clustering paradigms:</div>
             </div>
 
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
                 <!-- K-Means Benchmark Table -->
-                <div class="graph-card">
-                    <div class="graph-title"><span>K-Means Clustering Benchmarking (Random vs K-Means++)</span></div>
+                <div class="chart-card">
+                    <div class="chart-header"><span>K-Means Clustering Benchmarking (Random vs K-Means++)</span></div>
                     <div class="table-wrap">
                         <table id="table-kmeans">
                             <thead>
                                 <tr>
                                     <th>Algorithm</th>
-                                    <th>Init</th>
+                                    <th>Init Method</th>
                                     <th>K</th>
                                     <th>Silhouette</th>
                                     <th>Davies-Bouldin</th>
@@ -775,17 +840,17 @@
                 </div>
 
                 <!-- Hierarchical Linkage Benchmark Table -->
-                <div class="graph-card">
-                    <div class="graph-title"><span>Hierarchical Clustering (Linkage Criteria, K=3)</span></div>
+                <div class="chart-card">
+                    <div class="chart-header"><span>Hierarchical Clustering (Linkage Criteria, K=3)</span></div>
                     <div class="table-wrap">
                         <table id="table-hier">
                             <thead>
                                 <tr>
-                                    <th>Linkage</th>
-                                    <th>K</th>
+                                    <th>Linkage Criterion</th>
+                                    <th>Clusters (K)</th>
                                     <th>Silhouette</th>
                                     <th>Davies-Bouldin</th>
-                                    <th>Distribution</th>
+                                    <th>Cluster Distribution</th>
                                 </tr>
                             </thead>
                             <tbody id="tbody-hier"></tbody>
@@ -794,13 +859,13 @@
                 </div>
 
                 <!-- K-Medoids PAM Benchmark Table -->
-                <div class="graph-card">
-                    <div class="graph-title"><span>K-Medoids (PAM) with Manhattan (L1) vs Euclidean</span></div>
+                <div class="chart-card">
+                    <div class="chart-header"><span>K-Medoids (PAM) with Manhattan (L1) vs Euclidean</span></div>
                     <div class="table-wrap">
                         <table id="table-kmedoids">
                             <thead>
                                 <tr>
-                                    <th>Distance</th>
+                                    <th>Distance Metric</th>
                                     <th>K</th>
                                     <th>Silhouette</th>
                                     <th>Davies-Bouldin</th>
@@ -813,15 +878,15 @@
                 </div>
 
                 <!-- Master Comparison across Paradigms -->
-                <div class="graph-card">
-                    <div class="graph-title"><span>Master Comparison across Paradigms</span></div>
+                <div class="chart-card">
+                    <div class="chart-header"><span>Master Comparison across Paradigms</span></div>
                     <div class="table-wrap">
                         <table id="table-master">
                             <thead>
                                 <tr>
                                     <th>Algorithm</th>
                                     <th>Clusters</th>
-                                    <th>Noise</th>
+                                    <th>Noise Points</th>
                                     <th>Silhouette</th>
                                     <th>Davies-Bouldin</th>
                                 </tr>
@@ -848,7 +913,7 @@
                 </div>
             </div>
 
-            <div class="graph-card">
+            <div class="chart-card">
                 <div class="table-wrap">
                     <table id="registry-table">
                         <thead>
@@ -872,11 +937,11 @@
                         <tbody id="registry-tbody"></tbody>
                     </table>
                 </div>
-                <div id="registry-pagination" style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px; font-size: 12.5px; color: var(--text-subdued);">
+                <div id="registry-pagination" style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px; font-size: 13px; color: var(--text-subdued);">
                     <span id="registry-page-info"></span>
                     <div style="display: flex; gap: 6px;">
-                        <button onclick="prevRegistryPage()" class="btn-refresh" style="padding: 4px 10px;">Previous</button>
-                        <button onclick="nextRegistryPage()" class="btn-refresh" style="padding: 4px 10px;">Next</button>
+                        <button onclick="prevRegistryPage()" class="btn-refresh" style="padding: 5px 12px; width: auto;">Previous</button>
+                        <button onclick="nextRegistryPage()" class="btn-refresh" style="padding: 5px 12px; width: auto;">Next</button>
                     </div>
                 </div>
             </div>
@@ -893,15 +958,13 @@
 
         let selectedState = "All India (Pan-India Overview)";
         let selectedDist = "All Districts in State";
-        let selectedPlace = "All Places in Selection";
-        let selectedTier = "All Hazard Tiers";
+        let selectedPlace = "All Locations in Scope";
 
         let filteredPlaces = [...allPlaces];
         let map = null;
         let mapMarkersLayer = null;
         let riverLayerGroup = null;
 
-        let charts = {};
         let registryFiltered = [];
         let registryPage = 1;
         const registryPageSize = 25;
@@ -910,6 +973,14 @@
             'High Relative Hazard / Vulnerability': '#D73027',
             'Moderate Relative Hazard / Vulnerability': '#FDAE61',
             'Relatively Lower Hazard / Vulnerability': '#4575B4'
+        };
+
+        const darkPlotlyLayout = {
+            template: 'plotly_dark',
+            paper_bgcolor: 'rgba(22, 25, 34, 0.7)',
+            plot_bgcolor: 'rgba(22, 25, 34, 0.7)',
+            font: { color: '#CBD5E1', family: 'Source Sans Pro, Inter, sans-serif' },
+            margin: { l: 45, r: 25, t: 40, b: 40 }
         };
 
         const stateGeo = {
@@ -934,6 +1005,7 @@
         window.addEventListener('DOMContentLoaded', () => {
             populateStateDropdown();
             populateDistrictDropdown();
+            updateDangerCounts();
             populatePlaceDropdown();
             initMap();
             initMLTables();
@@ -967,9 +1039,29 @@
             });
         }
 
+        function updateDangerCounts() {
+            let scope = allPlaces;
+            if (selectedState !== "All India (Pan-India Overview)") {
+                scope = scope.filter(p => p.state === selectedState);
+            }
+            if (selectedDist !== "All Districts in State") {
+                scope = scope.filter(p => p.district === selectedDist);
+            }
+            const high = scope.filter(p => p.relative_hazard_level === 'High Relative Hazard / Vulnerability').length;
+            const med = scope.filter(p => p.relative_hazard_level === 'Moderate Relative Hazard / Vulnerability').length;
+            const low = scope.filter(p => p.relative_hazard_level === 'Relatively Lower Hazard / Vulnerability').length;
+
+            const countHighEl = document.getElementById('count-high');
+            const countMedEl = document.getElementById('count-medium');
+            const countLowEl = document.getElementById('count-low');
+            if (countHighEl) countHighEl.textContent = high;
+            if (countMedEl) countMedEl.textContent = med;
+            if (countLowEl) countLowEl.textContent = low;
+        }
+
         function populatePlaceDropdown() {
             const select = document.getElementById('place-select');
-            select.innerHTML = '<option value="All Places in Selection">All Places in Selection</option>';
+            select.innerHTML = '<option value="All Locations in Scope">All Locations in Scope</option>';
             let list = allPlaces;
             if (selectedState !== "All India (Pan-India Overview)") {
                 list = list.filter(p => p.state === selectedState);
@@ -977,11 +1069,24 @@
             if (selectedDist !== "All Districts in State") {
                 list = list.filter(p => p.district === selectedDist);
             }
+
+            const isHighChecked = document.getElementById('check-high') ? document.getElementById('check-high').checked : true;
+            const isMedChecked = document.getElementById('check-medium') ? document.getElementById('check-medium').checked : true;
+            const isLowChecked = document.getElementById('check-low') ? document.getElementById('check-low').checked : true;
+
+            list = list.filter(p => {
+                if (p.relative_hazard_level === 'High Relative Hazard / Vulnerability' && !isHighChecked) return false;
+                if (p.relative_hazard_level === 'Moderate Relative Hazard / Vulnerability' && !isMedChecked) return false;
+                if (p.relative_hazard_level === 'Relatively Lower Hazard / Vulnerability' && !isLowChecked) return false;
+                return true;
+            });
+
             const places = [...new Set(list.map(p => p.habitation_name).filter(Boolean))].sort();
             places.forEach(p => {
                 const opt = document.createElement('option');
                 opt.value = p;
                 opt.textContent = p;
+                if (p === selectedPlace) opt.selected = true;
                 select.appendChild(opt);
             });
         }
@@ -989,35 +1094,85 @@
         function onStateChange() {
             selectedState = document.getElementById('state-select').value;
             selectedDist = "All Districts in State";
-            selectedPlace = "All Places in Selection";
+            selectedPlace = "All Locations in Scope";
+            const areaInput = document.getElementById('area-search');
+            if (areaInput) areaInput.value = '';
             populateDistrictDropdown();
+            updateDangerCounts();
             populatePlaceDropdown();
             applyFilters();
         }
 
         function onDistrictChange() {
             selectedDist = document.getElementById('district-select').value;
-            selectedPlace = "All Places in Selection";
+            selectedPlace = "All Locations in Scope";
+            const areaInput = document.getElementById('area-search');
+            if (areaInput) areaInput.value = '';
+            updateDangerCounts();
+            populatePlaceDropdown();
+            applyFilters();
+        }
+
+        function onDangerFilterChange() {
             populatePlaceDropdown();
             applyFilters();
         }
 
         function onPlaceChange() {
             selectedPlace = document.getElementById('place-select').value;
+            const areaInput = document.getElementById('area-search');
+            if (areaInput && selectedPlace !== "All Locations in Scope") {
+                areaInput.value = selectedPlace;
+            } else if (areaInput) {
+                areaInput.value = '';
+            }
             applyFilters();
         }
 
-        function onTierChange() {
-            selectedTier = document.getElementById('tier-select').value;
+        function onAreaSearch(query) {
+            const q = (query || '').trim().toLowerCase();
+            const select = document.getElementById('place-select');
+            if (q.length === 0) {
+                selectedPlace = "All Locations in Scope";
+                select.value = "All Locations in Scope";
+            } else {
+                let matched = false;
+                for (let i = 0; i < select.options.length; i++) {
+                    if (select.options[i].value.toLowerCase().includes(q)) {
+                        select.selectedIndex = i;
+                        selectedPlace = select.options[i].value;
+                        matched = true;
+                        break;
+                    }
+                }
+                if (!matched) {
+                    selectedPlace = "All Locations in Scope";
+                    select.value = "All Locations in Scope";
+                }
+            }
             applyFilters();
         }
 
         function applyFilters() {
+            const isHighChecked = document.getElementById('check-high') ? document.getElementById('check-high').checked : true;
+            const isMedChecked = document.getElementById('check-medium') ? document.getElementById('check-medium').checked : true;
+            const isLowChecked = document.getElementById('check-low') ? document.getElementById('check-low').checked : true;
+            const searchVal = (document.getElementById('area-search') ? document.getElementById('area-search').value : '').trim().toLowerCase();
+
             filteredPlaces = allPlaces.filter(p => {
                 if (selectedState !== "All India (Pan-India Overview)" && p.state !== selectedState) return false;
                 if (selectedDist !== "All Districts in State" && p.district !== selectedDist) return false;
-                if (selectedPlace !== "All Places in Selection" && p.habitation_name !== selectedPlace) return false;
-                if (selectedTier !== "All Hazard Tiers" && p.relative_hazard_level !== selectedTier) return false;
+
+                if (p.relative_hazard_level === 'High Relative Hazard / Vulnerability' && !isHighChecked) return false;
+                if (p.relative_hazard_level === 'Moderate Relative Hazard / Vulnerability' && !isMedChecked) return false;
+                if (p.relative_hazard_level === 'Relatively Lower Hazard / Vulnerability' && !isLowChecked) return false;
+
+                if (selectedPlace !== "All Locations in Scope" && p.habitation_name !== selectedPlace) return false;
+
+                if (searchVal.length > 0 && selectedPlace === "All Locations in Scope") {
+                    if (!p.habitation_name.toLowerCase().includes(searchVal)) return false;
+                }
+
                 return true;
             });
 
@@ -1079,7 +1234,7 @@
             let targetName = `Regional Representative Station: ${selectedState}`;
             let targetElev = 134.3;
 
-            if (selectedPlace !== "All Places in Selection" && filteredPlaces.length === 1) {
+            if (selectedPlace !== "All Locations in Scope" && filteredPlaces.length === 1) {
                 const p = filteredPlaces[0];
                 targetLat = p.latitude;
                 targetLon = p.longitude;
@@ -1099,7 +1254,6 @@
             document.getElementById('live-station-name').textContent = `Station: ${targetName} (Lat: ${targetLat.toFixed(3)}°, Lon: ${targetLon.toFixed(3)}°)`;
             document.getElementById('pill-elev').textContent = `⛰️ Elevation: ${targetElev.toFixed(1)} m AMSL`;
 
-            // Query Open-Meteo API in real-time
             fetch(`https://api.open-meteo.com/v1/forecast?latitude=${targetLat.toFixed(4)}&longitude=${targetLon.toFixed(4)}&current=temperature_2m,relative_humidity_2m,apparent_temperature,precipitation,rain,weather_code,wind_speed_10m&past_days=1&hourly=precipitation&timezone=Asia%2FKolkata`)
                 .then(r => r.json())
                 .then(data => {
@@ -1116,9 +1270,8 @@
 
                         const now = new Date();
                         const timeStr = now.toISOString().replace('T', ' ').substring(0, 16) + ' IST';
-                        document.getElementById('live-obs-time').innerHTML = `🕒 <b>Live Observation:</b> ${timeStr} | <span style="background: rgba(255,255,255,0.2); padding: 2px 7px; border-radius: 4px;">📡 Live API Connected</span>`;
+                        document.getElementById('live-obs-time').innerHTML = `🕒 <b>Live Observation:</b> ${timeStr} | <span style="background: rgba(255,255,255,0.2); padding: 3px 8px; border-radius: 4px;">📡 Live API Connected</span>`;
 
-                        // Evaluate alert status
                         const banner = document.getElementById('alert-banner-box');
                         const alertPill = document.getElementById('live-alert-pill');
                         const alertDesc = document.getElementById('live-alert-desc');
@@ -1157,6 +1310,7 @@
             if (tabId === 'tab-map' && map) {
                 setTimeout(() => map.invalidateSize(), 150);
             }
+            window.dispatchEvent(new Event('resize'));
         }
 
         function initMap() {
@@ -1178,14 +1332,13 @@
 
             L.control.layers({ "OpenStreetMap (Default)": osm, "CartoDB Dark": dark }).addTo(map);
 
-            // Krishna River and Budameru Rivulet
             riverLayerGroup = L.layerGroup().addTo(map);
             const krishnaCoords = [
                 [16.580, 80.360], [16.592, 80.450], [16.590, 80.522], [16.550, 80.565],
                 [16.507, 80.605], [16.480, 80.640], [16.440, 80.720], [16.360, 80.780],
                 [16.320, 80.825], [16.185, 80.795], [16.122, 80.932], [16.022, 80.918], [15.945, 80.915]
             ];
-            L.polyline(krishnaCoords, { color: '#0055FF', weight: 4, opacity: 0.85 }).bindTooltip("Krishna River Channel").addTo(riverLayerGroup);
+            L.polyline(krishnaCoords, { color: '#0055FF', weight: 4, opacity: 0.85 }).bindTooltip("Krishna River (Prakasam Barrage System)").addTo(riverLayerGroup);
 
             const budameruCoords = [
                 [16.630, 80.540], [16.562, 80.615], [16.538, 80.638], [16.522, 80.665], [16.520, 80.750]
@@ -1214,13 +1367,13 @@
                 const isSelected = (selectedPlace === p.habitation_name);
 
                 const popupHtml = `
-                    <div style="font-family: Arial, sans-serif; font-size: 12.5px; width: 250px; line-height: 1.45; color: #111;">
+                    <div style="font-family: Arial, sans-serif; font-size: 12px; width: 260px; line-height: 1.45; color: #111;">
                         <b style="color: ${color}; font-size: 14.5px;">${p.habitation_name}</b><br>
                         <b>State:</b> ${p.state}<br>
                         <b>District:</b> ${p.district} | <b>Mandal:</b> ${p.mandal || 'N/A'}<br>
                         <b>Basin:</b> ${p.river_basin || 'Regional'}<br>
                         <b>ML Hazard Tier:</b> <span style="color: ${color}; font-weight: bold;">${tier}</span>
-                        <hr style="margin: 5px 0; border: 0; border-top: 1px solid #ccc;">
+                        <hr style="margin: 4px 0; border: 0; border-top: 1px solid #ccc;">
                         <b>Elevation:</b> ${p.elevation_m.toFixed(1)} m AMSL<br>
                         <b>Distance to River:</b> ${p.distance_to_river_km.toFixed(2)} km<br>
                         <b>Historical Floods:</b> ${p.historical_flood_inundation_frequency}/5<br>
@@ -1233,11 +1386,11 @@
 
                 const marker = L.circleMarker([lat, lon], {
                     radius: isSelected ? 9.5 : (tier.includes('High') ? 6.5 : 5.0),
-                    color: isSelected ? '#FFD700' : '#111111',
+                    color: isSelected ? '#FFD700' : '#000000',
                     weight: isSelected ? 3.0 : 0.8,
                     fillColor: color,
                     fillOpacity: isSelected ? 0.95 : 0.85
-                }).bindPopup(popupHtml).bindTooltip(`📍 ${p.habitation_name} (${tier.split(' ')[0]})`);
+                }).bindPopup(popupHtml).bindTooltip(`📍 ${p.habitation_name} (${p.district} - ${tier.split(' ')[0]})`);
 
                 marker.addTo(mapMarkersLayer);
 
@@ -1246,7 +1399,7 @@
                 }
             });
 
-            if (selectedPlace !== "All Places in Selection" && filteredPlaces.length === 1) {
+            if (selectedPlace !== "All Locations in Scope" && filteredPlaces.length === 1) {
                 map.setView([filteredPlaces[0].latitude, filteredPlaces[0].longitude], 13);
             } else if (bounds.length > 0) {
                 map.fitBounds(bounds, { padding: [35, 35], maxZoom: 12 });
@@ -1254,14 +1407,6 @@
                 const geo = stateGeo[selectedState] || { center: [22.0, 79.5], zoom: 5 };
                 map.setView(geo.center, geo.zoom);
             }
-        }
-
-        function renderOrUpdateChart(canvasId, config) {
-            if (charts[canvasId]) {
-                charts[canvasId].destroy();
-            }
-            const ctx = document.getElementById(canvasId).getContext('2d');
-            charts[canvasId] = new Chart(ctx, config);
         }
 
         function updateDistrictMatrix() {
@@ -1310,70 +1455,61 @@
                 lon: d.lonSum / d.total
             })).sort((a, b) => b.highPct - a.highPct || a.meanElev - b.meanElev);
 
-            // Chart 1: Districts Ranked by High Hazard %
-            renderOrUpdateChart('districtsRankChart', {
+            // Exact Streamlit Plotly Bar: Districts Ranked by High Hazard %
+            const barTrace = {
+                x: districts.map(d => d.district),
+                y: districts.map(d => d.highPct),
                 type: 'bar',
-                data: {
-                    labels: districts.map(d => d.district),
-                    datasets: [{
-                        label: 'High Hazard (%)',
-                        data: districts.map(d => d.highPct),
-                        backgroundColor: districts.map(d => d.highPct > 50 ? '#EF4444' : '#F97316'),
-                        borderRadius: 4
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: { legend: { display: false } },
-                    scales: {
-                        y: { beginAtZero: true, max: 100, grid: { color: '#2B3245' }, ticks: { color: '#94A3B8' } },
-                        x: { grid: { display: false }, ticks: { color: '#94A3B8', maxRotation: 45, autoSkip: false } }
-                    }
+                marker: {
+                    color: districts.map(d => d.highPct),
+                    colorscale: 'Reds',
+                    showscale: true,
+                    colorbar: { title: 'High Hazard (%)', thickness: 15 }
                 }
-            });
+            };
+            Plotly.newPlot('districtsRankChart', [barTrace], {
+                ...darkPlotlyLayout,
+                title: 'Districts Ranked by High Hazard Habitations (%) in ' + selectedState,
+                xaxis: { tickangle: -45 },
+                yaxis: { title: 'High Hazard (%)', range: [0, 100] },
+                height: 400
+            }, { responsive: true });
 
-            // Chart 2: Mean Elevation vs Annual Rain Scatter
-            renderOrUpdateChart('districtScatterChart', {
-                type: 'scatter',
-                data: {
-                    datasets: [{
-                        label: 'Districts',
-                        data: districts.map(d => ({ x: d.meanElev, y: d.meanRain, label: d.district, r: Math.max(6, Math.min(18, d.total * 2.5)) })),
-                        backgroundColor: '#38BDF8',
-                        borderColor: '#0284C7',
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        tooltip: {
-                            callbacks: {
-                                label: ctx => `${ctx.raw.label}: Elev ${ctx.raw.x}m, Rain ${ctx.raw.y}mm`
-                            }
-                        }
-                    },
-                    scales: {
-                        x: { title: { display: true, text: 'Mean Elevation (m AMSL)', color: '#94A3B8' }, grid: { color: '#2B3245' }, ticks: { color: '#94A3B8' } },
-                        y: { title: { display: true, text: 'Mean Annual Rain (mm)', color: '#94A3B8' }, grid: { color: '#2B3245' }, ticks: { color: '#94A3B8' } }
-                    }
+            // Exact Streamlit Plotly Scatter: Mean Elevation vs Annual Rain
+            const scatterTrace = {
+                x: districts.map(d => d.meanElev),
+                y: districts.map(d => d.meanRain),
+                mode: 'markers',
+                text: districts.map(d => d.district),
+                marker: {
+                    size: districts.map(d => Math.max(8, Math.min(22, d.total * 3))),
+                    color: districts.map(d => d.highPct),
+                    colorscale: 'Portland',
+                    showscale: true,
+                    colorbar: { title: 'High Hazard %', thickness: 15 }
                 }
-            });
+            };
+            Plotly.newPlot('districtScatterChart', [scatterTrace], {
+                ...darkPlotlyLayout,
+                title: 'District Morphometry: Mean Elevation vs Annual Rain (' + selectedState + ')',
+                xaxis: { title: 'Mean Elevation (m AMSL)' },
+                yaxis: { title: 'Mean Annual Rainfall (mm)' },
+                height: 400
+            }, { responsive: true });
 
-            // District Table
+            // District Table with red percentage highlight
             const tbody = document.getElementById('district-summary-tbody');
             tbody.innerHTML = '';
             districts.forEach(d => {
                 const tr = document.createElement('tr');
+                const redIntensity = Math.min(0.65, Math.max(0.1, d.highPct / 120.0));
                 tr.innerHTML = `
                     <td><b>${d.district}</b></td>
                     <td>${d.total}</td>
                     <td><span class="badge-red">${d.high}</span></td>
                     <td><span class="badge-orange">${d.mod}</span></td>
                     <td><span class="badge-blue">${d.low}</span></td>
-                    <td><span style="color: ${d.highPct > 50 ? '#EF4444' : '#FBBF24'}; font-weight: bold;">${d.highPct}%</span></td>
+                    <td style="background: rgba(215, 48, 39, ${redIntensity}); color: #FFF; font-weight: bold;">${d.highPct}%</td>
                     <td>${d.meanElev} m</td>
                     <td>${d.meanRiver} km</td>
                     <td>${d.meanRain} mm</td>
@@ -1434,124 +1570,123 @@
             }
 
             const tiers = ['High Relative Hazard / Vulnerability', 'Moderate Relative Hazard / Vulnerability', 'Relatively Lower Hazard / Vulnerability'];
-            const categories = ['Elevation (Inv)', 'River Proximity', 'Drainage Congestion', 'Flood Inundation', 'Annual Rain', 'Extreme Rain', 'Pop Density'];
+            const categories = ['Elevation (Inv)', 'Slope (Inv)', 'River Dist (Inv)', 'Annual Rain', 'Extreme Rain', 'Pop Density', 'Congestion', 'Flood Freq'];
 
-            const radarDatasets = tiers.map(tier => {
+            const radarColors = {
+                'High Relative Hazard / Vulnerability': 'rgba(215, 48, 39, 0.6)',
+                'Moderate Relative Hazard / Vulnerability': 'rgba(253, 174, 97, 0.6)',
+                'Relatively Lower Hazard / Vulnerability': 'rgba(69, 117, 180, 0.6)'
+            };
+            const lineColors = {
+                'High Relative Hazard / Vulnerability': '#d73027',
+                'Moderate Relative Hazard / Vulnerability': '#fdae61',
+                'Relatively Lower Hazard / Vulnerability': '#4575b4'
+            };
+
+            // Exact Streamlit Radar Chart using Plotly
+            const radarTraces = tiers.map(tier => {
                 const inTier = scope.filter(p => p.relative_hazard_level === tier);
                 if (inTier.length === 0) return null;
                 const count = inTier.length;
 
                 const meanElev = inTier.reduce((a, b) => a + b.elevation_m, 0) / count;
+                const meanSlope = inTier.reduce((a, b) => a + (b.slope_deg || 2.0), 0) / count;
                 const meanRiver = inTier.reduce((a, b) => a + b.distance_to_river_km, 0) / count;
-                const meanDrain = inTier.reduce((a, b) => a + b.drainage_congestion_index, 0) / count;
-                const meanFlood = inTier.reduce((a, b) => a + b.historical_flood_inundation_frequency, 0) / count;
                 const meanRain = inTier.reduce((a, b) => a + b.annual_rainfall_mm, 0) / count;
                 const meanExtreme = inTier.reduce((a, b) => a + b.extreme_daily_rainfall_mm, 0) / count;
                 const meanPop = inTier.reduce((a, b) => a + b.population_density_per_sqkm, 0) / count;
+                const meanDrain = inTier.reduce((a, b) => a + b.drainage_congestion_index, 0) / count;
+                const meanFlood = inTier.reduce((a, b) => a + b.historical_flood_inundation_frequency, 0) / count;
 
                 const vElev = Math.max(0, 1.0 - (meanElev / 150.0));
+                const vSlope = Math.max(0, 1.0 - (meanSlope / 15.0));
                 const vRiver = Math.max(0, 1.0 - (meanRiver / 25.0));
-                const vDrain = meanDrain / 5.0;
-                const vFlood = meanFlood / 5.0;
                 const vRain = Math.min(1.0, meanRain / 2400.0);
                 const vExtreme = Math.min(1.0, meanExtreme / 400.0);
                 const vPop = Math.min(1.0, meanPop / 18000.0);
+                const vDrain = meanDrain / 5.0;
+                const vFlood = meanFlood / 5.0;
 
-                const c = colorMap[tier];
+                const vals = [vElev, vSlope, vRiver, vRain, vExtreme, vPop, vDrain, vFlood];
+                vals.push(vals[0]);
+                const thetas = [...categories, categories[0]];
+
                 return {
-                    label: tier.split(' ')[0] + ' Hazard',
-                    data: [vElev, vRiver, vDrain, vFlood, vRain, vExtreme, vPop].map(v => Number(v.toFixed(2))),
-                    backgroundColor: c + '40',
-                    borderColor: c,
-                    borderWidth: 2,
-                    pointBackgroundColor: c
+                    type: 'scatterpolar',
+                    r: vals,
+                    theta: thetas,
+                    fill: 'toself',
+                    fillcolor: radarColors[tier],
+                    line: { color: lineColors[tier], width: 2 },
+                    name: tier.split(' ')[0] + ' Hazard'
                 };
             }).filter(Boolean);
 
-            renderOrUpdateChart('signaturesRadarChart', {
-                type: 'radar',
-                data: { labels: categories, datasets: radarDatasets },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    scales: {
-                        r: {
-                            min: 0, max: 1,
-                            ticks: { display: false },
-                            grid: { color: '#2B3245' },
-                            angleLines: { color: '#2B3245' },
-                            pointLabels: { color: '#CBD5E1', font: { size: 11 } }
-                        }
-                    }
-                }
+            Plotly.newPlot('signaturesRadarChart', radarTraces, {
+                ...darkPlotlyLayout,
+                polar: { radialaxis: { visible: true, range: [0, 1] } },
+                showlegend: true,
+                title: 'Radar Profile Signature (Normalized Risk Factors)',
+                height: 440
+            }, { responsive: true });
+
+            // Exact Streamlit 2D PCA Scatter using Plotly
+            const pcaTraces = tiers.map(tier => {
+                const items = scope.filter(p => p.relative_hazard_level === tier);
+                return {
+                    x: items.map(p => p.pca_1),
+                    y: items.map(p => p.pca_2),
+                    mode: 'markers',
+                    type: 'scatter',
+                    text: items.map(p => `${p.habitation_name}<br>District: ${p.district}<br>Elev: ${p.elevation_m.toFixed(1)}m`),
+                    marker: {
+                        size: 9,
+                        color: colorMap[tier],
+                        line: { width: 1, color: '#334155' }
+                    },
+                    name: tier.split(' ')[0] + ' Hazard'
+                };
             });
 
-            // 2D PCA Projection Chart
-            renderOrUpdateChart('pcaScatterChart', {
-                type: 'scatter',
-                data: {
-                    datasets: tiers.map(tier => ({
-                        label: tier.split(' ')[0] + ' Hazard',
-                        data: scope.filter(p => p.relative_hazard_level === tier).map(p => ({ x: Number(p.pca_1.toFixed(2)), y: Number(p.pca_2.toFixed(2)), label: p.habitation_name })),
-                        backgroundColor: colorMap[tier],
-                        pointRadius: 4.5
-                    }))
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        tooltip: {
-                            callbacks: {
-                                label: ctx => `${ctx.raw.label}: (${ctx.raw.x}, ${ctx.raw.y})`
-                            }
-                        }
-                    },
-                    scales: {
-                        x: { title: { display: true, text: 'PC1 (Morphological Flood Exposure)', color: '#94A3B8' }, grid: { color: '#2B3245' }, ticks: { color: '#94A3B8' } },
-                        y: { title: { display: true, text: 'PC2 (Extreme Precipitation vs Inundation)', color: '#94A3B8' }, grid: { color: '#2B3245' }, ticks: { color: '#94A3B8' } }
-                    }
-                }
-            });
+            Plotly.newPlot('pcaScatterChart', pcaTraces, {
+                ...darkPlotlyLayout,
+                title: '2D Principal Component Projection (' + selectedState + ')',
+                xaxis: { title: 'PC1 (Flood Exposure & Basin Entrapment)' },
+                yaxis: { title: 'PC2 (Rainfall Extremes vs Inland)' },
+                height: 440
+            }, { responsive: true });
 
             updateBoxFeatureChart();
         }
 
         function updateBoxFeatureChart() {
             const feat = document.getElementById('box-feature-select').value;
+            const featLabel = document.getElementById('box-feature-select').options[document.getElementById('box-feature-select').selectedIndex].text;
             let scope = allPlaces;
             if (selectedState !== "All India (Pan-India Overview)") {
                 scope = allPlaces.filter(p => p.state === selectedState);
             }
 
             const tiers = ['High Relative Hazard / Vulnerability', 'Moderate Relative Hazard / Vulnerability', 'Relatively Lower Hazard / Vulnerability'];
-            const averages = tiers.map(tier => {
+            const boxTraces = tiers.map(tier => {
                 const items = scope.filter(p => p.relative_hazard_level === tier);
-                if (items.length === 0) return 0;
-                return Number((items.reduce((a, b) => a + (b[feat] || 0), 0) / items.length).toFixed(1));
+                return {
+                    y: items.map(p => p[feat] || 0),
+                    type: 'box',
+                    name: tier.split(' ')[0] + ' Hazard',
+                    marker: { color: colorMap[tier] },
+                    boxpoints: 'all',
+                    jitter: 0.3,
+                    pointpos: -1.8
+                };
             });
 
-            renderOrUpdateChart('featureBoxChart', {
-                type: 'bar',
-                data: {
-                    labels: ['High Hazard', 'Moderate Hazard', 'Lower Hazard'],
-                    datasets: [{
-                        label: 'Mean Feature Value',
-                        data: averages,
-                        backgroundColor: ['#D73027', '#FDAE61', '#4575B4'],
-                        borderRadius: 6
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: { legend: { display: false } },
-                    scales: {
-                        y: { beginAtZero: true, grid: { color: '#2B3245' }, ticks: { color: '#94A3B8' } },
-                        x: { grid: { display: false }, ticks: { color: '#94A3B8' } }
-                    }
-                }
-            });
+            Plotly.newPlot('featureBoxChart', boxTraces, {
+                ...darkPlotlyLayout,
+                title: 'Distribution of ' + featLabel + ' across Tiers in ' + selectedState,
+                yaxis: { title: featLabel },
+                height: 360
+            }, { responsive: true });
         }
 
         function updateNationalComparison() {
@@ -1587,65 +1722,59 @@
                 meanCong: Number((s.congSum / s.total).toFixed(2))
             })).sort((a, b) => b.highPct - a.highPct);
 
-            renderOrUpdateChart('stateBarChart', {
+            // Exact Streamlit Plotly Bar: State High Hazard %
+            const stBar = {
+                x: states.map(s => s.state),
+                y: states.map(s => s.highPct),
                 type: 'bar',
-                data: {
-                    labels: states.map(s => s.state),
-                    datasets: [{
-                        label: 'High Hazard Settlements (%)',
-                        data: states.map(s => s.highPct),
-                        backgroundColor: '#EF4444',
-                        borderRadius: 4
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: { legend: { display: false } },
-                    scales: {
-                        y: { beginAtZero: true, max: 100, grid: { color: '#2B3245' }, ticks: { color: '#94A3B8' } },
-                        x: { grid: { display: false }, ticks: { color: '#94A3B8', maxRotation: 45, autoSkip: false } }
-                    }
+                marker: {
+                    color: states.map(s => s.highPct),
+                    colorscale: 'Reds',
+                    showscale: true,
+                    colorbar: { title: 'High Hazard (%)', thickness: 15 }
                 }
-            });
+            };
+            Plotly.newPlot('stateBarChart', [stBar], {
+                ...darkPlotlyLayout,
+                title: 'Percentage of Monitored Settlements in High Hazard Tier (%)',
+                xaxis: { tickangle: -45 },
+                yaxis: { title: 'High Hazard (%)', range: [0, 100] },
+                height: 410
+            }, { responsive: true });
 
-            renderOrUpdateChart('stateScatterChart', {
-                type: 'scatter',
-                data: {
-                    datasets: [{
-                        label: 'States',
-                        data: states.map(s => ({ x: s.meanRain, y: s.meanElev, label: s.state })),
-                        backgroundColor: '#10B981',
-                        pointRadius: 6
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        tooltip: {
-                            callbacks: {
-                                label: ctx => `${ctx.raw.label}: Rain ${ctx.raw.x}mm, Elev ${ctx.raw.y}m`
-                            }
-                        }
-                    },
-                    scales: {
-                        x: { title: { display: true, text: 'Mean Annual Rainfall (mm)', color: '#94A3B8' }, grid: { color: '#2B3245' }, ticks: { color: '#94A3B8' } },
-                        y: { title: { display: true, text: 'Mean Elevation (m AMSL)', color: '#94A3B8' }, grid: { color: '#2B3245' }, ticks: { color: '#94A3B8' } }
-                    }
+            // Exact Streamlit Plotly Scatter: State Climatology vs Topography
+            const stScatter = {
+                x: states.map(s => s.meanRain),
+                y: states.map(s => s.meanElev),
+                mode: 'markers',
+                text: states.map(s => `${s.state}<br>High: ${s.highPct}%`),
+                marker: {
+                    size: states.map(s => Math.max(9, Math.min(26, s.total * 2.2))),
+                    color: states.map(s => s.highPct),
+                    colorscale: 'Viridis',
+                    showscale: true,
+                    colorbar: { title: 'High Hazard %', thickness: 15 }
                 }
-            });
+            };
+            Plotly.newPlot('stateScatterChart', [stScatter], {
+                ...darkPlotlyLayout,
+                title: 'State Climatology vs Topography: Mean Rainfall vs Elevation',
+                xaxis: { title: 'Mean Annual Rainfall (mm)' },
+                yaxis: { title: 'Mean Elevation (m AMSL)' },
+                height: 410
+            }, { responsive: true });
 
             const tbody = document.getElementById('state-summary-tbody');
             tbody.innerHTML = '';
             states.forEach(s => {
                 const tr = document.createElement('tr');
+                const redIntensity = Math.min(0.65, Math.max(0.1, s.highPct / 120.0));
                 tr.innerHTML = `
                     <td><b>${s.state}</b></td>
                     <td>${s.total}</td>
                     <td>${s.districts}</td>
                     <td><span class="badge-red">${s.high}</span></td>
-                    <td><span style="color: ${s.highPct > 50 ? '#EF4444' : '#FBBF24'}; font-weight: bold;">${s.highPct}%</span></td>
+                    <td style="background: rgba(215, 48, 39, ${redIntensity}); color: #FFF; font-weight: bold;">${s.highPct}%</td>
                     <td>${s.meanRain} mm</td>
                     <td>${s.meanElev} m</td>
                     <td>${s.meanFlood}/5</td>
